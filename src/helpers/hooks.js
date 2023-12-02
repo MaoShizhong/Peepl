@@ -12,7 +12,7 @@ export const useAutoLogin = () => {
                 return;
             }
 
-            const res = await fetchData('/auth/sessions/all', 'GET');
+            const res = await fetchData('/auth/sessions', 'GET');
 
             if (res instanceof Error) {
                 alert('Something went wrong with the server, please try again later!');
@@ -28,3 +28,21 @@ export const useAutoLogin = () => {
 
     return { user, setUser, initialising };
 };
+
+export const useCloseDropdown = (dropdown, headerButton, setIsDropdownOpen) => {
+    useEffect(() => {
+        function closeDropdown(e) {
+            if (dropdown.current.contains(e.target) || headerButton.current.contains(e.target)) {
+                return;
+            }
+
+            setIsDropdownOpen(false);
+        }
+
+        window.addEventListener('pointerup', closeDropdown);
+
+        return () => window.removeEventListener('pointerup', closeDropdown);
+    }, [dropdown, headerButton, setIsDropdownOpen]);
+};
+
+export const useProfile = () => {};
