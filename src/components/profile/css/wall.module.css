@@ -1,0 +1,22 @@
+.newPost {
+    border: 1px solid var(--faint-l);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+
+    & > textarea {
+        resize: none;
+    }
+
+    & > button {
+        align-self: flex-end;
+    }
+}
+
+.wall {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}

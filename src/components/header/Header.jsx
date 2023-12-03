@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AccountMenu } from './AccountMenu';
 import { FriendRequests } from './FriendRequests';
 import { Notifications } from './Notifications';
-import headerStyles from './header.module.css';
+import headerStyles from './css/header.module.css';
 
 export function Header({ setUser, userHandle, userID }) {
     const [notificationsIsOpen, setNotificationsIsOpen] = useState(false);

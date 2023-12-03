@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchData } from '../../helpers/fetch';
 import { useCloseDropdown } from '../../helpers/hooks';
-import headerStyles from './header.module.css';
+import headerStyles from './css/header.module.css';
 
 export function AccountMenu({ setIsOpen, button, setUser, userHandle, userID }) {
     const goTo = useNavigate();
@@ -25,7 +25,7 @@ export function AccountMenu({ setIsOpen, button, setUser, userHandle, userID }) 
             ref={dropdownRef}
         >
             <button>
-                <Link to={`/${userHandle}`} state={{ _id: userID }}>
+                <Link to={`/${userHandle}`}>
                     Profile
                 </Link>
             </button>

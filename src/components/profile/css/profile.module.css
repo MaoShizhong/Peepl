@@ -1,0 +1,56 @@
+.main {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+    margin-block: 16px;
+    margin-inline: auto;
+    padding: 16px;
+    width: min(1000px, 90vw);
+
+    & > div:not(.side) {
+        flex: 1;
+    }
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 150px;
+}
+
+.side > ul > a {
+    font-size: small;
+}
+
+.profileName {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 16px;
+
+    & > span {
+        color: var(--faint-d);
+        font-weight: lighter;
+    }
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    & > button {
+        font-size: small;
+        padding: 2px 4px;
+
+        &:hover {
+            background-color: var(--faint-l);
+        }
+
+        &.activeTab {
+            background-color: var(--main-l);
+        }
+    }
+}
+
+

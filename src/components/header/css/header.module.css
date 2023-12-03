@@ -54,20 +54,22 @@
 }
 
 .dropdown {
-    background-color: white;
-    /* border: 1px solid var(--main-l); */
-    border-radius: 8px;
-    box-shadow: var(--shadow-md);
+    --nav-r-padding: 8px;
+
+    background-color: var(--bg);
+    border-radius: 4px;
+    box-shadow: var(--shadow-xs);
     color: var(--text-d);
     display: flex;
     flex-direction: column;
     gap: 2px;
     position: absolute;
+    right: var(--nav-r-padding);
     text-align: left;
 }
 
 .nav .dropdown {
-    padding: 8px;
+    padding: 12px;
 }
 
 .bar {

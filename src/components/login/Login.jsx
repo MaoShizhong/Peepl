@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../../helpers/fetch';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
-import styles from './login.module.css';
+import styles from './css/login.module.css';
 
 export function Login({ setUser }) {
     const [formType, setFormType] = useState('login');
@@ -36,8 +36,8 @@ export function Login({ setUser }) {
             goTo('/error');
         } else if (res.ok) {
             const user = await res.json();
-
             setUser(user);
+            goTo('/');
         } else if (res.status === 401) {
             setErrors(true);
         } else {

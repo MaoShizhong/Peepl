@@ -1,0 +1,44 @@
+.friendsList {
+    display: flex;
+    flex-direction: column;
+
+    & > h2 {
+        font-size: small;
+        font-weight: bold;
+    }
+
+    & > a {
+        align-self: flex-end;
+        font-size: 0.6rem;
+    }
+}
+
+.heading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.friends {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 24px 16px;
+    padding: 4px;
+}
+
+.friend {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+
+    & > img {
+        aspect-ratio: 1 / 1;
+        height: 60px;
+    }
+
+    & > a {
+        flex: 1;
+        font-weight: bold;
+    }
+}
