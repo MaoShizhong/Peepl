@@ -1,0 +1,10 @@
+.info {
+    background-color: aquamarine;
+    width: 100%;
+}
+
+.sectionHeading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
