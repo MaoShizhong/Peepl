@@ -1,0 +1,134 @@
+.noUser {
+    align-self: center;
+    display: grid;
+    place-content: center;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 45vh;
+    transform: translateY(-6rem);
+}
+
+.logo {
+    position: relative;
+
+    & > img {
+        height: auto;
+        width: 180px;
+    }
+}
+
+.github {
+    bottom: 0.7rem;
+    display: block;
+    height: 1.75rem;
+    position: absolute;
+    right: -1.75rem;
+    transition: 120ms ease;
+
+    & > img {
+        height: 100%;
+    }
+
+    &:hover {
+        transform: scale(1.25);
+        transform-origin: bottom;
+    }
+}
+
+.formSelect {
+    display: flex;
+    gap: 1rem;
+    margin-block: 1.5rem;
+}
+
+.formSelect > button {
+    border: none;
+    flex: 1;
+
+    &:hover:not(.active) {
+        color: var(--accent-l);
+    }
+
+    &.active {
+        color: var(--accent-d);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+    }
+}
+
+.loginSignup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(80vw, 360px);
+}
+
+.loginSignup > button:not(.forgot),
+.demo > button,
+.github_login {
+    background-color: var(--accent-d);
+    border-radius: 0.75rem;
+    color: var(--fg);
+    padding: 0.35rem;
+
+    &:hover {
+        background-color: var(--accent-l);
+        color: var(--fg-contrast);
+    }
+}
+
+.loginSignup > button:first-of-type,
+.demo {
+    margin-top: 1.5rem;
+}
+
+.github_login {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 100%;
+
+    & > img {
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+}
+
+.forgot {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    font-style: italic;
+
+    &:hover {
+        color: var(--accent-l);
+        text-decoration: underline;
+    }
+}
+
+.reqs {
+    font-size: 0.8rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.error {
+    color: var(--error);
+    font-size: 0.8em;
+    list-style: none;
+    margin: 0;
+}
+
+.demo {
+    display: flex;
+    justify-content: space-between;
+
+    & > button {
+        width: 45%;
+    }
+}

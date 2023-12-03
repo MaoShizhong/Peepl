@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import { Header } from './components/Header';
+import { Header } from './components/header/Header';
 import { Loading } from './components/loading/Loading';
 import { Login } from './components/login/Login';
 import { useAutoLogin } from './helpers/hooks';
@@ -10,10 +10,10 @@ export default function App() {
     return (
         <>
             {initialising ? (
-                <Loading text='Initialising' />
+                <Loading text="Initialising" />
             ) : user ? (
                 <>
-                    <Header />
+                    <Header setUser={setUser} userHandle={user.handle} userID={user._id} />
                     <Outlet context={{ user, setUser }} />
                 </>
             ) : (
