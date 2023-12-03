@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as reactRouter from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest';
 import { Profile } from '../src/components/profile/Profile';
 import * as hooks from '../src/helpers/hooks.js';
@@ -26,9 +27,12 @@ describe('Own profile', () => {
                 },
             };
         });
+        vi.spyOn(reactRouter, 'useLocation').mockImplementation(() => {
+            return { state: { _id: null } };
+        });
         vi.spyOn(hooks, 'useProfile').mockImplementation(() => {
             return {
-                user: {
+                profileUser: {
                     handle: 'mocked-profile000000',
                     profilePicture: null,
                     galleryIsHidden: false,
@@ -39,15 +43,22 @@ describe('Own profile', () => {
                     employment: [],
                     education: [],
                 },
+                friendsList: [],
+                wallPosts: [],
+                loading: false,
             };
         });
-        render(<Profile />);
+        render(
+            <BrowserRouter>
+                <Profile />
+            </BrowserRouter>
+        );
     });
 
     test('Key profile elements rendered (defaults to "wall" tab)', () => {
         expect(screen.getByAltText('profile picture')).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /new\spost/i })).toBeInTheDocument();
-        expect(screen.getByRole('region', { name: /friends\slist/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /friends\slist/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /wall/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /info/i })).toBeInTheDocument();
     });
@@ -63,9 +74,9 @@ describe('Own profile', () => {
         await user.click(infoTab);
 
         expect(screen.queryAllByRole('textbox')).toHaveLength(0);
-        expect(screen.getByRole('region', { name: /details/i })).toBeInTheDocument();
-        expect(screen.getByRole('region', { name: /education/i })).toBeInTheDocument();
-        expect(screen.getByRole('region', { name: /employment/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /details/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /education/i })).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /employment/i })).toBeInTheDocument();
 
         expect(screen.getByRole('button', { name: /edit\sdetails/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /edit\seducation/i })).toBeInTheDocument();
@@ -90,9 +101,12 @@ describe('Not own profile', () => {
                 },
             };
         });
+        vi.spyOn(reactRouter, 'useLocation').mockImplementation(() => {
+            return { state: { _id: null } };
+        });
         vi.spyOn(hooks, 'useProfile').mockImplementation(() => {
             return {
-                user: {
+                profileUser: {
                     handle: 'different-profile000000',
                     profilePicture: null,
                     galleryIsHidden: false,
@@ -103,13 +117,20 @@ describe('Not own profile', () => {
                     employment: [],
                     education: [],
                 },
+                friendsList: [],
+                wallPosts: [],
+                loading: false,
             };
         });
-        render(<Profile />);
+        render(
+            <BrowserRouter>
+                <Profile />
+            </BrowserRouter>
+        );
     });
 
     it("Shows new post placeholder text for a profile that is not the logged in user's", () => {
-        expect(screen.getByPlaceholderText('Say something to Mock!')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Post something on Mock's wall!")).toBeInTheDocument();
         expect(screen.queryByPlaceholderText("What's on your mind, Mock?")).toBe(null);
     });
 
