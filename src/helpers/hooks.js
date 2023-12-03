@@ -45,39 +45,34 @@ export const useCloseDropdown = (dropdown, headerButton, setIsDropdownOpen) => {
     }, [dropdown, headerButton, setIsDropdownOpen]);
 };
 
-export const useProfile = (_id) => {
+export const useProfile = (handle) => {
     const [profileUser, setProfileUser] = useState(null);
     const [friendsList, setFriendsList] = useState([]);
     const [wallPosts, setWallPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error404, setError404] = useState(false);
 
     useEffect(() => {
         async function getProfile() {
-            const [userRes, friendsRes, wallRes] = await Promise.all([
-                fetchData(`/users/${_id}`, 'GET'),
-                fetchData(`/users/${_id}/friends`, 'GET'),
-                fetchData(`/users/${_id}/posts`, 'GET'),
-            ]);
+            const profileRes = await fetchData(`/users/${handle}`, 'GET');
 
-            if ([userRes, friendsRes, wallRes].some((res) => res instanceof Error || !res.ok)) {
+            if (profileRes instanceof Error) {
                 alert('Something went wrong with the server, please try again later!');
+            } else if (!profileRes.ok) {
+                setError404(true);
             } else {
-                const [userData, friendsData, wallData] = await Promise.all([
-                    userRes.json(),
-                    friendsRes.json(),
-                    wallRes.json(),
-                ]);
+                const profileData = await profileRes.json();
 
-                setProfileUser(userData);
-                setFriendsList(friendsData);
-                setWallPosts(wallData);
+                setProfileUser(profileData.user);
+                setFriendsList(profileData.friends);
+                setWallPosts(profileData.wall);
             }
 
             setLoading(false);
         }
 
         getProfile();
-    }, [_id]);
+    }, [handle]);
 
-    return { profileUser, friendsList, wallPosts, loading };
+    return { profileUser, friendsList, wallPosts, loading, error404 };
 };

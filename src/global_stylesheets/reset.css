@@ -63,7 +63,7 @@ a:visited {
 }
 
 #root {
-	background-color: #f0f0f0;
+	background-color: var(--bg);
 	color: var(--text);
 	display: flex;
 	flex-direction: column;

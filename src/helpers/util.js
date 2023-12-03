@@ -53,3 +53,11 @@ export const getRelativeTimestamp = (timeString) => {
         return `${day} ${dateString} at ${time}`;
     }
 };
+
+export const sortFriends = (friendsList) => {
+    const incoming = friendsList.filter((friend) => friend.status === 'incoming');
+    const requested = friendsList.filter((friend) => friend.status === 'requested');
+    const accepted = friendsList.filter((friend) => friend.status === 'accepted');
+
+    return [...incoming, ...requested, ...accepted];
+};

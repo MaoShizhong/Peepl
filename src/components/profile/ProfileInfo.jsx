@@ -1,4 +1,4 @@
-import infoStyles from './info.module.css';
+import infoStyles from './css/info.module.css';
 
 export function ProfileInfo({ user }) {
     return (

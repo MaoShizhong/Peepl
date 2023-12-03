@@ -1,6 +1,6 @@
 import { getFirstName } from '../../helpers/util';
 import { Post } from '../post/Post';
-import wallStyles from './wall.module.css';
+import wallStyles from './css/wall.module.css';
 
 export function Wall({ user, posts }) {
     return (
