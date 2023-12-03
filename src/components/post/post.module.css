@@ -1,0 +1,43 @@
+.post {
+    display: flex;
+    font-size: 0.85rem;
+    gap: 8px;
+}
+
+.profilePicture {
+    aspect-ratio: 1 / 1;
+    height: 64px;
+}
+
+.contents {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    & > a {
+        font-weight: bold;
+    }
+
+    & > p {
+        word-break: break-all;
+    }
+}
+
+.timestamp,
+.likeButton {
+    font-size: x-small;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.timestamp {
+    color: var(--faint-d)
+}
+
+.likeButton {
+    color: var(--main-d);
+
+    &:hover {
+        color: var(--main-l);
+    }
+}
