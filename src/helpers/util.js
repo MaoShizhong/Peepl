@@ -61,3 +61,29 @@ export const sortFriends = (friendsList) => {
 
     return [...incoming, ...requested, ...accepted];
 };
+
+export const getLocationSummary = (city, country) => {
+    if (city && country) {
+        return `Lives in ${city}, ${country}`;
+    } else if (city) {
+        return `Lives in ${city}`;
+    } else {
+        return `Lives in ${country}`;
+    }
+};
+
+export const getEducationSummary = (latestEducation) => {
+    if (!latestEducation.end) {
+        return `Studying at ${latestEducation.institution}`;
+    } else {
+        return `Studied at ${latestEducation.institution}`;
+    }
+};
+
+export const getEmploymentSummary = (latestJob) => {
+    if (!latestJob.end) {
+        return `${latestJob.title} at ${latestJob.company}`;
+    } else {
+        return `Former ${latestJob.title} at ${latestJob.company}`;
+    }
+};
