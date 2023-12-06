@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { getFullNameFromDetails, sortFriends } from '../../helpers/util';
+import { RemoveFriend } from '../buttons/RemoveFriend';
 import friendsStyles from './css/friends.module.css';
 
 export function Friends({ friendsList }) {
@@ -26,12 +27,12 @@ export function Friends({ friendsList }) {
                             alt="friend profile picture thumbnail"
                         />
 
-                        <Link to={`/${friend.user.handle}`}>
+                        <Link to={`/${friend.user.handle}`} reloadDocument>
                             {getFullNameFromDetails(friend.user)}
                         </Link>
 
                         {friend.status === 'accepted' ? (
-                            <button>Remove</button>
+                            <RemoveFriend userID={friend.user._id} />
                         ) : (
                             <button>Pending...</button>
                         )}

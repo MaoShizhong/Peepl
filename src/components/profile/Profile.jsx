@@ -20,6 +20,8 @@ export function Profile() {
 
     const [activeTab, setActiveTab] = useState('Wall');
 
+    console.log(user, profileUser);
+
     useEffect(() => {
         setActiveTab('Wall');
     }, [profileUser]);
@@ -61,7 +63,11 @@ export function Profile() {
                         ) : activeTab === 'Info' ? (
                             <ProfileInfo user={profileUser} />
                         ) : activeTab === 'Gallery' ? (
-                            <Gallery />
+                            <Gallery
+                                userID={profileUser._id}
+                                isHidden={profileUser.galleryIsHidden}
+                                isOwnProfile={user._id === profileUser._id}
+                            />
                         ) : (
                             <Friends friendsList={friendsList} />
                         )}

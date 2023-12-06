@@ -1,0 +1,30 @@
+.add {
+    background-color: var(--main-m);
+    color: var(--text-l);
+    transition: var(--transition);
+}
+
+.remove {
+    background-color: var(--bg);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-d);
+    padding: 2px 6px;
+    transition: var(--transition);
+
+    &:hover {
+        box-shadow: var(--shadow-sm);
+    }
+}
+
+.post {
+    background-color: var(--main-m);
+    border: 2px solid transparent;
+    border-radius: 2px;
+    color: var(--text-l);
+    font-weight: bold;
+    padding-inline: 6px;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--main-m) 80%, white);
+    }
+}
