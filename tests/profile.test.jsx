@@ -27,9 +27,6 @@ describe('Own profile', () => {
                 },
             };
         });
-        vi.spyOn(reactRouter, 'useLocation').mockImplementation(() => {
-            return { state: { _id: null } };
-        });
         vi.spyOn(hooks, 'useProfile').mockImplementation(() => {
             return {
                 profileUser: {
@@ -58,9 +55,9 @@ describe('Own profile', () => {
     test('Key profile elements rendered (defaults to "wall" tab)', () => {
         expect(screen.getByAltText('profile picture')).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /new\spost/i })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: /friends\slist/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /wall/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /info/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /gallery/i })).toBeInTheDocument();
     });
 
     it('Shows own-profile-specific new post placeholder text', () => {
@@ -130,7 +127,9 @@ describe('Not own profile', () => {
     });
 
     it("Shows new post placeholder text for a profile that is not the logged in user's", () => {
-        expect(screen.getByPlaceholderText("Post something on Mock's wall!")).toBeInTheDocument();
+        expect(
+            screen.getByPlaceholderText("Post something on Different's wall!")
+        ).toBeInTheDocument();
         expect(screen.queryByPlaceholderText("What's on your mind, Mock?")).toBe(null);
     });
 
