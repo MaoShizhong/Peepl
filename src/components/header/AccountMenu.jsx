@@ -25,7 +25,7 @@ export function AccountMenu({ setIsOpen, button, setUser, userHandle, userID }) 
             ref={dropdownRef}
         >
             <button>
-                <Link to={`/${userHandle}`}>
+                <Link to={`/${userHandle}`} reloadDocument>
                     Profile
                 </Link>
             </button>

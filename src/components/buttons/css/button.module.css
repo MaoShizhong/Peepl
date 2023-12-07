@@ -4,7 +4,7 @@
     transition: var(--transition);
 }
 
-.remove {
+.subtle {
     background-color: var(--bg);
     box-shadow: var(--shadow-xs);
     color: var(--text-d);
@@ -16,7 +16,7 @@
     }
 }
 
-.post {
+.bold {
     background-color: var(--main-m);
     border: 2px solid transparent;
     border-radius: 2px;

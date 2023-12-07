@@ -8,8 +8,12 @@ import { PostButton } from '../buttons/PostButton';
 import { Post } from '../post/Post';
 import wallStyles from './css/wall.module.css';
 
-export function Wall({ user, posts }) {
-    console.log(user);
+export function Wall({ user, posts, isOwnProfile }) {
+    const firstName = getFirstName(user.name);
+    const textareaPlaceholder = isOwnProfile
+        ? `What's on your mind, ${firstName}?`
+        : `Post something on ${firstName}'s wall!`;
+
     async function postToWall(e) {
         e.preventDefault();
     }
@@ -37,10 +41,7 @@ export function Wall({ user, posts }) {
             </div>
 
             <form className={wallStyles.newPost} onSubmit={postToWall}>
-                <textarea
-                    aria-label="new post"
-                    placeholder={`What's on your mind, ${getFirstName(user.name)}?`}
-                ></textarea>
+                <textarea aria-label="new post" placeholder={textareaPlaceholder}></textarea>
                 <PostButton />
             </form>
 

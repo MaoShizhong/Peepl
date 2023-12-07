@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useProfile } from '../../helpers/hooks';
@@ -19,12 +19,6 @@ export function Profile() {
     const { profileUser, friendsList, wallPosts, loading, error404 } = useProfile(handle);
 
     const [activeTab, setActiveTab] = useState('Wall');
-
-    console.log(user, profileUser);
-
-    useEffect(() => {
-        setActiveTab('Wall');
-    }, [profileUser]);
 
     return (
         <>
@@ -59,14 +53,21 @@ export function Profile() {
                         </h1>
 
                         {activeTab === 'Wall' ? (
-                            <Wall user={profileUser} posts={wallPosts} />
+                            <Wall
+                                user={profileUser}
+                                posts={wallPosts}
+                                isOwnProfile={user.handle === profileUser.handle}
+                            />
                         ) : activeTab === 'Info' ? (
-                            <ProfileInfo user={profileUser} />
+                            <ProfileInfo
+                                user={profileUser}
+                                isOwnProfile={user.handle === profileUser.handle}
+                            />
                         ) : activeTab === 'Gallery' ? (
                             <Gallery
                                 userID={profileUser._id}
                                 isHidden={profileUser.galleryIsHidden}
-                                isOwnProfile={user._id === profileUser._id}
+                                isOwnProfile={user.handle === profileUser.handle}
                             />
                         ) : (
                             <Friends friendsList={friendsList} />
