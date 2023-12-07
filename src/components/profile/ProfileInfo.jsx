@@ -57,6 +57,8 @@ export function ProfileInfo({ user, isOwnProfile }) {
                 )}
             </section>
 
+            <hr className={infoStyles.separator} />
+
             <section>
                 <div className={infoStyles.sectionHeading}>
                     <h2>Employment</h2>
@@ -76,23 +78,18 @@ export function ProfileInfo({ user, isOwnProfile }) {
                     <>
                         {user.employment.map((job, i) => (
                             <div key={i} className={infoStyles.entry}>
-                                <div>
-                                    <span>Title: </span>
-                                    {job.title}
-                                </div>
-                                <div>
-                                    <span>Company: </span>
-                                    {job.company}
-                                </div>
-                                <div>
-                                    <span>From: </span>
+                                <h3>{job.company}</h3>
+                                <p>
+                                    {job.title ? `${job.title} - ` : null}
                                     {getEntryDateRange(job.start, job.end)}
-                                </div>
+                                </p>
                             </div>
                         ))}
                     </>
                 )}
             </section>
+
+            <hr className={infoStyles.separator} />
 
             <section>
                 <div className={infoStyles.sectionHeading}>
@@ -113,14 +110,9 @@ export function ProfileInfo({ user, isOwnProfile }) {
                     <>
                         {user.education.map((education, i) => (
                             <div key={i} className={infoStyles.entry}>
-                                <div>
-                                    <span>Institution: </span>
-                                    {education.institution}
-                                </div>
-                                <div>
-                                    <span>From: </span>
-                                    {getEntryDateRange(education.start, education.end)}
-                                </div>
+                                <h3>{education.institution}</h3>
+                                {education.course && <p>{education.course}</p>}
+                                <p>{getEntryDateRange(education.start, education.end)}</p>
                             </div>
                         ))}
                     </>

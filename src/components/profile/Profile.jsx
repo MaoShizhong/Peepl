@@ -41,7 +41,13 @@ export function Profile() {
                                     className={activeTab === tab ? profileStyles.activeTab : ''}
                                 >
                                     {tab}
-                                    {tab === 'Friends' ? ` (${friendsList.length})` : ''}
+                                    {tab === 'Friends'
+                                        ? ` (${
+                                              friendsList.filter(
+                                                  (friend) => friend.status === 'accepted'
+                                              ).length
+                                          })`
+                                        : ''}
                                 </button>
                             ))}
                         </nav>
@@ -70,7 +76,10 @@ export function Profile() {
                                 isOwnProfile={user.handle === profileUser.handle}
                             />
                         ) : (
-                            <Friends friendsList={friendsList} />
+                            <Friends
+                                friendsList={friendsList}
+                                isOwnProfile={user.handle === profileUser.handle}
+                            />
                         )}
                     </div>
                 </main>

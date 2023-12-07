@@ -20,6 +20,7 @@
 
 .sectionHeading {
     align-items: center;
+    color: var(--main-vd);
     display: flex;
     justify-content: space-between;
 }
@@ -29,8 +30,25 @@
     flex-direction: column;
     gap: 6px;
 
+    & > h3,
     & span {
+        color: var(--main-d);
         font-weight: bold;
+    }
+
+    & span {
+        display: inline-block;
+        width: 12ch;
     }
 }
 
+.separator {
+    border: none;
+    border-top: 1px solid var(--faint-l);
+    width: 100%;
+}
+
+.hidden,
+.entry > p {
+    color: var(--text-d-hover);
+}

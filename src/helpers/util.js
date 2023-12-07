@@ -8,15 +8,16 @@ export const getFullNameFromDetails = (userDetails) => {
     return `${userDetails.firstName} ${userDetails.lastName}`;
 };
 
-export const toDateString = (ISOdate) => {
+export const toDateString = (ISOdate, hasDate = true) => {
     if (!ISOdate) return null;
 
     const date = new Date(ISOdate);
     const options = {
         month: 'long',
-        day: 'numeric',
         year: 'numeric',
     };
+
+    if (hasDate) options.day = 'numeric';
 
     return date.toLocaleDateString(navigator.languages[0], options);
 };
@@ -102,8 +103,8 @@ export const getEmploymentSummary = (latestJob) => {
 };
 
 export const getEntryDateRange = (start, end) => {
-    const startDate = toDateString(start);
-    const endDate = toDateString(end) ?? 'Present';
+    const startDate = toDateString(start, false);
+    const endDate = toDateString(end, false) ?? 'present';
 
-    return `${startDate} - ${endDate}`;
+    return `${startDate} to ${endDate}`;
 };
