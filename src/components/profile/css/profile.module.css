@@ -24,6 +24,11 @@
     font-size: small;
 }
 
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
 .profileName {
     font-size: x-large;
     font-weight: bold;
@@ -54,3 +59,7 @@
 }
 
 
+.respondButtons {
+    display: flex;
+    gap: 12px;
+}

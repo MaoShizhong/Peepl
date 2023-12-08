@@ -78,11 +78,11 @@ export const sortFriends = (friendsList) => {
 
 export const getLocationSummary = (city, country) => {
     if (city && country) {
-        return `Lives in ${city}, ${country}`;
+        return `From ${city}, ${country}`;
     } else if (city) {
-        return `Lives in ${city}`;
+        return `From ${city}`;
     } else {
-        return `Lives in ${country}`;
+        return `From ${country}`;
     }
 };
 
