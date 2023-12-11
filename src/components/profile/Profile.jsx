@@ -1,11 +1,14 @@
-import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useProfile } from '../../helpers/hooks';
 import { AddFriend } from '../buttons/AddFriend';
+import { EditProfilePictureButton } from '../buttons/EditProfilePictureButton';
 import { RespondFR } from '../buttons/RespondFR';
 import { Error404 } from '../error/Error404';
 import { Loading } from '../loading/Loading';
+import { Photo } from '../photos/Photo';
+import { UploadPhoto } from '../photos/UploadPhoto';
 import { Friends } from './Friends';
 import { Gallery } from './Gallery';
 import { ProfileInfo } from './ProfileInfo';
@@ -15,10 +18,10 @@ import profileStyles from './css/profile.module.css';
 const tabs = ['Wall', 'Info', 'Gallery', 'Friends'];
 
 export function Profile() {
-    // remove leading '/'
-    const handle = window.location.pathname.slice(1);
+    const { handle } = useParams();
     const { user } = useOutletContext();
-    const { profileUser, friendsList, wallPosts, loading, error404 } = useProfile(handle);
+    const { profileUser, setProfileUser, friendsList, wallPosts, setWallPosts, loading, error404 } =
+        useProfile(handle);
 
     const isOwnProfile = handle === user.handle;
     const isFriend = Boolean(friendsList.find((friend) => friend.user._id === user._id));
@@ -27,6 +30,17 @@ export function Profile() {
     );
 
     const [activeTab, setActiveTab] = useState('Wall');
+    const [openPhotoModal, setOpenPhotoModal] = useState(false);
+    const [openUploadModal, setOpenUploadModal] = useState(false);
+    const [showEditProfilePictureBtn, setShowEditProfilePictureBtn] = useState(false);
+
+    const photoRef = useRef();
+    const uploadRef = useRef();
+
+    useEffect(() => {
+        if (photoRef.current && openPhotoModal) photoRef.current.showModal();
+        if (uploadRef.current && openUploadModal) uploadRef.current.showModal();
+    }, [openPhotoModal, openUploadModal]);
 
     return (
         <>
@@ -37,10 +51,21 @@ export function Profile() {
             ) : (
                 <main className={profileStyles.main}>
                     <div className={profileStyles.side}>
-                        <img
-                            src={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
-                            alt="profile picture"
-                        />
+                        <div
+                            className={profileStyles.profilePicture}
+                            onMouseEnter={() => setShowEditProfilePictureBtn(true)}
+                            onMouseLeave={() => setShowEditProfilePictureBtn(false)}
+                        >
+                            <img
+                                src={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                                alt="profile picture"
+                                onClick={() => setOpenPhotoModal(true)}
+                            />
+
+                            {isOwnProfile && showEditProfilePictureBtn && (
+                                <EditProfilePictureButton setOpenModal={setOpenUploadModal} />
+                            )}
+                        </div>
                         <nav className={profileStyles.tabs}>
                             {tabs.map((tab, i) => (
                                 <button
@@ -95,6 +120,25 @@ export function Profile() {
                             <Friends friendsList={friendsList} isOwnProfile={isOwnProfile} />
                         )}
                     </div>
+
+                    {openPhotoModal && (
+                        <Photo
+                            photo={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                            setOpenPhotoModal={setOpenPhotoModal}
+                            ref={photoRef}
+                        />
+                    )}
+
+                    {isOwnProfile && openUploadModal && (
+                        <UploadPhoto
+                            user={profileUser}
+                            setUser={setProfileUser}
+                            wallPosts={wallPosts}
+                            setWallPosts={setWallPosts}
+                            setOpenModal={setOpenUploadModal}
+                            ref={uploadRef}
+                        />
+                    )}
                 </main>
             )}
         </>

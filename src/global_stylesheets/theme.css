@@ -6,12 +6,16 @@
     --main-fade-d: #0b201cd7;
     --main-fade-l: #1c3b3860;
 
+    --off-black: #080808;
+
     --bg: rgb(240, 247, 244);
 
     --text-d: #111111;
     --text-d-hover: #3a3a3a;
     --text-l: #ededed;
     --text-l-hover: #83c7c0;
+
+    --error: #a00000;
 
     --faint-d: #1d1d1d94;
     --faint-l: #4d4d4d49;

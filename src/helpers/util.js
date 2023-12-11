@@ -108,3 +108,26 @@ export const getEntryDateRange = (start, end) => {
 
     return `${startDate} to ${endDate}`;
 };
+
+export const closeOnClickOutside = (e, modal) => {
+    if (e.target === modal.current) {
+        modal.current.close();
+    }
+};
+
+export const updateSelfPostsProfilePicture = (
+    userID,
+    newProfilePicture,
+    wallPosts,
+    setWallPosts
+) => {
+    const newWallPosts = wallPosts.map((post) => {
+        if (post.author._id === userID) {
+            post.author.profilePicture = newProfilePicture;
+        }
+
+        return post;
+    });
+
+    setWallPosts(newWallPosts);
+};

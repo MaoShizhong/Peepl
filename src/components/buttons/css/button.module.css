@@ -10,6 +10,22 @@
     }
 }
 
+.svg {
+    height: 2rem;
+    padding: 0;
+    width: auto;
+
+    & > svg {
+        color: var(--main-d);
+        height: 100%;
+        width: 100%;
+    }
+
+    &:hover {
+        box-shadow: var(--shadow-md);
+    }
+}
+
 .bold {
     background-color: var(--main-m);
     border: 2px solid transparent;

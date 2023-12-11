@@ -74,5 +74,5 @@ export const useProfile = (handle) => {
         getProfile();
     }, [handle]);
 
-    return { profileUser, friendsList, wallPosts, loading, error404 };
+    return { profileUser, setProfileUser, friendsList, wallPosts, setWallPosts, loading, error404 };
 };

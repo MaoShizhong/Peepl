@@ -24,6 +24,20 @@
     font-size: small;
 }
 
+.profilePicture {
+    position: relative;
+
+    & > img {
+        cursor: pointer;
+        width: 100%;
+    }
+
+    & > button {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+}
 .top {
     display: flex;
     justify-content: space-between;
@@ -57,7 +71,6 @@
         }
     }
 }
-
 
 .respondButtons {
     display: flex;

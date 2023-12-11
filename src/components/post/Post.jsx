@@ -4,7 +4,6 @@ import { getFullNameFromDetails, getRelativeTimestamp } from '../../helpers/util
 import postStyles from './css/post.module.css';
 
 export function Post({ post }) {
-    // console.log(post);
     return (
         <article className={postStyles.post}>
             <img
