@@ -5,7 +5,7 @@
     margin-block: 16px;
     margin-inline: auto;
     padding: 16px;
-    width: min(1000px, 90vw);
+    width: var(--main-width);
 
     & > div:not(.side) {
         flex: 1;

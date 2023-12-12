@@ -25,4 +25,6 @@
     --shadow-xs: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
     --transition: 100ms;
+
+    --main-width: min(1000px, 90vw);
 }

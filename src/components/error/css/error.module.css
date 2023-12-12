@@ -1,0 +1,14 @@
+.error404 {
+    display: grid;
+    flex: 1;
+    font-size: large;
+    font-weight: bold;
+    gap: 12px;
+    place-content: center;
+    text-align: center;
+
+    & > span {
+        color: var(--main-d);
+        font-size: xx-large;
+    }
+}

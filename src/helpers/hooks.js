@@ -76,3 +76,27 @@ export const useProfile = (handle) => {
 
     return { profileUser, setProfileUser, friendsList, wallPosts, setWallPosts, loading, error404 };
 };
+
+export const useFeed = (userID) => {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function getFeed() {
+            const feedRes = await fetchData(`/users/${userID}/feed`, 'GET');
+
+            if (feedRes instanceof Error || !feedRes.ok) {
+                alert('Something went wrong with the server, please try again later!');
+            } else {
+                const { feed } = await feedRes.json();
+                setPosts(feed);
+            }
+
+            setLoading(false);
+        }
+
+        getFeed();
+    }, [userID]);
+
+    return { posts, setPosts, loading };
+};

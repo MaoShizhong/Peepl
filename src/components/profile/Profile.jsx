@@ -47,7 +47,7 @@ export function Profile() {
             {loading ? (
                 <Loading />
             ) : error404 ? (
-                <Error404 />
+                <Error404 resource={`User "${handle}"`} />
             ) : (
                 <main className={profileStyles.main}>
                     <div className={profileStyles.side}>
