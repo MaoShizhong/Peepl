@@ -25,6 +25,9 @@ export function Profile() {
 
     const isOwnProfile = handle === user.handle;
     const isFriend = Boolean(friendsList.find((friend) => friend.user._id === user._id));
+    const isAcceptedFriend = Boolean(
+        friendsList.find((friend) => friend.user._id === user._id && friend.status === 'accepted')
+    );
     const isIncomingFriendRequest = Boolean(
         friendsList.find((friend) => friend.user._id === user._id && friend.status === 'requested')
     );
@@ -106,8 +109,9 @@ export function Profile() {
                             <Wall
                                 user={profileUser}
                                 posts={wallPosts}
+                                setPosts={setWallPosts}
                                 isOwnProfile={isOwnProfile}
-                                isFriend={isFriend}
+                                isFriend={isAcceptedFriend}
                             />
                         ) : activeTab === 'Info' ? (
                             <ProfileInfo user={profileUser} isOwnProfile={isOwnProfile} />

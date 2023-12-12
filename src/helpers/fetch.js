@@ -3,6 +3,15 @@ const domain =
         ? import.meta.env.VITE_PROD_API
         : import.meta.env.VITE_DEV_API;
 
+/**
+ *
+ * @param {string} endpoint
+ * @param {('GET'|'POST'|'PUT'|'PATCH'|'DELETE')} method
+ * @param {Object} [form]
+ * @param {Object} form.data
+ * @param {boolean} [form.hasFile]
+ * @returns {(Promise<Response|Error>)}
+ */
 export const fetchData = async (endpoint, method, form) => {
     const options = {
         credentials: 'include',

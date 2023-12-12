@@ -1,8 +1,13 @@
+import { useState } from 'react';
+import { SERVER_ERROR } from '../../helpers/constants';
+import { fetchData } from '../../helpers/fetch';
 import { getFirstName } from '../../helpers/util';
 import { PostButton } from '../buttons/PostButton';
 import postStyles from './css/post.module.css';
 
 export function NewPost({ user, isOwnProfile, setPosts }) {
+    const [error, setError] = useState(null);
+
     const firstName = user.details ? user.details.firstName : getFirstName(user.name);
     const textareaPlaceholder = isOwnProfile
         ? `What's on your mind, ${firstName}?`
@@ -10,11 +15,33 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
 
     async function postToWall(e) {
         e.preventDefault();
+
+        const textArea = e.target.body;
+
+        const postRes = await fetchData(`/users/${user._id}/posts`, 'POST', {
+            data: { body: textArea.value },
+        });
+
+        if (postRes instanceof Error) {
+            alert(SERVER_ERROR);
+        } else if (!postRes.ok) {
+            const { error } = await postRes.json();
+            setError(error);
+        } else {
+            const { post } = await postRes.json();
+            setPosts((posts) => [post, ...posts]);
+            setError(null);
+        }
     }
 
     return (
         <form className={postStyles.newPost} onSubmit={postToWall}>
-            <textarea aria-label="new post" placeholder={textareaPlaceholder}></textarea>
+            <textarea
+                name="body"
+                aria-label="new post"
+                placeholder={textareaPlaceholder}
+            ></textarea>
+            {error && <p className={postStyles.error}>{error}</p>}
             <PostButton />
         </form>
     );

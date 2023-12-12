@@ -56,4 +56,10 @@
     & > button {
         align-self: flex-end;
     }
+
+    & > .error {
+        align-self: flex-end;
+        color: var(--error);
+        font-size: small;
+    }
 }

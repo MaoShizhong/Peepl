@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SERVER_ERROR } from './constants';
 import { fetchData } from './fetch';
 
 export const useAutoLogin = () => {
@@ -15,7 +16,7 @@ export const useAutoLogin = () => {
             const res = await fetchData('/auth/sessions', 'GET');
 
             if (res instanceof Error) {
-                alert('Something went wrong with the server, please try again later!');
+                alert(SERVER_ERROR);
             } else if (res.ok) {
                 setUser(await res.json());
             }
@@ -57,7 +58,7 @@ export const useProfile = (handle) => {
             const profileRes = await fetchData(`/users/${handle}`, 'GET');
 
             if (profileRes instanceof Error) {
-                alert('Something went wrong with the server, please try again later!');
+                alert(SERVER_ERROR);
             } else if (!profileRes.ok) {
                 setError404(true);
             } else {
@@ -86,7 +87,7 @@ export const useFeed = (userID) => {
             const feedRes = await fetchData(`/users/${userID}/feed`, 'GET');
 
             if (feedRes instanceof Error || !feedRes.ok) {
-                alert('Something went wrong with the server, please try again later!');
+                alert(SERVER_ERROR);
             } else {
                 const { feed } = await feedRes.json();
                 setPosts(feed);

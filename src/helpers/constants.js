@@ -23,3 +23,5 @@ export const ACCEPTED_FILE_TYPES = ['.jpg', '.jpeg', '.png', '.webp'];
 export const UPLOAD_SIZE_LIMIT = 8388608;
 
 export const UPLOAD_SIZE_LIMIT_MB = UPLOAD_SIZE_LIMIT / 1024 ** 2;
+
+export const SERVER_ERROR = 'Something went wrong with the server, please try again later!';
