@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { SERVER_ERROR } from './constants';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { MOBILE_BREAKPOINT_PX, SERVER_ERROR } from './constants';
 import { fetchData } from './fetch';
 
 export const useAutoLogin = () => {
@@ -100,4 +100,21 @@ export const useFeed = (userID) => {
     }, [userID]);
 
     return { posts, setPosts, loading };
+};
+
+export const useMobileLayout = () => {
+    const [isSmallWidth, setIsSmallWidth] = useState(false);
+
+    useLayoutEffect(() => {
+        const handleResize = () => {
+            setIsSmallWidth(window.innerWidth <= MOBILE_BREAKPOINT_PX);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return isSmallWidth;
 };

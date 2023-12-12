@@ -28,6 +28,7 @@
     position: relative;
 
     & > img {
+        aspect-ratio: 1 / 1;
         cursor: pointer;
         width: 100%;
     }
@@ -36,6 +37,11 @@
         position: absolute;
         right: 8px;
         top: 8px;
+    }
+
+    &.mobile {
+        align-self: flex-start;
+        width: 128px;
     }
 }
 
@@ -46,7 +52,9 @@
 
 .top {
     display: flex;
+    gap: 16px;
     justify-content: space-between;
+    word-break: break-word;
 }
 
 .profileName {
@@ -75,6 +83,12 @@
         &.activeTab {
             background-color: var(--main-l);
         }
+    }
+
+    &.mobile {
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-bottom: 24px;
     }
 }
 

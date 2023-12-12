@@ -25,3 +25,5 @@ export const UPLOAD_SIZE_LIMIT = 8388608;
 export const UPLOAD_SIZE_LIMIT_MB = UPLOAD_SIZE_LIMIT / 1024 ** 2;
 
 export const SERVER_ERROR = 'Something went wrong with the server, please try again later!';
+
+export const MOBILE_BREAKPOINT_PX = 550;
