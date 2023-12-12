@@ -3,7 +3,7 @@ import { NewPost } from '../post/NewPost';
 import { Post } from '../post/Post';
 import wallStyles from './css/wall.module.css';
 
-export function Wall({ user, posts, isOwnProfile }) {
+export function Wall({ user, posts, isOwnProfile, isFriend }) {
     return (
         <>
             <div className={wallStyles.summary}>
@@ -26,14 +26,16 @@ export function Wall({ user, posts, isOwnProfile }) {
                 )}
             </div>
 
-            <NewPost user={user} isOwnProfile={isOwnProfile} />
+            {(isFriend || isOwnProfile) && <NewPost user={user} isOwnProfile={isOwnProfile} />}
 
             <section className={wallStyles.wall}>
-                <h2>Wall</h2>
+                <h2>{isOwnProfile ? 'Your Wall' : 'Wall'}</h2>
 
                 {posts.map((post) => (
                     <Post key={post._id} post={post} />
                 ))}
+
+                {!posts.length && <div className={wallStyles.empty}>Nothing here!</div>}
             </section>
         </>
     );

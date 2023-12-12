@@ -86,7 +86,7 @@ export function Profile() {
                         </nav>
                     </div>
 
-                    <div>
+                    <div className={profileStyles.content}>
                         <div className={profileStyles.top}>
                             <h1 className={profileStyles.profileName}>
                                 {profileUser.name} <span>({profileUser.handle})</span>
@@ -107,6 +107,7 @@ export function Profile() {
                                 user={profileUser}
                                 posts={wallPosts}
                                 isOwnProfile={isOwnProfile}
+                                isFriend={isFriend}
                             />
                         ) : activeTab === 'Info' ? (
                             <ProfileInfo user={profileUser} isOwnProfile={isOwnProfile} />

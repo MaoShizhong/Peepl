@@ -20,3 +20,11 @@
     flex-direction: column;
     gap: 12px;
 }
+
+.empty {
+    color: var(--faint-d);
+    flex: 1;
+    font-style: italic;
+    margin-top: 48px;
+    text-align: center;
+}

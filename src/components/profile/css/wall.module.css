@@ -9,7 +9,20 @@
 
 .wall {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 16px;
     margin-top: 16px;
+
+    & > h2 {
+        font-weight: bold;
+    }
+}
+
+.empty {
+    color: var(--faint-d);
+    flex: 1;
+    font-style: italic;
+    margin-top: 24px;
+    text-align: center;
 }
