@@ -55,6 +55,8 @@ export const useProfile = (handle) => {
 
     useEffect(() => {
         async function getProfile() {
+            setLoading(true);
+
             const profileRes = await fetchData(`/users/${handle}`, 'GET');
 
             if (profileRes instanceof Error) {
@@ -107,6 +109,8 @@ export const useSearchResults = (query) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
+
         async function searchUsers() {
             const queryString = encodeURIComponent(query);
 
@@ -121,7 +125,9 @@ export const useSearchResults = (query) => {
 
             setLoading(false);
         }
-        searchUsers();
+
+        if (query) searchUsers();
+        else setLoading(false);
     }, [query]);
 
     return { results, loading };

@@ -15,7 +15,7 @@ export function Post({ post }) {
             />
 
             <div className={postStyles.contents}>
-                <Link to={`/${post.author.handle}`} reloadDocument>
+                <Link to={`/${post.author.handle}`}>
                     {user._id === post.author._id
                         ? 'You'
                         : getFullNameFromDetails(post.author.details)}

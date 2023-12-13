@@ -3,7 +3,7 @@ import App from './App';
 import { ErrorPage } from './components/error/ErrorPage';
 import { Feed } from './components/feed/Feed';
 import { Profile } from './components/profile/Profile';
-import { Search } from './components/search/Search';
+import { SearchPage } from './components/search/SearchPage';
 
 export const router = createBrowserRouter([
     {
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
         children: [
             { path: '/feed?', element: <Feed /> },
             { path: '/:handle', element: <Profile /> },
-            { path: '/search', element: <Search /> },
+            { path: '/search', element: <SearchPage /> },
             { path: '/error', element: <ErrorPage /> },
         ],
     },

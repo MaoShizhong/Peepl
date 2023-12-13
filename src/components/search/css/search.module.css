@@ -2,6 +2,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    gap: 24px;
     margin-block: 24px;
     margin-inline: auto;
     width: var(--main-width);
@@ -29,11 +30,45 @@
     }
 }
 
-.button {
-    background-color: aquamarine;
-}
-
 .button > svg {
     height: auto;
     width: 1.25rem;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    & > h1 {
+        font-weight: bold;
+    }
+}
+
+.noResults {
+    color: var(--faint-d);
+    font-style: italic;
+    margin-top: 24px;
+    text-align: center;
+}
+
+.user {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+
+    & img {
+        aspect-ratio: 1 / 1;
+        height: 60px;
+    }
+
+    & > .name {
+        color: var(--main-d);
+        font-weight: bold;
+        margin-right: auto;
+
+        &:hover {
+            color: var(--main-l);
+        }
+    }
 }
