@@ -78,7 +78,7 @@
 
 .search {
     color: var(--text-d);
-    width: min(30vw, 200px);
+    width: min(28vw, 360px);
 }
 
 .nav .dropdown {
@@ -93,6 +93,11 @@
     font-size: small;
     justify-content: space-between;
     padding: 4px;
+
+    & > form {
+        display: flex;
+        gap: 4px;
+    }
 }
 
 .nav {
@@ -108,5 +113,12 @@
 
     &:hover {
         background-color: var(--main-fade-l);
+    }
+}
+
+@media (max-width: 550px) {
+    .nav > a,
+    .nav > button {
+        padding-inline: 0;
     }
 }

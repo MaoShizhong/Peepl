@@ -38,3 +38,14 @@
         background-color: color-mix(in srgb, var(--main-m) 80%, white);
     }
 }
+
+.search {
+    display: grid;
+    padding: 2px;
+    place-content: center;
+
+    & > svg {
+        height: auto;
+        width: 1.25rem;
+    }
+}

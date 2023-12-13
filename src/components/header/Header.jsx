@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { SearchButton } from '../buttons/SearchButton';
 import { AccountMenu } from './AccountMenu';
 import { FriendRequests } from './FriendRequests';
 import { Notifications } from './Notifications';
@@ -13,6 +14,18 @@ export function Header({ setUser, userHandle, userID }) {
     const notificationsRef = useRef(null);
     const friendRequestsRef = useRef(null);
     const accountRef = useRef(null);
+    const goTo = useNavigate();
+
+    function goToSearchResults(e) {
+        e.preventDefault();
+
+        const query = e.target.search.value.trim();
+        if (query) {
+            goTo(`/search?q=${encodeURI(query)}`);
+        } else {
+            goTo('/search');
+        }
+    }
 
     return (
         <header className={headerStyles.header}>
@@ -66,13 +79,17 @@ export function Header({ setUser, userHandle, userID }) {
                 </div>
 
                 <div className={headerStyles.bar}>
-                    <form>
+                    <form onSubmit={goToSearchResults}>
                         <input
                             type="search"
+                            name="search"
                             aria-label="search peepl"
                             placeholder="Search"
+                            defaultValue=""
                             className={headerStyles.search}
+                            required
                         />
+                        <SearchButton header={true} />
                     </form>
 
                     <nav className={headerStyles.nav}>
