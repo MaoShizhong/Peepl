@@ -67,7 +67,12 @@ export function Header({ setUser, userHandle, userID }) {
 
                 <div className={headerStyles.bar}>
                     <form>
-                        <input type="search" aria-label="search peepl" placeholder="Search" />
+                        <input
+                            type="search"
+                            aria-label="search peepl"
+                            placeholder="Search"
+                            className={headerStyles.search}
+                        />
                     </form>
 
                     <nav className={headerStyles.nav}>

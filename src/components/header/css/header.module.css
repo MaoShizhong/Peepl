@@ -69,6 +69,16 @@
     position: absolute;
     right: var(--nav-r-padding);
     text-align: left;
+
+    & > button:hover {
+        color: var(--main-l);
+        text-decoration: underline;
+    }
+}
+
+.search {
+    color: var(--text-d);
+    width: min(30vw,200px);
 }
 
 .nav .dropdown {
