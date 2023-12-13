@@ -78,7 +78,7 @@
 
 .search {
     color: var(--text-d);
-    width: min(30vw,200px);
+    width: min(30vw, 200px);
 }
 
 .nav .dropdown {
