@@ -102,6 +102,31 @@ export const useFeed = (userID) => {
     return { posts, setPosts, loading };
 };
 
+export const useSearchResults = (query) => {
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function searchUsers() {
+            const queryString = encodeURIComponent(query);
+
+            const searchRes = await fetchData(`/users?search=${queryString}`, 'GET');
+
+            if (searchRes instanceof Error || !searchRes.ok) {
+                alert(SERVER_ERROR);
+            } else {
+                const { users } = await searchRes.json();
+                setResults(users);
+            }
+
+            setLoading(false);
+        }
+        searchUsers();
+    }, [query]);
+
+    return { results, loading };
+};
+
 export const useMobileLayout = () => {
     const [isSmallWidth, setIsSmallWidth] = useState(false);
 

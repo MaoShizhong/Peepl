@@ -1,11 +1,16 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
+import { useSearchResults } from '../../helpers/hooks';
 import { SearchButton } from '../buttons/SearchButton';
+import { Loading } from '../loading/Loading';
 import searchStyles from './css/search.module.css';
 
 export function Search() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
     const goTo = useNavigate();
+
+    const { results, loading } = useSearchResults(query);
 
     function goToSearchResults(e) {
         e.preventDefault();
@@ -36,6 +41,23 @@ export function Search() {
                     <SearchButton header={false} />
                 </div>
             </form>
+
+            {loading ? (
+                <Loading />
+            ) : (
+                results.map((user) => (
+                    <div key={user._id}>
+                        <img
+                            src={user.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                            alt="search result profile picture thumbnail"
+                        />
+
+                        <Link to={`/${user.handle}`} reloadDocument>
+                            {user.name}
+                        </Link>
+                    </div>
+                ))
+            )}
         </main>
     );
 }
