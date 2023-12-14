@@ -66,7 +66,11 @@ export function SearchPage() {
                                 </Link>
 
                                 {user.status === 'accepted' ? (
-                                    <RemoveFriend userID={user._id} setFriendsList={setResults} />
+                                    <RemoveFriend
+                                        userID={user._id}
+                                        setFriendsList={setResults}
+                                        page="search"
+                                    />
                                 ) : user.status === 'requested' ? (
                                     <div>Pending...</div>
                                 ) : user.status === 'incoming' ? (

@@ -4,6 +4,7 @@ import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useMobileLayout, useProfile } from '../../helpers/hooks';
 import { getEducationSummary, getEmploymentSummary, getLocationSummary } from '../../helpers/util';
 import { AddFriend } from '../buttons/AddFriend';
+import { RemoveFriend } from '../buttons/RemoveFriend';
 import { RespondFR } from '../buttons/RespondFR';
 import { Error404 } from '../error/Error404';
 import { Loading } from '../loading/Loading';
@@ -34,7 +35,7 @@ export function Profile() {
     } = useProfile(handle);
 
     const isOwnProfile = handle === user.handle;
-    const isFriend = Boolean(friendsList.find((friend) => friend.user._id === user._id));
+    const isInFriendsList = Boolean(friendsList.find((friend) => friend.user._id === user._id));
     const isAcceptedFriend = Boolean(
         friendsList.find((friend) => friend.user._id === user._id && friend.status === 'accepted')
     );
@@ -129,7 +130,13 @@ export function Profile() {
                                     <h1 className={profileStyles.profileName}>
                                         {profileUser.name} <span>({profileUser.handle})</span>
                                     </h1>
-                                    {isOwnProfile ? null : isIncomingFriendRequest ? (
+                                    {isOwnProfile ? null : isAcceptedFriend ? (
+                                        <RemoveFriend
+                                            userID={profileUser._id}
+                                            setFriendsList={setFriendsList}
+                                            page="profile"
+                                        />
+                                    ) : isIncomingFriendRequest ? (
                                         <div className={profileStyles.respondButtons}>
                                             <RespondFR
                                                 action="accept"
@@ -144,7 +151,7 @@ export function Profile() {
                                                 page="profile"
                                             />
                                         </div>
-                                    ) : !isFriend ? (
+                                    ) : !isInFriendsList ? (
                                         <AddFriend
                                             userID={profileUser._id}
                                             setProfile={setFriendsList}
