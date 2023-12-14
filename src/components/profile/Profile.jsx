@@ -131,8 +131,18 @@ export function Profile() {
                                     </h1>
                                     {isOwnProfile ? null : isIncomingFriendRequest ? (
                                         <div className={profileStyles.respondButtons}>
-                                            <RespondFR action="accept" userID={profileUser._id} />
-                                            <RespondFR action="decline" userID={profileUser._id} />
+                                            <RespondFR
+                                                action="accept"
+                                                userID={profileUser._id}
+                                                setFriendsList={setFriendsList}
+                                                page="profile"
+                                            />
+                                            <RespondFR
+                                                action="reject"
+                                                userID={profileUser._id}
+                                                setFriendsList={setFriendsList}
+                                                page="profile"
+                                            />
                                         </div>
                                     ) : !isFriend ? (
                                         <AddFriend
@@ -194,7 +204,11 @@ export function Profile() {
                                 isOwnProfile={isOwnProfile}
                             />
                         ) : (
-                            <Friends friendsList={friendsList} isOwnProfile={isOwnProfile} />
+                            <Friends
+                                friendsList={friendsList}
+                                setFriendsList={setFriendsList}
+                                isOwnProfile={isOwnProfile}
+                            />
                         )}
                     </div>
 

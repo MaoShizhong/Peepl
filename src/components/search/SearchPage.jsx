@@ -11,7 +11,7 @@ export function SearchPage() {
     const goTo = useNavigate();
 
     const { results, setResults, loading } = useSearchResults(query);
-    console.log(results)
+    console.log(results);
 
     function goToSearchResults(e) {
         e.preventDefault();
@@ -65,14 +65,24 @@ export function SearchPage() {
                                     {user.name}
                                 </Link>
 
-                                {user.friendStatus === 'accepted' ? (
-                                    <RemoveFriend userID={user._id} />
-                                ) : user.friendStatus === 'requested' ? (
+                                {user.status === 'accepted' ? (
+                                    <RemoveFriend userID={user._id} setFriendsList={setResults} />
+                                ) : user.status === 'requested' ? (
                                     <div>Pending...</div>
-                                ) : user.friendStatus === 'incoming' ? (
+                                ) : user.status === 'incoming' ? (
                                     <>
-                                        <RespondFR userID={user._id} action="accept" />
-                                        <RespondFR userID={user._id} action="decline" />
+                                        <RespondFR
+                                            userID={user._id}
+                                            action="accept"
+                                            setFriendsList={setResults}
+                                            page="search"
+                                        />
+                                        <RespondFR
+                                            userID={user._id}
+                                            action="reject"
+                                            setFriendsList={setResults}
+                                            page="search"
+                                        />
                                     </>
                                 ) : (
                                     <AddFriend userID={user._id} setUserList={setResults} />

@@ -22,7 +22,7 @@ export function AddFriend({ userID, setProfile, setUserList }) {
             setUserList((prev) => {
                 const clonedList = structuredClone(prev);
                 const addedUser = clonedList.find((user) => user._id === userID);
-                addedUser.friendStatus = 'requested';
+                addedUser.status = 'requested';
                 return clonedList;
             });
         }

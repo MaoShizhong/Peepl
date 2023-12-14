@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { getFullNameFromDetails, sortFriends } from '../../helpers/util';
@@ -6,7 +6,7 @@ import { RemoveFriend } from '../buttons/RemoveFriend';
 import { RespondFR } from '../buttons/RespondFR';
 import friendsStyles from './css/friends.module.css';
 
-export function Friends({ friendsList, isOwnProfile }) {
+export function Friends({ friendsList, setFriendsList, isOwnProfile }) {
     const sortedFriends = sortFriends(friendsList);
 
     const [acceptedFriends, setAcceptedFriends] = useState(
@@ -18,6 +18,13 @@ export function Friends({ friendsList, isOwnProfile }) {
     const [requestedFriends, setRequestedFriends] = useState(
         sortedFriends.filter((friend) => friend.status === 'requested')
     );
+
+    useEffect(() => {
+        const sortedFriends = sortFriends(friendsList);
+        setAcceptedFriends(sortedFriends.filter((friend) => friend.status === 'accepted'));
+        setIncomingRequests(sortedFriends.filter((friend) => friend.status === 'incoming'));
+        setRequestedFriends(sortedFriends.filter((friend) => friend.status === 'requested'));
+    }, [friendsList]);
 
     return (
         <section className={friendsStyles.friendsList}>
@@ -45,8 +52,18 @@ export function Friends({ friendsList, isOwnProfile }) {
                                     {getFullNameFromDetails(request.user)}
                                 </Link>
 
-                                <RespondFR action="accept" userID={request.user._id} />
-                                <RespondFR action="decline" userID={request.user._id} />
+                                <RespondFR
+                                    action="accept"
+                                    userID={request.user._id}
+                                    setFriendsList={setFriendsList}
+                                    page="friends"
+                                />
+                                <RespondFR
+                                    action="reject"
+                                    userID={request.user._id}
+                                    setFriendsList={setFriendsList}
+                                    page="friends"
+                                />
                             </div>
                         ))}
                     </div>
