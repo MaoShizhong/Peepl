@@ -10,7 +10,8 @@ export function SearchPage() {
     const query = searchParams.get('q');
     const goTo = useNavigate();
 
-    const { results, loading } = useSearchResults(query);
+    const { results, setResults, loading } = useSearchResults(query);
+    console.log(results)
 
     function goToSearchResults(e) {
         e.preventDefault();
@@ -74,7 +75,7 @@ export function SearchPage() {
                                         <RespondFR userID={user._id} action="decline" />
                                     </>
                                 ) : (
-                                    <AddFriend userID={user._id} />
+                                    <AddFriend userID={user._id} setUserList={setResults} />
                                 )}
                             </div>
                         ))

@@ -77,7 +77,16 @@ export const useProfile = (handle) => {
         getProfile();
     }, [handle]);
 
-    return { profileUser, setProfileUser, friendsList, wallPosts, setWallPosts, loading, error404 };
+    return {
+        profileUser,
+        setProfileUser,
+        friendsList,
+        setFriendsList,
+        wallPosts,
+        setWallPosts,
+        loading,
+        error404,
+    };
 };
 
 export const useFeed = (userID) => {
@@ -130,7 +139,7 @@ export const useSearchResults = (query) => {
         else setLoading(false);
     }, [query]);
 
-    return { results, loading };
+    return { results, setResults, loading };
 };
 
 export const useMobileLayout = () => {

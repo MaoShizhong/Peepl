@@ -22,8 +22,16 @@ const tabs = ['Wall', 'Info', 'Gallery', 'Friends'];
 export function Profile() {
     const { handle } = useParams();
     const { user } = useOutletContext();
-    const { profileUser, setProfileUser, friendsList, wallPosts, setWallPosts, loading, error404 } =
-        useProfile(handle);
+    const {
+        profileUser,
+        setProfileUser,
+        friendsList,
+        setFriendsList,
+        wallPosts,
+        setWallPosts,
+        loading,
+        error404,
+    } = useProfile(handle);
 
     const isOwnProfile = handle === user.handle;
     const isFriend = Boolean(friendsList.find((friend) => friend.user._id === user._id));
@@ -121,14 +129,21 @@ export function Profile() {
                                     <h1 className={profileStyles.profileName}>
                                         {profileUser.name} <span>({profileUser.handle})</span>
                                     </h1>
-                                    {isIncomingFriendRequest ? (
+                                    {isOwnProfile ? null : isIncomingFriendRequest ? (
                                         <div className={profileStyles.respondButtons}>
                                             <RespondFR action="accept" userID={profileUser._id} />
                                             <RespondFR action="decline" userID={profileUser._id} />
                                         </div>
-                                    ) : !isOwnProfile && !isFriend ? (
-                                        <AddFriend userID={profileUser._id} />
-                                    ) : null}
+                                    ) : !isFriend ? (
+                                        <AddFriend
+                                            userID={profileUser._id}
+                                            setProfile={setFriendsList}
+                                        />
+                                    ) : (
+                                        <div className={profileStyles.pending}>
+                                            Friend request sent
+                                        </div>
+                                    )}
                                 </div>
 
                                 {activeTab === 'Wall' && (

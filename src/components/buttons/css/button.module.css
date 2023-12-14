@@ -1,3 +1,9 @@
+.subtle,
+.bold {
+    display: grid;
+    place-items: center;
+}
+
 .subtle {
     background-color: var(--bg);
     box-shadow: var(--shadow-xs);
@@ -5,7 +11,7 @@
     padding: 2px 6px;
     transition: var(--transition);
 
-    &:hover {
+    &:hover:not([disabled]) {
         box-shadow: var(--shadow-sm);
     }
 }
@@ -34,7 +40,7 @@
     font-weight: bold;
     padding-inline: 6px;
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: color-mix(in srgb, var(--main-m) 80%, white);
     }
 }
