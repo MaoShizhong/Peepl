@@ -31,6 +31,7 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
             const { post } = await postRes.json();
             setPosts((posts) => [post, ...posts]);
             setError(null);
+            textArea.value = '';
         }
     }
 

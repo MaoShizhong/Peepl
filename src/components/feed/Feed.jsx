@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
+import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useFeed } from '../../helpers/hooks';
 import { Loading } from '../loading/Loading';
 import { NewPost } from '../post/NewPost';
@@ -12,7 +13,13 @@ export function Feed() {
     return (
         <main className={feedStyles.main}>
             <section className={feedStyles.feed}>
-                <h1>Your feed</h1>
+                <div className={feedStyles.heading}>
+                    <img
+                        src={user.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                        alt="your profile picture"
+                    />
+                    <h1>Your feed</h1>
+                </div>
 
                 <NewPost user={user} isOwnProfile={true} setPosts={setPosts} />
 

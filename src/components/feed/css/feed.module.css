@@ -8,10 +8,22 @@
     flex-direction: column;
     gap: 12px;
     margin: 16px;
+}
+
+.heading {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+
+    & > img {
+        height: auto;
+        width: 1.5rem;
+    }
 
     & > h1 {
         font-size: large;
         font-weight: bold;
+        line-height: normal;
     }
 }
 
