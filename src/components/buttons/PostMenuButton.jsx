@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { SERVER_ERROR } from '../../helpers/constants';
+import { fetchData } from '../../helpers/fetch';
 import { useCloseDropdown } from '../../helpers/hooks';
+import { Loading } from '../loading/Loading';
 import buttonStyles from './css/button.module.css';
 
-export function PostMenuButton({ postID, setIsEditMode }) {
+export function PostMenuButton({ userID, postID, setPosts, setIsEditMode }) {
     const [showMenu, setShowMenu] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const buttonRef = useRef(null);
     const menuRef = useRef(null);
@@ -12,6 +16,20 @@ export function PostMenuButton({ postID, setIsEditMode }) {
     useEffect(() => {
         if (menuRef.current) menuRef.current.show();
     }, [showMenu]);
+
+    async function deletePost() {
+        setLoading(true);
+
+        const deleteRes = await fetchData(`/users/${userID}/posts/${postID}`, 'DELETE');
+
+        if (deleteRes instanceof Error || !deleteRes.ok) {
+            alert(SERVER_ERROR);
+        } else {
+            setPosts((prev) => prev.filter((post) => post._id !== postID));
+        }
+
+        setLoading(false);
+    }
 
     return (
         <div className={buttonStyles.menuWrapper}>
@@ -37,7 +55,9 @@ export function PostMenuButton({ postID, setIsEditMode }) {
                     >
                         Edit
                     </button>
-                    <button>Delete</button>
+                    <button onClick={deletePost}>
+                        {loading ? <Loading isInButton={true} /> : 'Delete'}
+                    </button>
                 </dialog>
             )}
         </div>

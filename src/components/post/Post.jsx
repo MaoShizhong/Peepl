@@ -57,7 +57,12 @@ export function Post({ post, setPosts }) {
                             : getFullNameFromDetails(post.author.details)}
                     </Link>
                     {post.author._id === user._id && (
-                        <PostMenuButton postID={post._id} setIsEditMode={setIsEditMode} />
+                        <PostMenuButton
+                            userID={user._id}
+                            postID={post._id}
+                            setPosts={setPosts}
+                            setIsEditMode={setIsEditMode}
+                        />
                     )}
                 </div>
 
