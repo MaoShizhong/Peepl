@@ -20,29 +20,31 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
         if (respondRes instanceof Error || !respondRes.ok) {
             alert(SERVER_ERROR);
         } else if (action === 'accept') {
-            let findCb;
+            let arrayFindCallback;
             if (page === 'friends') {
-                findCb = (request) => request.user._id === userID;
+                arrayFindCallback = (request) => request.user._id === userID;
             } else if (page === 'profile') {
-                findCb = (friend) => friend.user._id === user._id;
+                arrayFindCallback = (friend) => friend.user._id === user._id;
             } else {
-                findCb = (friend) => friend._id === userID;
+                arrayFindCallback = (friend) => friend._id === userID;
             }
 
             setFriendsList((prev) => {
                 const clonedList = structuredClone(prev);
-                const target = clonedList.find(findCb);
+                const target = clonedList.find(arrayFindCallback);
                 target.status = 'accepted';
                 return clonedList;
             });
         } else {
-            let setCb;
+            let setFriendsListCallback;
             if (page === 'friends') {
-                setCb = (prev) => prev.filter((request) => request.user._id !== userID);
+                setFriendsListCallback = (prev) =>
+                    prev.filter((request) => request.user._id !== userID);
             } else if (page === 'profile') {
-                setCb = (prev) => prev.filter((friend) => friend.user._id !== user._id);
+                setFriendsListCallback = (prev) =>
+                    prev.filter((friend) => friend.user._id !== user._id);
             } else {
-                setCb = (prev) => {
+                setFriendsListCallback = (prev) => {
                     const clonedList = structuredClone(prev);
                     const target = clonedList.find((result) => result._id === userID);
                     target.status = null;
@@ -50,7 +52,7 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
                 };
             }
 
-            setFriendsList(setCb);
+            setFriendsList(setFriendsListCallback);
         }
 
         setLoading(false);

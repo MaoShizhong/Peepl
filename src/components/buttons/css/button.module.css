@@ -55,3 +55,41 @@
         width: 1.25rem;
     }
 }
+
+.menuWrapper {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.menuButton {
+    background-color: transparent;
+
+    & > svg {
+        color: var(--faint-d);
+        height: auto;
+        width: 0.8rem;
+    }
+}
+
+.menu {
+    border: 1px solid var(--faint-l);
+    border-radius: 2px;
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    left: auto;
+    padding: 4px 6px;
+    position: absolute;
+    right: 0;
+
+    & > button {
+        font-size: small;
+
+        &:hover {
+            color: var(--main-d);
+            text-decoration: underline;
+        }
+    }
+}

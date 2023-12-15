@@ -1,22 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
-import { useCloseDropdown } from '../../helpers/hooks';
-import { getFullNameFromDetails, getRelativeTimestamp } from '../../helpers/util';
+import { DEFAULT_PROFILE_PICTURE, SERVER_ERROR } from '../../helpers/constants';
+import { fetchData } from '../../helpers/fetch';
+import {
+    autoResizeTextarea,
+    getFullNameFromDetails,
+    getRelativeTimestamp,
+} from '../../helpers/util';
+import { PostMenuButton } from '../buttons/PostMenuButton';
+import buttonStyles from '../buttons/css/button.module.css';
+import { Loading } from '../loading/Loading';
 import postStyles from './css/post.module.css';
 
-export function Post({ post }) {
+export function Post({ post, setPosts }) {
     const { user } = useOutletContext();
-    const [showMenu, setShowMenu] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const buttonRef = useRef();
-    const menuRef = useRef();
+    async function editPost(e) {
+        e.preventDefault();
+        setLoading(true);
 
-    useCloseDropdown(menuRef, buttonRef, setShowMenu);
+        const textarea = e.target.body;
 
-    useEffect(() => {
-        if (menuRef.current) menuRef.current.show();
-    }, [showMenu]);
+        const editRes = await fetchData(`/users/${user._id}/posts/${post._id}`, 'PUT', {
+            data: { body: textarea.value },
+        });
+
+        if (editRes instanceof Error || !editRes.ok) {
+            alert(SERVER_ERROR);
+        } else {
+            const { editedPost } = await editRes.json();
+            setPosts((prev) => {
+                const originalPost = prev.findIndex((otherPost) => otherPost._id === post._id);
+                return prev.toSpliced(originalPost, 1, editedPost);
+            });
+        }
+
+        setLoading(false);
+        setIsEditMode(false);
+    }
 
     return (
         <article className={postStyles.post}>
@@ -33,36 +56,54 @@ export function Post({ post }) {
                             ? 'You'
                             : getFullNameFromDetails(post.author.details)}
                     </Link>
-
-                    <div className={postStyles.menuWrapper}>
-                        <button
-                            onClick={() => setShowMenu(!showMenu)}
-                            className={postStyles.menuButton}
-                            ref={buttonRef}
-                        >
-                            <svg width="64px" height="64px" viewBox="0 0 16 16" fill="currentColor">
-                                <g>
-                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
-                                </g>
-                            </svg>
-                        </button>
-
-                        {showMenu && (
-                            <dialog className={postStyles.menu} ref={menuRef}>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </dialog>
-                        )}
-                    </div>
+                    {post.author._id === user._id && (
+                        <PostMenuButton postID={post._id} setIsEditMode={setIsEditMode} />
+                    )}
                 </div>
 
-                <p>{post.body}</p>
+                {isEditMode ? (
+                    <form id="edit-post" onSubmit={editPost}>
+                        <textarea
+                            name="body"
+                            className={postStyles.editTextarea}
+                            onInput={autoResizeTextarea}
+                            defaultValue={post.body}
+                            required
+                        ></textarea>
+                    </form>
+                ) : (
+                    <p>{post.body}</p>
+                )}
 
-                <div>
+                <div className={postStyles.bottom}>
                     <span className={postStyles.timestamp}>
                         {getRelativeTimestamp(post.timestamp)}
                     </span>
+
+                    {post.isEdited && <span className={postStyles.edited}>(Edited)</span>}
+
                     <button className={postStyles.likeButton}>Like</button>
+
+                    {isEditMode && (
+                        <span className={postStyles.editFormButtons}>
+                            <button
+                                type="button"
+                                form="edit-post"
+                                onClick={() => setIsEditMode(false)}
+                                className={buttonStyles.subtle}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                form="edit-post"
+                                className={buttonStyles.bold}
+                                disabled={loading}
+                            >
+                                {loading ? <Loading isInButton={true} /> : 'Save'}
+                            </button>
+                        </span>
+                    )}
                 </div>
             </div>
         </article>

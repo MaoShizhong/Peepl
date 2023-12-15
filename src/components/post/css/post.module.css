@@ -2,6 +2,7 @@
     display: flex;
     font-size: 0.85rem;
     gap: 8px;
+    position: relative;
 }
 
 .profilePicture {
@@ -20,7 +21,8 @@
     }
 
     & > p {
-        word-break: break-all;
+        white-space: pre-wrap;
+        word-break: break-word;
     }
 }
 
@@ -32,51 +34,38 @@
     }
 }
 
-.menuWrapper {
-    position: relative;
-}
-
-.menuButton {
-    background-color: transparent;
-
-    & > svg {
-        color: var(--faint-d);
-        height: auto;
-        width: 0.8rem;
-    }
-}
-
-.menu {
-    border: 1px solid var(--faint-l);
-    border-radius: 2px;
-    box-shadow: var(--shadow-xs);
+.bottom {
+    align-items: center;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    left: auto;
-    padding: 4px 6px;
-    position: absolute;
-    right: 0;
+    gap: 6px;
+}
 
-    & > button {
-        font-size: small;
+.editTextarea {
+    box-sizing: border-box;
+    height: auto;
+    resize: vertical;
+    width: 100%;
+}
 
-        &:hover {
-            color: var(--main-d);
-            text-decoration: underline;
-        }
-    }
+.editFormButtons {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
 }
 
 .timestamp,
-.likeButton {
+.likeButton,
+.edited {
     font-size: x-small;
     font-weight: bold;
-    margin-right: 8px;
 }
 
-.timestamp {
+.timestamp, .edited {
     color: var(--faint-d);
+}
+
+.edited {
+    font-style: italic;
 }
 
 .likeButton {

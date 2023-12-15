@@ -17,13 +17,15 @@ export function RemoveFriend({ userID, setFriendsList, page }) {
         if (removeRes instanceof Error || !removeRes.ok) {
             alert(SERVER_ERROR);
         } else {
-            let setCb;
+            let setFriendsListCallback;
             if (page === 'friends') {
-                setCb = (prev) => prev.filter((request) => request.user._id !== userID);
+                setFriendsListCallback = (prev) =>
+                    prev.filter((request) => request.user._id !== userID);
             } else if (page === 'profile') {
-                setCb = (prev) => prev.filter((friend) => friend.user._id !== user._id);
+                setFriendsListCallback = (prev) =>
+                    prev.filter((friend) => friend.user._id !== user._id);
             } else {
-                setCb = (prev) => {
+                setFriendsListCallback = (prev) => {
                     const clonedList = structuredClone(prev);
                     const target = clonedList.find((result) => result._id === userID);
                     target.status = null;
@@ -31,7 +33,7 @@ export function RemoveFriend({ userID, setFriendsList, page }) {
                 };
             }
 
-            setFriendsList(setCb);
+            setFriendsList(setFriendsListCallback);
         }
 
         setLoading(false);

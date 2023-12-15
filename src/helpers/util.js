@@ -131,3 +131,11 @@ export const updateSelfPostsProfilePicture = (
 
     setWallPosts(newWallPosts);
 };
+
+export const autoResizeTextarea = (e) => {
+    const textarea = e.target;
+
+    textarea.style.height = 'auto';
+    // the +2 gets rid of the scrollbar
+    textarea.style.height = `${textarea.scrollHeight + 2}px`;
+};

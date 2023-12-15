@@ -27,7 +27,7 @@ export function Feed() {
                     {loading ? (
                         <Loading text="Fetching feed" />
                     ) : posts.length ? (
-                        posts.map((post) => <Post key={post._id} post={post} />)
+                        posts.map((post) => <Post key={post._id} post={post} setPosts={setPosts} />)
                     ) : (
                         <div className={feedStyles.empty}>Nothing here!</div>
                     )}

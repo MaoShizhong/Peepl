@@ -13,7 +13,7 @@ export function Wall({ user, posts, setPosts, isOwnProfile, isFriend }) {
                 <h2>{isOwnProfile ? 'Your Wall' : 'Wall'}</h2>
 
                 {posts.map((post) => (
-                    <Post key={post._id} post={post} />
+                    <Post key={post._id} post={post} setPosts={setPosts} />
                 ))}
 
                 {!posts.length && <div className={wallStyles.empty}>Nothing here!</div>}

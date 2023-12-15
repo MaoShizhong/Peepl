@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SERVER_ERROR } from '../../helpers/constants';
 import { fetchData } from '../../helpers/fetch';
-import { getFirstName } from '../../helpers/util';
+import { autoResizeTextarea, getFirstName } from '../../helpers/util';
 import { PostButton } from '../buttons/PostButton';
 import postStyles from './css/post.module.css';
 
@@ -41,6 +41,8 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
                 name="body"
                 aria-label="new post"
                 placeholder={textareaPlaceholder}
+                onInput={autoResizeTextarea}
+                required
             ></textarea>
             {error && <p className={postStyles.error}>{error}</p>}
             <PostButton />
