@@ -1,0 +1,27 @@
+.container {
+    font-size: small;
+    position: relative;
+
+    & > input {
+        box-sizing: border-box;
+        padding: 5px;
+        width: 100%;
+    }
+
+    & > label {
+        background-color: var(--bg);
+        color: var(--main-d);
+        left: 5px;
+        padding-inline: 3px;
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: var(--transition);
+    }
+
+    & > input:focus ~ label,
+    & > input:not(:placeholder-shown) ~ label {
+        top: 0;
+    }
+}

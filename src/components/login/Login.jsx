@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../../helpers/fetch';
 import { DemoLogin } from '../buttons/DemoLogin';
-import { LoginFormSwitch } from '../buttons/LoginFormSwitch';
 import { LoginForm } from './LoginForm';
+import { LoginFormSwitch } from './LoginFormSwitch';
 import { SignupForm } from './SignupForm';
 import loginStyles from './css/login.module.css';
 

@@ -1,12 +1,9 @@
-import buttonStyles from './css/button.module.css';
+import loginStyles from './css/login.module.css';
 
 export function LoginFormSwitch({ targetForm, activeForm, changeForm }) {
-    let styleClasses = `${buttonStyles.subtle}`;
-    if (activeForm === targetForm) styleClasses += ` ${buttonStyles.active}`;
-
     return (
         <button
-            className={styleClasses}
+            className={activeForm === targetForm ? loginStyles.active : ''}
             onClick={() => changeForm(targetForm)}
             aria-label={`Switch to ${targetForm.toLowerCase()} screen`}
         >

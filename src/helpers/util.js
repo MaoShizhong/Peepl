@@ -68,6 +68,25 @@ export const getRelativeTimestamp = (timeString) => {
     }
 };
 
+export const getLocaleDateFormat = () => {
+    const dateParts = new Intl.DateTimeFormat(navigator.languages[0]).formatToParts(new Date());
+
+    return dateParts
+        .map((part) => {
+            switch (part.type) {
+                case 'day':
+                    return 'DD';
+                case 'month':
+                    return 'MM';
+                case 'year':
+                    return 'YYYY';
+                default:
+                    return part.value;
+            }
+        })
+        .join('');
+};
+
 export const sortFriends = (friendsList) => {
     const incoming = friendsList.filter((friend) => friend.status === 'incoming');
     const requested = friendsList.filter((friend) => friend.status === 'requested');

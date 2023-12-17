@@ -1,5 +1,6 @@
 import buttonStyles from '../buttons/css/button.module.css';
 import loginStyles from './css/login.module.css';
+import { Input } from './Input';
 
 export function LoginForm({ hasError, setIsForgotModalShowing }) {
     return (
@@ -8,25 +9,33 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
                 Login screen
             </div>
 
-            <input
+            <Input
+                labelText="Email"
                 name="email"
                 type="email"
-                placeholder="Email"
                 aria-label="enter email"
                 autoComplete="email"
-                required
+                isRequired={true}
             />
 
-            <input
+            <Input
+                labelText="Password"
                 name="password"
                 type="password"
-                placeholder="Password"
                 autoComplete="current-password"
                 aria-label="enter password"
-                required
+                isRequired={true}
             />
 
             {hasError && <p className={loginStyles.error}>Incorrect email or password</p>}
+
+            <button
+                type="button"
+                className={loginStyles.forgot}
+                onClick={() => setIsForgotModalShowing(true)}
+            >
+                Forgot password?
+            </button>
 
             <button className={buttonStyles.bold}>Login</button>
 
@@ -43,14 +52,6 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
                 <img src="/github.png" alt="github login logo" />
                 Login with Github
             </a>
-
-            <button
-                type="button"
-                className={loginStyles.forgot}
-                onClick={() => setIsForgotModalShowing(true)}
-            >
-                Forgot password?
-            </button>
         </>
     );
 }
