@@ -22,9 +22,12 @@ export function Post({ post, setPosts }) {
         setLoading(true);
 
         const textarea = e.target.body;
+        const form = new FormData();
+        form.append('body', textarea.value);
 
         const editRes = await fetchData(`/users/${user._id}/posts/${post._id}`, 'PUT', {
-            data: { body: textarea.value },
+            data: form,
+            urlEncoded: true,
         });
 
         if (editRes instanceof Error || !editRes.ok) {
