@@ -1,24 +1,21 @@
-import { getLocaleDateFormat } from '../../helpers/util';
+import { useState } from 'react';
+import { checkFileDetails, getLocaleDateFormat } from '../../helpers/util';
 import buttonStyles from '../buttons/css/button.module.css';
+import { Loading } from '../loading/Loading';
 import { Input } from './Input';
 import loginStyles from './css/login.module.css';
 
-export function SignupForm({ errors }) {
+export function SignupForm({ error, loading }) {
+    const [fileError, setFileError] = useState(null);
+
     return (
         <>
             <div className="sr-only" aria-live="polite">
                 Account creation screen
             </div>
 
-            {errors && (
-                <ul>
-                    {errors.map((error, i) => (
-                        <li key={i} className={loginStyles.error}>
-                            {error.msg}
-                        </li>
-                    ))}
-                </ul>
-            )}
+            {error && <p className={loginStyles.error}>{error}</p>}
+
             <p className={loginStyles.reqs}>Required fields are marked with (required)</p>
 
             <fieldset className={loginStyles.credentials}>
@@ -59,6 +56,19 @@ export function SignupForm({ errors }) {
 
             <fieldset className={loginStyles.personalDetails}>
                 <legend>Personal details</legend>
+
+                <label className={loginStyles.profilePicture}>
+                    Profile picture
+                    <input
+                        name="profilePicture"
+                        type="file"
+                        accept=".jpg, .jpeg, .png, .webp"
+                        aria-label="(optional) upload profile picture"
+                        onChange={(e) => checkFileDetails(e, setFileError)}
+                    />
+                </label>
+                {fileError && <p className={loginStyles.error}>{fileError}</p>}
+
                 <div>
                     <Input
                         labelText="First name"
@@ -80,7 +90,7 @@ export function SignupForm({ errors }) {
 
                 <Input
                     labelText={`Date of birth - ${getLocaleDateFormat()}`}
-                    name="DOB"
+                    name="DOB.value"
                     type="date"
                     aria-label="enter date of birth"
                     isRequired={true}
@@ -89,20 +99,22 @@ export function SignupForm({ errors }) {
                 <div>
                     <Input
                         labelText="City"
-                        name="city"
+                        name="city.value"
                         type="text"
                         aria-label="(optional) enter city"
                     />
                     <Input
                         labelText="Country"
-                        name="country"
+                        name="country.value"
                         type="text"
                         aria-label="(optional) enter country"
                     />
                 </div>
             </fieldset>
 
-            <button className={buttonStyles.bold}>Create account</button>
+            <button className={buttonStyles.bold}>
+                {loading ? <Loading isInButton={true} /> : 'Create account'}
+            </button>
 
             <p className={loginStyles.or}>or</p>
 

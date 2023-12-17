@@ -1,12 +1,12 @@
 import { forwardRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    ACCEPTED_FILE_TYPES,
-    UPLOAD_SIZE_LIMIT,
-    UPLOAD_SIZE_LIMIT_MB,
-} from '../../helpers/constants';
+import { ACCEPTED_FILE_TYPES, UPLOAD_SIZE_LIMIT_MB } from '../../helpers/constants';
 import { fetchData } from '../../helpers/fetch';
-import { closeOnClickOutside, updateSelfPostsProfilePicture } from '../../helpers/util';
+import {
+    checkFileDetails,
+    closeOnClickOutside,
+    updateSelfPostsProfilePicture,
+} from '../../helpers/util';
 import buttonStyles from '../buttons/css/button.module.css';
 import galleryStyles from './css/gallery.module.css';
 
@@ -17,27 +17,6 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
     const [fileError, setFileError] = useState(null);
 
     const goTo = useNavigate();
-
-    function checkFileDetails(e) {
-        const file = e.target.files[0];
-
-        if (!file) {
-            setFileError(null);
-            return;
-        }
-
-        if (file.size > UPLOAD_SIZE_LIMIT) {
-            setFileError(`File must not exceed limit of ${UPLOAD_SIZE_LIMIT_MB} MB`);
-            return;
-        }
-
-        if (!ACCEPTED_FILE_TYPES.some((fileType) => file.name.endsWith(fileType))) {
-            setFileError('Invalid file type');
-            return;
-        }
-
-        setFileError(null);
-    }
 
     async function changeProfilePicture(e) {
         e.preventDefault();
@@ -58,7 +37,6 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
 
         const uploadRes = await fetchData(`/users/${user._id}/profile-picture`, 'PUT', {
             data: formData,
-            hasFile: true,
         });
 
         if (uploadRes instanceof Error) {
@@ -95,7 +73,7 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
                     type="file"
                     aria-label="upload new profile picture"
                     accept=".jpg, .jpeg, .png, .webp"
-                    onChange={checkFileDetails}
+                    onChange={(e) => checkFileDetails(e, setFileError)}
                     required
                 />
 

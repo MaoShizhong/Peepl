@@ -85,8 +85,16 @@
     }
 }
 
-.demo {
-    margin-top: 1.5rem;
+.profilePicture {
+    align-items: center;
+    color: var(--main-d);
+    display: flex;
+    font-size: small;
+    justify-content: space-between;
+
+    & > input {
+        color: initial;
+    }
 }
 
 .or {
@@ -130,9 +138,14 @@
     margin: 0;
 }
 
+.profilePicture ~ .error {
+    margin-top: -14px;
+}
+
 .demo {
     display: flex;
     justify-content: space-between;
+    margin-top: 24px;
 
     & > button {
         text-align: center;

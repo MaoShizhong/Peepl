@@ -1,4 +1,10 @@
-import { dayNames, durations } from './constants';
+import {
+    ACCEPTED_FILE_TYPES,
+    UPLOAD_SIZE_LIMIT,
+    UPLOAD_SIZE_LIMIT_MB,
+    dayNames,
+    durations,
+} from './constants';
 
 export const getFirstName = (name) => {
     return name.split(' ')[0];
@@ -157,4 +163,25 @@ export const autoResizeTextarea = (e) => {
     textarea.style.height = 'auto';
     // the +2 gets rid of the scrollbar
     textarea.style.height = `${textarea.scrollHeight + 2}px`;
+};
+
+export const checkFileDetails = (e, setFileError) => {
+    const file = e.target.files[0];
+
+    if (!file) {
+        setFileError(null);
+        return;
+    }
+
+    if (file.size > UPLOAD_SIZE_LIMIT) {
+        setFileError(`File must not exceed limit of ${UPLOAD_SIZE_LIMIT_MB} MB`);
+        return;
+    }
+
+    if (!ACCEPTED_FILE_TYPES.some((fileType) => file.name.endsWith(fileType))) {
+        setFileError('Invalid file type. Only jpg/jpeg/png/webp are valid.');
+        return;
+    }
+
+    setFileError(null);
 };

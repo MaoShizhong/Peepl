@@ -9,30 +9,37 @@ import loginStyles from './css/login.module.css';
 
 export function Login({ setUser }) {
     const [activeForm, setActiveForm] = useState('Login');
-    const [errors, setErrors] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const goTo = useNavigate();
 
     async function submitForm(e, demoAccount) {
         e.preventDefault();
+        setLoading(true);
 
-        const form = {};
+        const form = new FormData();
 
         // handle demo account button
         if (demoAccount) {
-            form.email = `demo${demoAccount}@demo.com`;
-            form.password = `${import.meta.env.VITE_DEMO_PW}${demoAccount}`;
+            form.append('email', `demo${demoAccount}@demo.com`);
+            form.append('password', `${import.meta.env.VITE_DEMO_PW}${demoAccount}`);
         } else {
             for (const element of Object.values(e.target)) {
-                if (element instanceof HTMLInputElement) {
-                    form[element.name] = element.value;
+                if (element instanceof HTMLInputElement && !element.files) {
+                    form.append(element.name, element.value);
+                } else if (element.files && element.files.length) {
+                    form.append(element.name, element.files[0]);
                 }
             }
         }
 
         const endpoint = activeForm === 'Login' ? '/auth/sessions/local' : '/auth/users';
 
-        const res = await fetchData(endpoint, 'POST', { data: form, hasFile: false });
+        const res = await fetchData(endpoint, 'POST', {
+            data: form,
+            urlEncoded: activeForm === 'Login',
+        });
 
         if (res instanceof Error) {
             goTo('/error');
@@ -41,16 +48,18 @@ export function Login({ setUser }) {
             setUser(user);
             goTo('/');
         } else if (res.status === 401) {
-            setErrors(true);
+            setError(true);
         } else {
-            const { error } = await res.json();
-            setErrors(error);
+            const { error: fetchError } = await res.json();
+            setError(fetchError);
         }
+
+        setLoading(false);
     }
 
     // Reset errors when changing form
     function changeForm(type) {
-        setErrors(null);
+        setError(null);
         setActiveForm(type);
     }
 
@@ -75,15 +84,23 @@ export function Login({ setUser }) {
                 <form className={loginStyles.loginSignup} onSubmit={submitForm}>
                     {activeForm === 'Login' ? (
                         <>
-                            <LoginForm hasError={errors} />
+                            <LoginForm hasError={Boolean(error)} loading={loading} />
 
                             <div className={loginStyles.demo}>
-                                <DemoLogin demoAccountNumber={1} submitForm={submitForm} />
-                                <DemoLogin demoAccountNumber={2} submitForm={submitForm} />
+                                <DemoLogin
+                                    demoAccountNumber={1}
+                                    submitForm={submitForm}
+                                    loading={loading}
+                                />
+                                <DemoLogin
+                                    demoAccountNumber={2}
+                                    submitForm={submitForm}
+                                    loading={loading}
+                                />
                             </div>
                         </>
                     ) : (
-                        <SignupForm errors={errors} />
+                        <SignupForm error={error} loading={loading} />
                     )}
                 </form>
             </div>

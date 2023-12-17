@@ -8,8 +8,8 @@ const domain =
  * @param {string} endpoint
  * @param {('GET'|'POST'|'PUT'|'PATCH'|'DELETE')} method
  * @param {Object} [form]
- * @param {Object} form.data
- * @param {boolean} [form.hasFile]
+ * @param {FormData} [form.data]
+ * @param {boolean} [form.urlEncoded]
  * @returns {(Promise<Response|Error>)}
  */
 export const fetchData = async (endpoint, method, form) => {
@@ -18,9 +18,14 @@ export const fetchData = async (endpoint, method, form) => {
         method: method,
     };
 
-    // form.data will be FormData object - convert to urlencoded if no file present
-    if (form && form.hasFile) options.body = form.data;
-    else if (form && !form.hasFile) options.body = new URLSearchParams(form.data);
+    /*
+        No content type set when file present to allow browser to automatically
+        set the correct multipart content type (bugs if manually setting multipart).
+        Login form will be urlencoded as form.data is FormData and the backend is
+        not equipped to process multipart data for login only (and it would not
+        make sense to use multer for such a purpose)
+    */
+    if (form) options.body = form.urlEncoded ? new URLSearchParams(form.data) : form.data;
 
     try {
         return await fetch(`${domain}${endpoint}`, options);

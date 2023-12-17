@@ -1,8 +1,9 @@
 import buttonStyles from '../buttons/css/button.module.css';
-import loginStyles from './css/login.module.css';
+import { Loading } from '../loading/Loading';
 import { Input } from './Input';
+import loginStyles from './css/login.module.css';
 
-export function LoginForm({ hasError, setIsForgotModalShowing }) {
+export function LoginForm({ hasError, setIsForgotModalShowing, loading }) {
     return (
         <>
             <div className="sr-only" aria-live="polite">
@@ -37,7 +38,9 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
                 Forgot password?
             </button>
 
-            <button className={buttonStyles.bold}>Login</button>
+            <button className={buttonStyles.bold}>
+                {loading ? <Loading isInButton={true} /> : 'Login'}
+            </button>
 
             <p className={loginStyles.or}>or</p>
 

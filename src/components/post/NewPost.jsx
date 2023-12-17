@@ -17,9 +17,12 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
         e.preventDefault();
 
         const textArea = e.target.body;
+        const form = new FormData();
+        form.append('body', textArea.value);
 
         const postRes = await fetchData(`/users/${user._id}/posts`, 'POST', {
-            data: { body: textArea.value },
+            data: form,
+            urlEncoded: true,
         });
 
         if (postRes instanceof Error) {
