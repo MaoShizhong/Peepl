@@ -1,4 +1,5 @@
-import styles from './css/login.module.css';
+import buttonStyles from '../buttons/css/button.module.css';
+import loginStyles from './css/login.module.css';
 
 export function SignupForm({ errors }) {
     return (
@@ -10,13 +11,13 @@ export function SignupForm({ errors }) {
             {errors && (
                 <ul>
                     {errors.map((error, i) => (
-                        <li key={i} className={styles.error}>
+                        <li key={i} className={loginStyles.error}>
                             {error.msg}
                         </li>
                     ))}
                 </ul>
             )}
-            <p className={styles.reqs}>All fields are required</p>
+            <p className={loginStyles.reqs}>All fields are required</p>
 
             <input
                 name="username"
@@ -57,12 +58,14 @@ export function SignupForm({ errors }) {
                 required
             />
 
-            <p className={styles.reqs} tabIndex={0}>
+            <p className={loginStyles.reqs} tabIndex={0}>
                 Password must be at least 8 characters and include at least 1 uppercase, 1
                 lowercase, and 1 number
             </p>
 
-            <button>Create account</button>
+            <button className={buttonStyles.bold}>Create account</button>
+
+            <p className={loginStyles.or}>or</p>
 
             <a
                 href={`${
@@ -70,7 +73,7 @@ export function SignupForm({ errors }) {
                         ? import.meta.env.VITE_PROD_API
                         : import.meta.env.VITE_DEV_API
                 }/auth/users/github`}
-                className={styles.github_login}
+                className={`${buttonStyles.subtle} ${loginStyles.githubLogin}`}
             >
                 <img src="/github.png" alt="github login logo" />
                 Create account using Github

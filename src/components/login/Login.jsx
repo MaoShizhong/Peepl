@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../../helpers/fetch';
+import { DemoLogin } from '../buttons/DemoLogin';
+import { LoginFormSwitch } from '../buttons/LoginFormSwitch';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
-import styles from './css/login.module.css';
+import loginStyles from './css/login.module.css';
 
 export function Login({ setUser }) {
-    const [formType, setFormType] = useState('login');
+    const [activeForm, setActiveForm] = useState('Login');
     const [errors, setErrors] = useState(null);
 
     const goTo = useNavigate();
@@ -28,7 +30,7 @@ export function Login({ setUser }) {
             }
         }
 
-        const endpoint = formType === 'login' ? '/auth/sessions/local' : '/auth/users';
+        const endpoint = activeForm === 'Login' ? '/auth/sessions/local' : '/auth/users';
 
         const res = await fetchData(endpoint, 'POST', { data: form, hasFile: false });
 
@@ -41,59 +43,43 @@ export function Login({ setUser }) {
         } else if (res.status === 401) {
             setErrors(true);
         } else {
-            const errors = await res.json();
-
-            setErrors(errors);
+            const { error } = await res.json();
+            setErrors(error);
         }
     }
 
     // Reset errors when changing form
     function changeForm(type) {
         setErrors(null);
-        setFormType(type);
+        setActiveForm(type);
     }
 
     return (
-        // static 'login' class for bg-gradient animation for login screen only
-        <main className={styles.noUser}>
-            <div className={styles.container}>
-                <nav className={styles.formSelect}>
-                    <button
-                        className={formType === 'login' ? styles.active : ''}
-                        onClick={() => changeForm('login')}
-                        aria-label="Switch to login screen"
-                    >
-                        Login
-                    </button>
-                    <button
-                        className={formType === 'signup' ? styles.active : ''}
-                        onClick={() => changeForm('signup')}
-                        aria-label="Switch to account creation screen"
-                    >
-                        Create account
-                    </button>
+        <main className={loginStyles.noUser}>
+            <div className={loginStyles.container}>
+                <h1 className={loginStyles.logo}>Peepl</h1>
+
+                <nav className={loginStyles.formSelect}>
+                    <LoginFormSwitch
+                        targetForm="Login"
+                        activeForm={activeForm}
+                        changeForm={changeForm}
+                    />
+                    <LoginFormSwitch
+                        targetForm="Sign up"
+                        activeForm={activeForm}
+                        changeForm={changeForm}
+                    />
                 </nav>
 
-                <form className={styles.loginSignup} onSubmit={submitForm}>
-                    {formType === 'login' ? (
+                <form className={loginStyles.loginSignup} onSubmit={submitForm}>
+                    {activeForm === 'Login' ? (
                         <>
                             <LoginForm hasError={errors} />
 
-                            <div className={styles.demo}>
-                                <button
-                                    type="button"
-                                    onClick={(e) => submitForm(e, 1)}
-                                    aria-label="Login with demo account 1"
-                                >
-                                    Demo account 1
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={(e) => submitForm(e, 2)}
-                                    aria-label="Login with demo account 2"
-                                >
-                                    Demo account 2
-                                </button>
+                            <div className={loginStyles.demo}>
+                                <DemoLogin demoAccountNumber={1} submitForm={submitForm} />
+                                <DemoLogin demoAccountNumber={2} submitForm={submitForm} />
                             </div>
                         </>
                     ) : (

@@ -1,4 +1,5 @@
-import styles from './css/login.module.css';
+import buttonStyles from '../buttons/css/button.module.css';
+import loginStyles from './css/login.module.css';
 
 export function LoginForm({ hasError, setIsForgotModalShowing }) {
     return (
@@ -25,9 +26,11 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
                 required
             />
 
-            {hasError && <p className={styles.error}>Incorrect email or password</p>}
+            {hasError && <p className={loginStyles.error}>Incorrect email or password</p>}
 
-            <button>Login</button>
+            <button className={buttonStyles.bold}>Login</button>
+
+            <p className={loginStyles.or}>or</p>
 
             <a
                 href={`${
@@ -35,7 +38,7 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
                         ? import.meta.env.VITE_PROD_API
                         : import.meta.env.VITE_DEV_API
                 }/auth/users/github`}
-                className={styles.github_login}
+                className={`${buttonStyles.subtle} ${loginStyles.githubLogin}`}
             >
                 <img src="/github.png" alt="github login logo" />
                 Login with Github
@@ -43,7 +46,7 @@ export function LoginForm({ hasError, setIsForgotModalShowing }) {
 
             <button
                 type="button"
-                className={styles.forgot}
+                className={loginStyles.forgot}
                 onClick={() => setIsForgotModalShowing(true)}
             >
                 Forgot password?

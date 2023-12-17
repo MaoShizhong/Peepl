@@ -5,7 +5,7 @@
 }
 
 .subtle {
-    background-color: var(--bg);
+    background-color: color-mix(in hsl, var(--bg) 97%, grey);
     box-shadow: var(--shadow-xs);
     color: var(--text-d);
     padding: 2px 6px;
@@ -13,6 +13,12 @@
 
     &:hover:not([disabled]) {
         box-shadow: var(--shadow-sm);
+    }
+
+    &.active {
+        box-shadow: var(--shadow-sm);
+        color: var(--main-d);
+        font-weight: bold;
     }
 }
 

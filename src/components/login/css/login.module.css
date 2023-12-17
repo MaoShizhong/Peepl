@@ -1,24 +1,48 @@
 .noUser {
-    align-self: center;
+    background: linear-gradient(
+        148deg,
+        rgba(3, 62, 52, 1) 0%,
+        rgba(37, 89, 80, 1) 26%,
+        rgba(42, 119, 103, 1) 52%,
+        rgba(55, 149, 128, 1) 79%,
+        rgb(113, 192, 172) 100%
+    );
     display: grid;
+    flex: 1;
     place-content: center;
 }
 
+@media not (prefers-reduced-motion) {
+    .noUser {
+        animation: breathe 7s ease infinite;
+        background-size: 180% 115%;
+    }
+
+    @keyframes breathe {
+        0% {
+            background-position: 0% 83%;
+        }
+        50% {
+            background-position: 85% 25%;
+        }
+        100% {
+            background-position: 0% 83%;
+        }
+    }
+}
+
 .container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 45vh;
-    transform: translateY(-6rem);
+    background-color: var(--bg);
+    border-radius: 6px;
+    box-shadow: var(--shadow-md);
+    display: grid;
+    padding: 24px;
+    place-items: center;
 }
 
 .logo {
-    position: relative;
-
-    & > img {
-        height: auto;
-        width: 180px;
-    }
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 .github {
@@ -45,22 +69,6 @@
     margin-block: 1.5rem;
 }
 
-.formSelect > button {
-    border: none;
-    flex: 1;
-
-    &:hover:not(.active) {
-        color: var(--accent-l);
-    }
-
-    &.active {
-        color: var(--accent-d);
-        font-weight: 600;
-        text-decoration: underline;
-        text-underline-offset: 5px;
-    }
-}
-
 .loginSignup {
     display: flex;
     flex-direction: column;
@@ -68,31 +76,20 @@
     width: min(80vw, 360px);
 }
 
-.loginSignup > button:not(.forgot),
-.demo > button,
-.github_login {
-    background-color: var(--accent-d);
-    border-radius: 0.75rem;
-    color: var(--fg);
-    padding: 0.35rem;
-
-    &:hover {
-        background-color: var(--accent-l);
-        color: var(--fg-contrast);
-    }
-}
-
 .loginSignup > button:first-of-type,
 .demo {
     margin-top: 1.5rem;
 }
 
-.github_login {
+.or {
+    align-self: center;
+}
+
+.githubLogin {
     align-items: center;
     display: flex;
     gap: 0.5rem;
     justify-content: center;
-    width: 100%;
 
     & > img {
         height: 1.25rem;
@@ -102,11 +99,11 @@
 
 .forgot {
     align-self: flex-end;
-    font-size: 0.75rem;
+    background-color: transparent;
+    font-size: smaller;
     font-style: italic;
 
     &:hover {
-        color: var(--accent-l);
         text-decoration: underline;
     }
 }
