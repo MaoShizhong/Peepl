@@ -207,6 +207,7 @@ export function Profile() {
                         ) : activeTab === 'Gallery' ? (
                             <Gallery
                                 userID={profileUser._id}
+                                setProfileUser={setProfileUser}
                                 isHidden={profileUser.galleryIsHidden}
                                 isOwnProfile={isOwnProfile}
                             />
@@ -234,6 +235,7 @@ export function Profile() {
                             wallPosts={wallPosts}
                             setWallPosts={setWallPosts}
                             setOpenModal={setOpenUploadModal}
+                            uploadTarget="profile picture"
                             ref={uploadRef}
                         />
                     )}

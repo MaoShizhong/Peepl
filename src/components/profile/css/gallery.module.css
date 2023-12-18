@@ -1,0 +1,9 @@
+.sectionHeading {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 17px;
+
+    & > h2 {
+        font-weight: bold;
+    }
+}

@@ -11,18 +11,18 @@ import buttonStyles from '../buttons/css/button.module.css';
 import galleryStyles from './css/gallery.module.css';
 
 export const UploadPhoto = forwardRef(function UploadPhoto(
-    { user, setUser, wallPosts, setWallPosts, setOpenModal },
+    { user, setUser, uploadTarget, wallPosts, setWallPosts, setGallery, setOpenModal },
     modalRef
 ) {
     const [fileError, setFileError] = useState(null);
 
     const goTo = useNavigate();
 
-    async function changeProfilePicture(e) {
+    async function uploadPhoto(e) {
         e.preventDefault();
 
         const form = e.target;
-        const file = form.profilePicture.files[0];
+        const file = form.photo.files[0];
 
         if (fileError) {
             alert('Invalid file type/size. Please try again with a valid file.');
@@ -32,10 +32,20 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
             return;
         }
 
+        let endpoint, method;
         const formData = new FormData();
-        formData.append('profilePicture', file);
 
-        const uploadRes = await fetchData(`/users/${user._id}/profile-picture`, 'PUT', {
+        if (uploadTarget === 'gallery') {
+            formData.append('photo', file);
+            endpoint = `/users/${user._id}/gallery`;
+            method = 'POST';
+        } else {
+            formData.append('profilePicture', file);
+            endpoint = `/users/${user._id}/profile-picture`;
+            method = 'PUT';
+        }
+
+        const uploadRes = await fetchData(endpoint, method, {
             data: formData,
         });
 
@@ -43,6 +53,10 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
             goTo('/error');
         } else if (!uploadRes.ok) {
             console.error(await uploadRes.json());
+        } else if (uploadTarget === 'gallery') {
+            const { photo } = await uploadRes.json();
+            setGallery((prev) => [...prev, photo]);
+            setOpenModal(false);
         } else {
             const { profilePicture: newProfilePicture } = await uploadRes.json();
             const newUser = structuredClone(user);
@@ -65,13 +79,17 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
             ref={modalRef}
             aria-modal
         >
-            <form className={galleryStyles.form} onSubmit={changeProfilePicture}>
-                <label htmlFor="file">Upload new profile picture</label>
+            <form className={galleryStyles.form} onSubmit={uploadPhoto}>
+                <label htmlFor="file">
+                    Upload new {uploadTarget === 'gallery' ? 'photo to gallery' : 'profile picture'}
+                </label>
                 <input
                     id="file"
-                    name="profilePicture"
+                    name="photo"
                     type="file"
-                    aria-label="upload new profile picture"
+                    aria-label={`upload new ${
+                        uploadTarget === 'gallery' ? 'gallery photo' : 'profile picture'
+                    }`}
                     accept=".jpg, .jpeg, .png, .webp"
                     onChange={(e) => checkFileDetails(e, setFileError)}
                     required

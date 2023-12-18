@@ -113,6 +113,34 @@ export const useFeed = (userID) => {
     return { posts, setPosts, loading };
 };
 
+export const useGallery = (userID, shouldFetchGallery) => {
+    const [gallery, setGallery] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function getGallery() {
+            const galleryRes = await fetchData(`/users/${userID}/gallery`, 'GET');
+
+            if (galleryRes instanceof Error || !galleryRes.ok) {
+                alert(SERVER_ERROR);
+            } else {
+                const data = await galleryRes.json();
+                setGallery(data.gallery);
+            }
+
+            setLoading(false);
+        }
+
+        if (!shouldFetchGallery) {
+            getGallery();
+        } else {
+            setLoading(false);
+        }
+    }, [userID, shouldFetchGallery]);
+
+    return { gallery, setGallery, loading };
+};
+
 export const useSearchResults = (query) => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
