@@ -4,6 +4,7 @@ import { useGallery } from '../../helpers/hooks';
 import { ToggleGalleryVisiblity } from '../buttons/ToggleGalleryVisiblity';
 import buttonStyles from '../buttons/css/button.module.css';
 import { Loading } from '../loading/Loading';
+import { Photo } from '../photos/Photo';
 import { Thumbnail } from '../photos/Thumbnail';
 import { UploadPhoto } from '../photos/UploadPhoto';
 import galleryStyles from './css/gallery.module.css';
@@ -16,10 +17,19 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
     const [activePhoto, setActivePhoto] = useState(null);
 
     const uploadRef = useRef(null);
+    const photoRef = useRef(null);
 
     useEffect(() => {
         if (uploadRef.current) uploadRef.current.showModal();
     }, [isUploadModalOpen]);
+
+    useEffect(() => {
+        if (!isPhotoModalOpen) {
+            setActivePhoto(null);
+        } else if (photoRef.current) {
+            photoRef.current.showModal();
+        }
+    }, [isPhotoModalOpen]);
 
     return (
         <section>
@@ -68,6 +78,15 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                         />
                     ))}
                 </div>
+            )}
+
+            {isPhotoModalOpen && (
+                <Photo
+                    photo={activePhoto}
+                    photoURL={activePhoto.url}
+                    setOpenPhotoModal={setIsPhotoModalOpen}
+                    ref={photoRef}
+                />
             )}
         </section>
     );

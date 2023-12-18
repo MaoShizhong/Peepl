@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useMobileLayout, useProfile } from '../../helpers/hooks';
 import { getEducationSummary, getEmploymentSummary, getLocationSummary } from '../../helpers/util';
 import { AddFriend } from '../buttons/AddFriend';
@@ -222,7 +221,7 @@ export function Profile() {
 
                     {openPhotoModal && (
                         <Photo
-                            photo={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                            photoURL={profileUser.profilePicture}
                             setOpenPhotoModal={setOpenPhotoModal}
                             ref={photoRef}
                         />

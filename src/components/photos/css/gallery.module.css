@@ -1,5 +1,10 @@
 .modal {
-    background-color: var(--off-black);
+    background-color: var(--bg);
+    border: none;
+    height: min(fit-content, 90svh);
+    /* max-height: 90svh; */
+    /* max-height: 90svh; */
+    max-width: 90vw;
 
     &::backdrop {
         background-color: rgba(0, 0, 0, 0.856);
@@ -7,7 +12,12 @@
 }
 
 .photo {
-    margin: 24px;
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    padding: min(3%, 20px);
+    width: 100%;
 }
 
 .form {
@@ -19,6 +29,24 @@
 
     & > button {
         align-self: flex-end;
+    }
+}
+
+.thumbnail {
+    border: 1px solid var(--faint-l);
+    padding: 6px;
+    transition: var(--transition);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+
+    & > img {
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
     }
 }
 

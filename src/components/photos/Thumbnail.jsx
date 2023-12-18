@@ -9,7 +9,7 @@ export function Thumbnail({ photo, setActivePhoto, setIsPhotoModalOpen }) {
                 setIsPhotoModalOpen(true);
             }}
         >
-            <img src={photo.url} alt="gallery photo" />
+            <img src={photo.url} alt="gallery photo" height="180" width="180" />
         </div>
     );
 }

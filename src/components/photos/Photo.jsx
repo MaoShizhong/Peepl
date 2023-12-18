@@ -2,7 +2,11 @@ import { forwardRef } from 'react';
 import { closeOnClickOutside } from '../../helpers/util';
 import galleryStyles from './css/gallery.module.css';
 
-export const Photo = forwardRef(function Photo({ photo, setOpenPhotoModal }, modalRef) {
+export const Photo = forwardRef(function Photo(
+    { photo, photoURL, setOpenPhotoModal, isOwnProfile },
+    modalRef
+) {
+    console.log(photo)
     return (
         <dialog
             className={galleryStyles.modal}
@@ -11,7 +15,13 @@ export const Photo = forwardRef(function Photo({ photo, setOpenPhotoModal }, mod
             ref={modalRef}
             aria-modal
         >
-            <img src={photo} alt="gallery photo" className={galleryStyles.photo} />
+            <img
+                src={photoURL}
+                alt="gallery photo"
+                height={photo.height}
+                width={photo.width}
+                className={galleryStyles.photo}
+            />
         </dialog>
     );
 });

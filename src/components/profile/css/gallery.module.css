@@ -7,3 +7,13 @@
         font-weight: bold;
     }
 }
+
+.gallery {
+    --cell-size: 150px;
+
+    display: grid;
+    gap: 16px;
+    grid-auto-rows: var(--cell-size);
+    grid-template-columns: repeat(auto-fit, var(--cell-size));
+    margin-top: 16px;
+}

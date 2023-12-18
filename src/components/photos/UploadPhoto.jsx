@@ -8,6 +8,7 @@ import {
     updateSelfPostsProfilePicture,
 } from '../../helpers/util';
 import buttonStyles from '../buttons/css/button.module.css';
+import { Loading } from '../loading/Loading';
 import galleryStyles from './css/gallery.module.css';
 
 export const UploadPhoto = forwardRef(function UploadPhoto(
@@ -15,20 +16,24 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
     modalRef
 ) {
     const [fileError, setFileError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const goTo = useNavigate();
 
     async function uploadPhoto(e) {
         e.preventDefault();
+        setLoading(true);
 
         const form = e.target;
         const file = form.photo.files[0];
 
         if (fileError) {
             alert('Invalid file type/size. Please try again with a valid file.');
+            setLoading(false);
             return;
         } else if (!file) {
             alert('No file chosen. Please choose a file to upload.');
+            setLoading(false);
             return;
         }
 
@@ -55,7 +60,7 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
             console.error(await uploadRes.json());
         } else if (uploadTarget === 'gallery') {
             const { photo } = await uploadRes.json();
-            setGallery((prev) => [...prev, photo]);
+            setGallery((prev) => [photo, ...prev]);
             setOpenModal(false);
         } else {
             const { profilePicture: newProfilePicture } = await uploadRes.json();
@@ -69,6 +74,8 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
             // without this, wall posts only update profile picture upon refresh/re-fetch
             updateSelfPostsProfilePicture(user._id, newProfilePicture, wallPosts, setWallPosts);
         }
+
+        setLoading(false);
     }
 
     return (
@@ -102,7 +109,9 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
 
                 {fileError && <p className={galleryStyles.error}>{fileError}</p>}
 
-                <button className={buttonStyles.bold}>Upload</button>
+                <button className={buttonStyles.bold}>
+                    {loading ? <Loading isInButton={true} /> : 'Upload'}
+                </button>
             </form>
         </dialog>
     );
