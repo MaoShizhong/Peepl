@@ -25,8 +25,6 @@ export function ProfilePicture({
             <img
                 src={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
                 alt="profile picture"
-                height="150"
-                width="150"
                 onClick={() => setOpenPhotoModal(true)}
             />
 

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useGallery } from '../../helpers/hooks';
-import { ToggleGalleryVisiblity } from '../buttons/ToggleGalleryVisiblity';
 import buttonStyles from '../buttons/css/button.module.css';
 import { Loading } from '../loading/Loading';
 import { Photo } from '../photos/Photo';
 import { Thumbnail } from '../photos/Thumbnail';
 import { UploadPhoto } from '../photos/UploadPhoto';
+import { ToggleGalleryVisiblity } from './ToggleGalleryVisiblity';
 import galleryStyles from './css/gallery.module.css';
 
 export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
@@ -15,6 +15,7 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
     const [activePhoto, setActivePhoto] = useState(null);
+    const [inDeleteMode, setInDeleteMode] = useState(false);
 
     const uploadRef = useRef(null);
     const photoRef = useRef(null);
@@ -33,21 +34,32 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
 
     return (
         <section>
+            {inDeleteMode && <div className={galleryStyles.deleteModeOverlay}></div>}
             <div className={galleryStyles.sectionHeading}>
-                <h2>Gallery</h2>
+                <div className={galleryStyles.left}>
+                    <h2>Gallery</h2>
+                    {isOwnProfile && (
+                        <ToggleGalleryVisiblity
+                            isGalleryHidden={isHidden}
+                            setProfileUser={setProfileUser}
+                        />
+                    )}
+                </div>
                 {isOwnProfile && (
-                    <ToggleGalleryVisiblity
-                        isGalleryHidden={isHidden}
-                        setProfileUser={setProfileUser}
-                    />
-                )}
-                {isOwnProfile && (
-                    <button
-                        onClick={() => setIsUploadModalOpen(true)}
-                        className={buttonStyles.bold}
-                    >
-                        Upload
-                    </button>
+                    <div className={galleryStyles.buttons}>
+                        <button
+                            onClick={() => setInDeleteMode(!inDeleteMode)}
+                            className={buttonStyles.subtle}
+                        >
+                            {inDeleteMode ? 'Cancel' : 'Delete mode'}
+                        </button>
+                        {!inDeleteMode && <button
+                            onClick={() => setIsUploadModalOpen(true)}
+                            className={buttonStyles.bold}
+                        >
+                            Upload
+                        </button>}
+                    </div>
                 )}
             </div>
 
@@ -75,6 +87,8 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                             photo={photo}
                             setActivePhoto={setActivePhoto}
                             setIsPhotoModalOpen={setIsPhotoModalOpen}
+                            setGallery={setGallery}
+                            inDeleteMode={inDeleteMode}
                         />
                     ))}
                 </div>
@@ -85,6 +99,8 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                     photo={activePhoto}
                     photoURL={activePhoto.url}
                     setOpenPhotoModal={setIsPhotoModalOpen}
+                    setGallery={setGallery}
+                    isOwnProfile={userID === user._id}
                     ref={photoRef}
                 />
             )}

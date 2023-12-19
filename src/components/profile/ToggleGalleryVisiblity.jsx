@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import { SERVER_ERROR } from '../../helpers/constants';
 import { fetchData } from '../../helpers/fetch';
+import galleryStyles from './css/gallery.module.css';
 
 export function ToggleGalleryVisiblity({ isGalleryHidden, setProfileUser }) {
     const { user } = useOutletContext();
@@ -35,8 +36,8 @@ export function ToggleGalleryVisiblity({ isGalleryHidden, setProfileUser }) {
     }
 
     return (
-        <div>
-            <label htmlFor="gallery-visibility">Gallery visibility:</label>
+        <div className={galleryStyles.visibility}>
+            <label htmlFor="gallery-visibility">Visibility:</label>
             <select
                 id="gallery-visibility"
                 defaultValue={isGalleryHidden ? 'hidden' : 'visible'}

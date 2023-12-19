@@ -1,10 +1,5 @@
 .modal {
-    background-color: var(--bg);
     border: none;
-    height: min(fit-content, 90svh);
-    /* max-height: 90svh; */
-    /* max-height: 90svh; */
-    max-width: 90vw;
 
     &::backdrop {
         background-color: rgba(0, 0, 0, 0.856);
@@ -12,12 +7,11 @@
 }
 
 .photo {
-    box-sizing: border-box;
+    border: 16px solid var(--bg);
     display: block;
-    height: 100%;
+    max-height: 90svh;
+    max-width: 90vw;
     object-fit: contain;
-    padding: min(3%, 20px);
-    width: 100%;
 }
 
 .form {
@@ -35,6 +29,7 @@
 .thumbnail {
     border: 1px solid var(--faint-l);
     padding: 6px;
+    position: relative;
     transition: var(--transition);
 
     &:hover {
@@ -57,4 +52,12 @@
 .error {
     color: var(--error);
     font-weight: bold;
+}
+
+.deleteThumbnailOverlay {
+    color: var(--bg);
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

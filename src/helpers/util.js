@@ -185,3 +185,10 @@ export const checkFileDetails = (e, setFileError) => {
 
     setFileError(null);
 };
+
+export const extractPhotoID = (url) => {
+    if (!url) return '';
+
+    const sections = url.split('/');
+    return sections.at(-1).replace('.webp', '');
+};

@@ -223,6 +223,7 @@ export function Profile() {
                         <Photo
                             photoURL={profileUser.profilePicture}
                             setOpenPhotoModal={setOpenPhotoModal}
+                            isOwnProfile={isOwnProfile}
                             ref={photoRef}
                         />
                     )}

@@ -3,6 +3,7 @@ import { MOBILE_BREAKPOINT_PX, SERVER_ERROR } from './constants';
 import { fetchData } from './fetch';
 
 export const useAutoLogin = () => {
+
     const [user, setUser] = useState(null);
     const [initialising, setInitialising] = useState(true);
 

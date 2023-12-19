@@ -1,10 +1,25 @@
 .sectionHeading {
+    align-items: center;
     display: flex;
-    justify-content: space-between;
+    gap: 16px;
     margin-top: 17px;
+}
+
+.left {
+    display: flex;
+    font-size: small;
+    gap: 16px;
 
     & > h2 {
+        font-size: medium;
         font-weight: bold;
+    }
+}
+
+@media (max-width: 600px) {
+    .left {
+        flex-direction: column;
+        gap: 4px;
     }
 }
 
@@ -15,5 +30,28 @@
     gap: 16px;
     grid-auto-rows: var(--cell-size);
     grid-template-columns: repeat(auto-fit, var(--cell-size));
+    justify-content: space-evenly;
     margin-top: 16px;
+}
+
+.visibility,
+.buttons {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.buttons {
+    font-size: small;
+    margin-left: auto;
+}
+
+.deleteModeOverlay {
+    background-color: rgba(0, 0, 0, 0.24);
+    height: 100svh;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    width: 100vw;
 }
