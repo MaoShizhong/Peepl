@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import inputStyles from './css/input.module.css';
 
-export function Input({ labelText, name, type, ariaLabel, pattern, autoComplete, isRequired }) {
+export function Input({
+    labelText,
+    name,
+    type,
+    ariaLabel,
+    pattern,
+    autoComplete,
+    defaultValue,
+    isRequired,
+}) {
     const [hasFocus, setHasFocus] = useState(false);
     const [hasValue, setHasValue] = useState(false);
 
@@ -23,6 +32,7 @@ export function Input({ labelText, name, type, ariaLabel, pattern, autoComplete,
                 placeholder="" // for floating label when not in focus
                 pattern={pattern}
                 autoComplete={autoComplete}
+                defaultValue={defaultValue}
                 required={isRequired}
                 onFocus={() => setHasFocus(true)}
                 onBlur={() => setHasFocus(false)}

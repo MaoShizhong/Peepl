@@ -1,6 +1,6 @@
 import buttonStyles from '../buttons/css/button.module.css';
+import { Input } from '../inputs/Input';
 import { Loading } from '../loading/Loading';
-import { Input } from './Input';
 import loginStyles from './css/login.module.css';
 
 export function LoginForm({ hasError, setIsForgotModalShowing, loading }) {
