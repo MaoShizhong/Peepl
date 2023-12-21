@@ -3,7 +3,6 @@ import { MOBILE_BREAKPOINT_PX, SERVER_ERROR } from './constants';
 import { fetchData } from './fetch';
 
 export const useAutoLogin = () => {
-
     const [user, setUser] = useState(null);
     const [initialising, setInitialising] = useState(true);
 
@@ -34,7 +33,11 @@ export const useAutoLogin = () => {
 export const useCloseDropdown = (dropdown, headerButton, setIsDropdownOpen) => {
     useEffect(() => {
         function closeDropdown(e) {
-            if (dropdown.current.contains(e.target) || headerButton.current.contains(e.target)) {
+            if (
+                !dropdown.current ||
+                dropdown.current.contains(e.target) ||
+                headerButton.current.contains(e.target)
+            ) {
                 return;
             }
 

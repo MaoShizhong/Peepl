@@ -44,6 +44,7 @@
 .buttons {
     font-size: small;
     margin-left: auto;
+    z-index: 100;
 }
 
 .deleteModeOverlay {
