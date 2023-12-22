@@ -93,6 +93,10 @@ export const getLocaleDateFormat = () => {
         .join('');
 };
 
+export const toYYYYMMDD = (ISODateString) => {
+    return ISODateString.split('T')[0];
+};
+
 export const sortFriends = (friendsList) => {
     const incoming = friendsList.filter((friend) => friend.status === 'incoming');
     const requested = friendsList.filter((friend) => friend.status === 'requested');
