@@ -33,7 +33,11 @@ export function EditInfo() {
                                         : `expand ${section} section`
                                 }
                             >
-                                {isExpanded ? <TriangleUp /> : <TriangleDown />}
+                                {isExpanded ? (
+                                    <Triangle direction="up" />
+                                ) : (
+                                    <Triangle direction="down" />
+                                )}
                             </button>
                             <hr />
                         </div>
@@ -48,23 +52,15 @@ export function EditInfo() {
     );
 }
 
-function TriangleUp() {
+function Triangle({ direction }) {
     return (
         <svg fill="#000000" viewBox="0 -3 24 24" width="22px" height="22px">
             <g>
-                <path d="M18.5,15.5l-6-7l-6,7H18.5z"></path>
-                <rect width="24" height="24" fill="none"></rect>
-                <rect width="24" height="24" fill="none"></rect>
-            </g>
-        </svg>
-    );
-}
-
-function TriangleDown() {
-    return (
-        <svg fill="#000000" viewBox="0 -3 24 24" width="22px" height="22px">
-            <g>
-                <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
+                {direction === 'up' ? (
+                    <path d="M18.5,15.5l-6-7l-6,7H18.5z"></path>
+                ) : (
+                    <path d="M6.5,8.5l6,7l6-7H6.5z"></path>
+                )}
                 <rect width="24" height="24" fill="none"></rect>
                 <rect width="24" height="24" fill="none"></rect>
             </g>
