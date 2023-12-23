@@ -11,8 +11,8 @@ export function Input({
     defaultValue,
     isRequired,
 }) {
-    const [hasFocus, setHasFocus] = useState(Boolean(defaultValue));
-    const [hasValue, setHasValue] = useState(false);
+    const [hasFocus, setHasFocus] = useState(false);
+    const [hasValue, setHasValue] = useState(Boolean(defaultValue));
 
     function getTypeForLabelPositioning() {
         if (hasValue || hasFocus) {
