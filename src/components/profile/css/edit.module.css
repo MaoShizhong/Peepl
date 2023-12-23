@@ -1,13 +1,38 @@
-.modal {
-    border-radius: 5px;
-}
-
 .form {
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 20px;
-    width: min(80vw, 400px);
+}
+
+.sectionHeading {
+    --padding-from-hr: 8px;
+
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    & hr {
+        border: none;
+        border-top: 1px solid var(--faint-l);
+        position: absolute;
+        width: 100%;
+    }
+
+    & :not(hr) {
+        background-color: var(--bg);
+        z-index: 100;
+    }
+
+    & h2 {
+        font-weight: bold;
+        padding-right: var(--padding-from-hr);
+    }
+
+    & button {
+        padding-left: var(--padding-from-hr);
+    }
 }
 
 .hasVisibility {
@@ -18,10 +43,4 @@
     & > :last-child {
         align-self: flex-end;
     }
-}
-
-.buttons {
-    align-self: flex-end;
-    display: flex;
-    gap: 8px;
 }

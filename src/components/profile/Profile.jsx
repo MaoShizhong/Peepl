@@ -16,8 +16,9 @@ import { ProfilePicture } from './ProfilePicture';
 import { Wall } from './Wall';
 import profileStyles from './css/profile.module.css';
 import wallStyles from './css/wall.module.css';
+import { EditInfo } from './edit/EditInfo';
 
-const tabs = ['Wall', 'Info', 'Gallery', 'Friends'];
+const tabs = ['Wall', 'Info', 'Edit Info', 'Gallery', 'Friends'];
 
 export function Profile() {
     const { handle } = useParams();
@@ -72,22 +73,31 @@ export function Profile() {
                                 setOpenUploadModal={setOpenUploadModal}
                             />
                             <nav className={profileStyles.tabs}>
-                                {tabs.map((tab, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => setActiveTab(tab)}
-                                        className={activeTab === tab ? profileStyles.activeTab : ''}
-                                    >
-                                        {tab}
-                                        {tab === 'Friends'
-                                            ? ` (${
-                                                  friendsList.filter(
-                                                      (friend) => friend.status === 'accepted'
-                                                  ).length
-                                              })`
-                                            : ''}
-                                    </button>
-                                ))}
+                                {tabs.map((tab, i) => {
+                                    if (!isOwnProfile && tab === 'Edit Info') {
+                                        return null;
+                                    } else {
+                                        return (
+                                            <button
+                                                key={i}
+                                                onClick={() => setActiveTab(tab)}
+                                                className={
+                                                    activeTab === tab ? profileStyles.activeTab : ''
+                                                }
+                                            >
+                                                {tab}
+                                                {tab === 'Friends'
+                                                    ? ` (${
+                                                          friendsList.filter(
+                                                              (friend) =>
+                                                                  friend.status === 'accepted'
+                                                          ).length
+                                                      })`
+                                                    : ''}
+                                            </button>
+                                        );
+                                    }
+                                })}
                             </nav>
                         </div>
                     )}
@@ -202,7 +212,9 @@ export function Profile() {
                                 isFriend={isAcceptedFriend}
                             />
                         ) : activeTab === 'Info' ? (
-                            <ProfileInfo user={profileUser} isOwnProfile={isOwnProfile} />
+                            <ProfileInfo user={profileUser} />
+                        ) : activeTab === 'Edit Info' ? (
+                            <EditInfo />
                         ) : activeTab === 'Gallery' ? (
                             <Gallery
                                 userID={profileUser._id}
