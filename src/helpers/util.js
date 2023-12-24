@@ -94,7 +94,7 @@ export const getLocaleDateFormat = () => {
 };
 
 export const toYYYYMMDD = (ISODateString) => {
-    return ISODateString.split('T')[0];
+    if (ISODateString) return ISODateString.split('T')[0];
 };
 
 export const sortFriends = (friendsList) => {

@@ -24,11 +24,9 @@ export function AccountMenu({ setIsOpen, button, setUser, userHandle, userID }) 
             aria-label="account menu dropdown"
             ref={dropdownRef}
         >
-            <button>
-                <Link to={`/${userHandle}`} reloadDocument>
-                    Profile
-                </Link>
-            </button>
+            <Link to={`/${userHandle}`} reloadDocument>
+                Profile
+            </Link>
             <button>Account settings</button>
             <button onClick={logout}>Logout</button>
         </div>

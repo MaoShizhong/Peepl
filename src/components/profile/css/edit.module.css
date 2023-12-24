@@ -3,6 +3,16 @@
     flex-direction: column;
     gap: 12px;
     padding: 20px;
+
+    &.arrayForm {
+        gap: 24px;
+    }
+}
+
+.entry {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .sectionHeading {
@@ -15,7 +25,7 @@
 
     & hr {
         border: none;
-        border-top: 1px solid var(--faint-l);
+        border-top: 1px solid var(--faint-d);
         position: absolute;
         width: 100%;
     }
@@ -45,6 +55,22 @@
     }
 }
 
+.remove,
 .submit {
     align-self: flex-end;
+}
+
+.remove {
+    font-size: small;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+        align-items: center;
+        display: flex;
+        gap: 12px;
+    }
 }

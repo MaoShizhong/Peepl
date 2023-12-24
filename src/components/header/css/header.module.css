@@ -70,7 +70,7 @@
     right: var(--nav-r-padding);
     text-align: left;
 
-    & > button:hover {
+    & > :hover {
         color: var(--main-l);
         text-decoration: underline;
     }

@@ -10,6 +10,7 @@ const domain =
  * @param {Object} [form]
  * @param {FormData} [form.data]
  * @param {boolean} [form.urlEncoded]
+ * @param {boolean} [form.asJSON]
  * @returns {(Promise<Response|Error>)}
  */
 export const fetchData = async (endpoint, method, form) => {
@@ -25,7 +26,18 @@ export const fetchData = async (endpoint, method, form) => {
         not equipped to process multipart data for login only (and it would not
         make sense to use multer for such a purpose)
     */
-    if (form) options.body = form.urlEncoded ? new URLSearchParams(form.data) : form.data;
+    if (form) {
+        if (form.urlEncoded) {
+            options.body = new URLSearchParams(form.data);
+        } else if (form.asJSON) {
+            options.body = form.data;
+            options.headers = {
+                'Content-Type': 'application/json',
+            };
+        } else {
+            options.body = form.data;
+        }
+    }
 
     try {
         return await fetch(`${domain}${endpoint}`, options);

@@ -9,6 +9,7 @@ export function Input({
     pattern,
     autoComplete,
     defaultValue,
+    onInput,
     isRequired,
 }) {
     const [hasFocus, setHasFocus] = useState(false);
@@ -36,6 +37,9 @@ export function Input({
                 required={isRequired}
                 onFocus={() => setHasFocus(true)}
                 onBlur={() => setHasFocus(false)}
+                onInput={(e) => {
+                    if (onInput) onInput(e);
+                }}
                 onChange={(e) => setHasValue(Boolean(e.target.value))}
             />
             <label htmlFor={name}>{isRequired ? `${labelText} (required)` : labelText}</label>
