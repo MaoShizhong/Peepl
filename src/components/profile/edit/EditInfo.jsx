@@ -5,7 +5,7 @@ import { Details } from './Details';
 
 const SECTIONS = { details: true, employment: false, education: false };
 
-export function EditInfo() {
+export function EditInfo({ profileUser, setProfileUser }) {
     const [expandedSections, setExpandedSections] = useState(SECTIONS);
 
     return (
@@ -41,7 +41,9 @@ export function EditInfo() {
                             </button>
                             <hr />
                         </div>
-                        {section === 'details' && isExpanded && <Details />}
+                        {section === 'details' && isExpanded && (
+                            <Details profileUser={profileUser} setProfileUser={setProfileUser} />
+                        )}
                         {section !== 'details' && isExpanded && (
                             <ArrayDetails detailsType={section} />
                         )}

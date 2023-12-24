@@ -212,9 +212,9 @@ export function Profile() {
                                 isFriend={isAcceptedFriend}
                             />
                         ) : activeTab === 'Info' ? (
-                            <ProfileInfo user={profileUser} />
+                            <ProfileInfo profileUser={profileUser} />
                         ) : activeTab === 'Edit Info' ? (
-                            <EditInfo />
+                            <EditInfo profileUser={profileUser} setProfileUser={setProfileUser} />
                         ) : activeTab === 'Gallery' ? (
                             <Gallery
                                 userID={profileUser._id}

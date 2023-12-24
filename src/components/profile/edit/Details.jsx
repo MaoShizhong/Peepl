@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { SERVER_ERROR } from '../../../helpers/constants';
 import { fetchData } from '../../../helpers/fetch';
 import { toYYYYMMDD } from '../../../helpers/util';
@@ -10,13 +10,17 @@ import { Loading } from '../../loading/Loading';
 import errorStyles from '../../login/css/login.module.css';
 import editStyles from '../css/edit.module.css';
 
-export function Details() {
+export function Details({ setProfileUser }) {
     const { user, setUser } = useOutletContext();
     const [loading, setLoading] = useState(false);
     const [editError, setEditError] = useState(null);
 
+    const changeURL = useNavigate();
+
     async function submitChanges(e) {
         e.preventDefault();
+        setEditError(null);
+        setLoading(true);
 
         const form = e.target;
         const formData = {};
@@ -31,11 +35,41 @@ export function Details() {
             urlEncoded: true,
         });
 
-        if (editRes instanceof Error || !editRes.ok) {
+        if (editRes instanceof Error) {
             alert(SERVER_ERROR);
+        } else if (!editRes.ok) {
+            const { error } = await editRes.json();
+            setEditError(error);
         } else {
             const { updatedUser } = await editRes.json();
+            setUser(updatedUser);
+            setProfileUser({
+                _id: updatedUser._id,
+                handle: updatedUser.handle,
+                profilePicture: updatedUser.profilePicture,
+                galleryIsHidden: updatedUser.galleryIsHidden,
+                name: `${updatedUser.details.firstName} ${updatedUser.details.lastName}`,
+                ...(updatedUser.details.DOB.visibility !== 'hidden' && {
+                    DOB: updatedUser.details.DOB.value,
+                }),
+                ...(updatedUser.details.city.visibility !== 'hidden' && {
+                    city: updatedUser.details.city.value,
+                }),
+                ...(updatedUser.details.country.visibility !== 'hidden' && {
+                    country: updatedUser.details.country.value,
+                }),
+                ...(updatedUser.details.employment.visibility !== 'hidden' && {
+                    employment: updatedUser.details.employment.value,
+                }),
+                ...(updatedUser.details.education.visibility !== 'hidden' && {
+                    education: updatedUser.details.education.value,
+                }),
+            });
+
+            changeURL(`/${updatedUser.handle}`, { replace: true });
         }
+
+        setLoading(false);
     }
 
     return (
@@ -111,7 +145,11 @@ export function Details() {
             </div>
 
             {editError && <p className={errorStyles.error}>{editError}</p>}
-            <button type="submit" className={buttonStyles.bold} disabled={loading}>
+            <button
+                type="submit"
+                className={`${buttonStyles.bold} ${editStyles.submit}`}
+                disabled={loading}
+            >
                 {loading ? <Loading isInButton={true} /> : 'Submit new details'}
             </button>
         </form>

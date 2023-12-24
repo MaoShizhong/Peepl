@@ -1,8 +1,8 @@
 import { getEntryDateRange, toDateString } from '../../helpers/util';
 import infoStyles from './css/info.module.css';
 
-export function ProfileInfo({ user }) {
-    const detailsHidden = !user.DOB && !user.city && !user.country;
+export function ProfileInfo({ profileUser }) {
+    const detailsHidden = !profileUser.DOB && !profileUser.city && !profileUser.country;
 
     return (
         <div className={infoStyles.info}>
@@ -17,22 +17,22 @@ export function ProfileInfo({ user }) {
                     </div>
                 ) : (
                     <div className={infoStyles.entry}>
-                        {user.DOB && (
+                        {profileUser.DOB && (
                             <div>
                                 <span>Birthday: </span>
-                                {toDateString(user.DOB)}
+                                {toDateString(profileUser.DOB)}
                             </div>
                         )}
-                        {user.city && (
+                        {profileUser.city && (
                             <div>
                                 <span>City: </span>
-                                {user.city}
+                                {profileUser.city}
                             </div>
                         )}
-                        {user.country && (
+                        {profileUser.country && (
                             <div>
                                 <span>Country: </span>
-                                {user.country}
+                                {profileUser.country}
                             </div>
                         )}
                     </div>
@@ -46,13 +46,13 @@ export function ProfileInfo({ user }) {
                     <h2>Employment</h2>
                 </div>
 
-                {!user.employment || !user.employment.length ? (
+                {!profileUser.employment || !profileUser.employment.length ? (
                     <div className={infoStyles.hidden}>
                         This user does not have anything shown here.
                     </div>
                 ) : (
                     <>
-                        {user.employment.map((job, i) => (
+                        {profileUser.employment.map((job, i) => (
                             <div key={i} className={infoStyles.entry}>
                                 <h3>{job.company}</h3>
                                 <p>
@@ -72,13 +72,13 @@ export function ProfileInfo({ user }) {
                     <h2>Education</h2>
                 </div>
 
-                {!user.education || !user.education.length ? (
+                {!profileUser.education || !profileUser.education.length ? (
                     <div className={infoStyles.hidden}>
                         This user does not have anything shown here.
                     </div>
                 ) : (
                     <>
-                        {user.education.map((education, i) => (
+                        {profileUser.education.map((education, i) => (
                             <div key={i} className={infoStyles.entry}>
                                 <h3>{education.institution}</h3>
                                 {education.course && <p>{education.course}</p>}
