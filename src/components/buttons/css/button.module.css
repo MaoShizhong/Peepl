@@ -6,13 +6,13 @@
 
 .subtle {
     background-color: color-mix(in hsl, var(--bg) 97%, grey);
-    box-shadow: var(--shadow-xs);
+    box-shadow: var(--shadow-sm);
     color: var(--text-d);
     padding: 2px 6px;
     transition: var(--transition);
 
     &:hover:not([disabled]) {
-        box-shadow: var(--shadow-sm);
+        box-shadow: var(--shadow-md);
     }
 }
 
@@ -36,6 +36,7 @@
     background-color: var(--main-m);
     border: 2px solid transparent;
     border-radius: 2px;
+    box-shadow: var(--shadow-xs);
     color: var(--text-l);
     font-weight: bold;
     padding-inline: 6px;

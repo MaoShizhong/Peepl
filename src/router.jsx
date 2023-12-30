@@ -5,6 +5,8 @@ import { Feed } from './components/feed/Feed';
 import { Profile } from './components/profile/Profile';
 import { SearchPage } from './components/search/SearchPage';
 import { Settings } from './components/settings/Settings';
+import { AccountDeletion } from './components/token_auth/AccountDeletion';
+import { PasswordReset } from './components/token_auth/PasswordReset';
 
 export const router = createBrowserRouter([
     {
@@ -18,5 +20,13 @@ export const router = createBrowserRouter([
             { path: '/settings', element: <Settings /> },
             { path: '/error', element: <ErrorPage /> },
         ],
+    },
+    {
+        path: '/password-reset/:token',
+        element: <PasswordReset />,
+    },
+    {
+        path: '/delete-account/:token',
+        element: <AccountDeletion />,
     },
 ]);

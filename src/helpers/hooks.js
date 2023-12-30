@@ -190,3 +190,26 @@ export const useMobileLayout = () => {
 
     return isSmallWidth;
 };
+
+export const useTokenValidation = (type, token) => {
+    const [isValidToken, setIsValidToken] = useState(false);
+    const [validating, setValidating] = useState(true);
+
+    useEffect(() => {
+        async function validateToken() {
+            const validateRes = await fetchData(`/auth/${type}-tokens/${token}`, 'PUT');
+
+            if (validateRes instanceof Error) {
+                alert(SERVER_ERROR);
+            } else if (validateRes.ok) {
+                setIsValidToken(true);
+            }
+
+            setValidating(false);
+        }
+
+        validateToken();
+    }, [type, token]);
+
+    return { isValidToken, validating };
+};

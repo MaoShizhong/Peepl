@@ -1,0 +1,79 @@
+.main {
+    background: linear-gradient(
+        148deg,
+        rgba(3, 62, 52, 1) 0%,
+        rgba(37, 89, 80, 1) 26%,
+        rgba(42, 119, 103, 1) 52%,
+        rgba(55, 149, 128, 1) 79%,
+        rgb(113, 192, 172) 100%
+    );
+    display: grid;
+    flex: 1;
+    place-content: center;
+
+    /* Loading spinner */
+    & > div {
+        color: var(--text-l);
+    }
+}
+
+.content,
+.form {
+    background-color: var(--bg);
+    border-radius: 6px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+}
+
+.content {
+    align-items: center;
+    gap: 24px;
+
+    & > h1 {
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    & > a {
+        color: var(--text-l);
+    }
+}
+
+.form {
+    gap: 16px;
+
+    & input {
+        width: min(80vw, 300px);
+    }
+}
+
+.reqs {
+    font-size: small;
+    max-width: 200px;
+
+    & > p {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    & > ul {
+        list-style: disc;
+        padding-left: 16px;
+    }
+}
+
+.logo {
+    composes: logo from '../../login/css/login.module.css';
+    text-align: center;
+
+    & + h2 {
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.error {
+    composes: error from '../../login/css/login.module.css';
+}
