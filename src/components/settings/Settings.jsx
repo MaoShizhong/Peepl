@@ -8,13 +8,19 @@ import settingsStyles from './css/settings.module.css';
 export function Settings() {
     const { user } = useOutletContext();
 
-    async function confirmSendAccountDeletionEmail() {
+    async function confirmSendEmailWithLink(type) {
         if (user.isDemo) {
-            alert('Cannot delete demo account.');
+            alert(
+                type === 'password'
+                    ? 'Cannot change demo account password.'
+                    : 'Cannot delete demo account.'
+            );
             return;
         }
 
-        let confirmationMessage = `${user.email}\nA one-time-use link to confirm account deletion will be sent to the above email.`;
+        let confirmationMessage = `${user.email}\nA one-time-use link to ${
+            type === 'password' ? 'reset your password' : 'confirm account deletion'
+        } will be sent to the above email associated with your account.`;
         if (user.isGithub) {
             confirmationMessage +=
                 '\nIf this is not the same email registered to your Github account, please log out then log back in and try again.';
@@ -23,12 +29,14 @@ export function Settings() {
         const confirmation = confirm(confirmationMessage);
         if (!confirmation) return;
 
-        const deleteRes = await fetchData(`/users/${user._id}`, 'DELETE');
+        const endpoint = type === 'password' ? `/users/${user._id}/password` : `/users/${user._id}`;
+        const method = type === 'password' ? 'PATCH' : 'DELETE';
+        const emailRes = await fetchData(endpoint, method);
 
-        if (deleteRes instanceof Error || !deleteRes.ok) {
+        if (emailRes instanceof Error || !emailRes.ok) {
             alert(SERVER_ERROR);
         } else {
-            alert('Delete link sent to the email associated with this account.');
+            alert('An email containing a one-time use link has sent to the email associated with this account.');
         }
     }
 
@@ -38,9 +46,23 @@ export function Settings() {
                 Settings
             </div>
 
-            {!user.isGithub && <ChangeEmail />}
+            {!user.isGithub && (
+                <>
+                    <ChangeEmail />
 
-            <button className={buttonStyles.subtle} onClick={confirmSendAccountDeletionEmail}>
+                    <button
+                        className={buttonStyles.subtle}
+                        onClick={() => confirmSendEmailWithLink('password')}
+                    >
+                        Request password reset
+                    </button>
+                </>
+            )}
+
+            <button
+                className={buttonStyles.subtle}
+                onClick={() => confirmSendEmailWithLink('deletion')}
+            >
                 Request account deletion
             </button>
         </main>
