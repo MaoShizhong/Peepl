@@ -110,11 +110,13 @@ export function Friends({ friendsList, setFriendsList, isOwnProfile }) {
                             {getFullNameFromDetails(friend.user)}
                         </Link>
 
-                        <RemoveFriend
-                            userID={friend.user._id}
-                            setFriendsList={setFriendsList}
-                            page="friends"
-                        />
+                        {isOwnProfile && (
+                            <RemoveFriend
+                                userID={friend.user._id}
+                                setFriendsList={setFriendsList}
+                                page="friends"
+                            />
+                        )}
                     </div>
                 ))}
             </div>
