@@ -15,8 +15,10 @@ export function AccountDeletion() {
     async function confirmAccountDeletion() {
         const deleteRes = await fetchData(`/auth/deletion-tokens/${token}`, 'DELETE');
 
-        if (deleteRes instanceof Error) {
+        if (deleteRes instanceof Error || !deleteRes.ok) {
             alert(SERVER_ERROR);
+            const data = await deleteRes.json();
+            console.log(data);
         } else {
             alert('Account successfully deleted.');
             goTo('/');
@@ -43,7 +45,7 @@ export function AccountDeletion() {
                         Yes, delete my account
                     </button>
 
-                    <a className={buttonStyles.subtle} href="/">
+                    <a className={`${buttonStyles.subtle} ${authStyles.darkText}`} href="/">
                         No, I do not want to delete my account
                     </a>
                 </section>

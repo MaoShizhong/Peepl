@@ -66,7 +66,7 @@ export function Login({ setUser }) {
     return (
         <main className={loginStyles.noUser}>
             <div className={loginStyles.container}>
-                <h1 className={loginStyles.logo}>Peepl</h1>
+                <img src="/logo.png" className={loginStyles.logo} alt="peepl logo" />
 
                 <nav className={loginStyles.formSelect}>
                     <LoginFormSwitch

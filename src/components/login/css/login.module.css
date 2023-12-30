@@ -1,5 +1,5 @@
 .noUser {
-    align-items: flex-start;
+    align-items: center;
     background: linear-gradient(
         148deg,
         rgba(3, 62, 52, 1) 0%,
@@ -10,7 +10,7 @@
     );
     display: flex;
     flex: 1;
-    justify-content: center;
+    flex-direction: column;
 }
 
 @media not (prefers-reduced-motion) {
@@ -37,15 +37,15 @@
     border-radius: 6px;
     box-shadow: var(--shadow-md);
     display: grid;
-    margin-top: 96px;
+    margin-block: 7svh;
     padding: 24px;
     place-items: center;
+    transform-origin: center;
 }
 
 .logo {
-    color: var(--main-d);
-    font-size: xx-large;
-    font-weight: bold;
+    height: auto;
+    width: 200px;
 }
 
 .formSelect {
