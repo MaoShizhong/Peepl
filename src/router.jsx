@@ -4,6 +4,7 @@ import { ErrorPage } from './components/error/ErrorPage';
 import { Feed } from './components/feed/Feed';
 import { Profile } from './components/profile/Profile';
 import { SearchPage } from './components/search/SearchPage';
+import { Settings } from './components/settings/Settings';
 
 export const router = createBrowserRouter([
     {
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
             { path: '/feed?', element: <Feed /> },
             { path: '/:handle', element: <Profile /> },
             { path: '/search', element: <SearchPage /> },
+            { path: '/settings', element: <Settings /> },
             { path: '/error', element: <ErrorPage /> },
         ],
     },

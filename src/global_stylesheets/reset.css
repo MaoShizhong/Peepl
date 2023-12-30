@@ -133,9 +133,12 @@ table {
 }
 
 /* Custom */
-body {
+body,
+button,
+textarea {
     background-color: var(--bg);
 }
+
 
 a,
 button {

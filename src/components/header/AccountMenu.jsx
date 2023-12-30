@@ -27,7 +27,7 @@ export function AccountMenu({ setIsOpen, button, setUser, userHandle, userID }) 
             <Link to={`/${userHandle}`} reloadDocument>
                 Profile
             </Link>
-            <button>Account settings</button>
+            <Link to="/settings">Account settings</Link>
             <button onClick={logout}>Logout</button>
         </div>
     );

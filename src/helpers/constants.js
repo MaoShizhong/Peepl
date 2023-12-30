@@ -1,3 +1,5 @@
+export const PASSWORD_REQUIREMENTS_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
+
 export const DEFAULT_PROFILE_PICTURE =
     'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
 

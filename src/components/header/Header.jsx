@@ -93,7 +93,8 @@ export function Header({ setUser, userHandle, userID }) {
                     </form>
 
                     <nav className={headerStyles.nav}>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Feed</Link>
+
                         <button
                             aria-controls="account-menu-dropdown"
                             aria-expanded={accountIsOpen}

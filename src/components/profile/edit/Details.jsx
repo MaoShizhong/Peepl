@@ -7,7 +7,6 @@ import buttonStyles from '../../buttons/css/button.module.css';
 import { Input } from '../../inputs/Input';
 import { VisibilitySelect } from '../../inputs/VisibilitySelect';
 import { Loading } from '../../loading/Loading';
-import errorStyles from '../../login/css/login.module.css';
 import editStyles from '../css/edit.module.css';
 
 export function Details({ setProfileUser }) {
@@ -144,7 +143,7 @@ export function Details({ setProfileUser }) {
                 />
             </div>
 
-            {editError && <p className={errorStyles.error}>{editError}</p>}
+            {editError && <p className={editStyles.error}>{editError}</p>}
             <button
                 type="submit"
                 className={`${buttonStyles.bold} ${editStyles.submit}`}

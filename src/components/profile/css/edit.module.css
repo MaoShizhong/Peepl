@@ -74,3 +74,7 @@
         gap: 12px;
     }
 }
+
+.error {
+    composes: error from '../../login/css/login.module.css';
+}

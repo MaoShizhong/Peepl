@@ -1,0 +1,24 @@
+.main {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 48px;
+    padding: 32px;
+}
+
+.changeEmail {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(300px, 80vw);
+
+    & > button,
+    & > .error {
+        align-self: flex-end;
+    }
+}
+
+.error {
+    composes: error from '../../login/css/login.module.css';
+}

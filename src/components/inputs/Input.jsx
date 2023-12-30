@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PASSWORD_REQUIREMENTS_PATTERN } from '../../helpers/constants';
 import inputStyles from './css/input.module.css';
 
 export function Input({
@@ -6,7 +7,6 @@ export function Input({
     name,
     type,
     ariaLabel,
-    pattern,
     autoComplete,
     defaultValue,
     onInput,
@@ -31,7 +31,7 @@ export function Input({
                 type={type === 'date' ? getTypeForLabelPositioning() : type}
                 aria-label={ariaLabel}
                 placeholder="" // for floating label when not in focus
-                pattern={pattern}
+                pattern={type === 'password' ? PASSWORD_REQUIREMENTS_PATTERN : undefined}
                 autoComplete={autoComplete}
                 defaultValue={defaultValue}
                 required={isRequired}

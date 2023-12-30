@@ -35,7 +35,6 @@ export function SignupForm({ error, loading }) {
                     type="password"
                     aria-label="enter password"
                     autoComplete="new-password"
-                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
                     isRequired={true}
                 />
                 <Input
@@ -44,7 +43,6 @@ export function SignupForm({ error, loading }) {
                     type="password"
                     aria-label="confirm password"
                     autoComplete="off"
-                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
                     isRequired={true}
                 />
             </fieldset>
