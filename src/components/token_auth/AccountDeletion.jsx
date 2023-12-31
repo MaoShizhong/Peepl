@@ -17,8 +17,6 @@ export function AccountDeletion() {
 
         if (deleteRes instanceof Error || !deleteRes.ok) {
             alert(SERVER_ERROR);
-            const data = await deleteRes.json();
-            console.log(data);
         } else {
             alert('Account successfully deleted.');
             goTo('/');

@@ -11,7 +11,6 @@ export function SearchPage() {
     const goTo = useNavigate();
 
     const { results, setResults, loading } = useSearchResults(query);
-    console.log(results);
 
     function goToSearchResults(e) {
         e.preventDefault();

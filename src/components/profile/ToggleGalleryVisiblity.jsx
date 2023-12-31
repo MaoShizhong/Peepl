@@ -7,7 +7,6 @@ export function ToggleGalleryVisiblity({ isGalleryHidden, setProfileUser }) {
     const { user } = useOutletContext();
 
     async function changeVisibility(e) {
-        console.log(e.target.value);
         const checkValue = isGalleryHidden ? 'hidden' : 'visible';
 
         /*

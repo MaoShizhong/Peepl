@@ -6,7 +6,7 @@ import { Loading } from '../loading/Loading';
 import buttonStyles from './css/button.module.css';
 
 export function RespondFR({ userID, action, setFriendsList, page }) {
-    const { user } = useOutletContext();
+    const { user, setIncomingFriendRequests } = useOutletContext();
     const [loading, setLoading] = useState(false);
 
     async function respondToFriendRequest() {
@@ -35,6 +35,9 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
                 target.status = 'accepted';
                 return clonedList;
             });
+            setIncomingFriendRequests((prev) =>
+                prev.filter((request) => request.user._id !== userID)
+            );
         } else {
             let setFriendsListCallback;
             if (page === 'friends') {
@@ -53,6 +56,9 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
             }
 
             setFriendsList(setFriendsListCallback);
+            setIncomingFriendRequests((prev) =>
+                prev.filter((request) => request.user._id !== userID)
+            );
         }
 
         setLoading(false);

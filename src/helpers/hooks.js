@@ -214,6 +214,27 @@ export const useTokenValidation = (type, token) => {
     return { isValidToken, validating };
 };
 
+export const useIncomingFriendRequests = (user) => {
+    const [incomingFriendRequests, setIncomingFriendRequests] = useState([]);
+
+    useEffect(() => {
+        async function getIncomingFriendRequests() {
+            const frRes = await fetchData(`/users/${user._id}/friends`);
+
+            if (frRes instanceof Error) {
+                alert(SERVER_ERROR);
+            } else if (frRes.ok) {
+                const data = await frRes.json();
+                setIncomingFriendRequests(data.incomingRequests);
+            }
+        }
+
+        if (user) getIncomingFriendRequests();
+    }, [user]);
+
+    return { incomingFriendRequests, setIncomingFriendRequests };
+};
+
 export const useSSE = (endpoint) => {
     const [notifications, setNotifications] = useState([]);
     const [eventSourceOpen, setEventSourceOpen] = useState(false);
@@ -222,8 +243,6 @@ export const useSSE = (endpoint) => {
         if (!eventSourceOpen) {
             const events = new EventSource(`${DOMAIN}${endpoint}`, { withCredentials: true });
             setEventSourceOpen(true);
-
-            console.log(`${DOMAIN}${endpoint}`);
 
             events.onmessage = (event) => {
                 setNotifications([...notifications, JSON.parse(event.data)]);

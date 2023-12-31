@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSSE } from '../../helpers/hooks';
 import { SearchButton } from '../buttons/SearchButton';
@@ -7,15 +7,24 @@ import { FriendRequests } from './FriendRequests';
 import { Notifications } from './Notifications';
 import headerStyles from './css/header.module.css';
 
-export function Header({ setUser, userHandle, userID }) {
+export function Header({
+    setUser,
+    userHandle,
+    userID,
+    incomingFriendRequests,
+    setIncomingFriendRequests,
+}) {
+    const { notifications: newFriendRequests } = useSSE(`/notifications/friend-requests`);
+
+    useEffect(() => {
+        if (newFriendRequests.length) {
+            setIncomingFriendRequests((prev) => [...prev, newFriendRequests.at(-1)]);
+        }
+    }, [newFriendRequests, setIncomingFriendRequests]);
+
     const [notificationsIsOpen, setNotificationsIsOpen] = useState(false);
     const [friendRequestsIsOpen, setFriendRequestsIsOpen] = useState(false);
     const [accountIsOpen, setAccountIsOpen] = useState(false);
-
-    const { notifications: incomingFriendRequests, setNotifications: setIncomingFriendRequests } =
-        useSSE(`/notifications/friend-requests`);
-
-    console.log('FRs:', incomingFriendRequests);
 
     const notificationsRef = useRef(null);
     const friendRequestsRef = useRef(null);
