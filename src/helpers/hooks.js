@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { MOBILE_BREAKPOINT_PX, SERVER_ERROR } from './constants';
-import { fetchData } from './fetch';
+import { DOMAIN, fetchData } from './fetch';
 
 export const useAutoLogin = () => {
     const [user, setUser] = useState(null);
@@ -212,4 +212,24 @@ export const useTokenValidation = (type, token) => {
     }, [type, token]);
 
     return { isValidToken, validating };
+};
+
+export const useSSE = (endpoint) => {
+    const [notifications, setNotifications] = useState([]);
+    const [eventSourceOpen, setEventSourceOpen] = useState(false);
+
+    useEffect(() => {
+        if (!eventSourceOpen) {
+            const events = new EventSource(`${DOMAIN}${endpoint}`, { withCredentials: true });
+            setEventSourceOpen(true);
+
+            console.log(`${DOMAIN}${endpoint}`);
+
+            events.onmessage = (event) => {
+                setNotifications([...notifications, JSON.parse(event.data)]);
+            };
+        }
+    }, [endpoint, notifications, eventSourceOpen]);
+
+    return { notifications, setNotifications };
 };

@@ -36,7 +36,6 @@
 
 .dropdowns {
     display: inline-block;
-    height: 100%;
     position: relative;
 
     & > button {
@@ -44,6 +43,8 @@
         color: var(--main-fade-d);
         height: 1rem;
         margin-inline: 4px;
+        margin-top: 3px;
+        position: relative;
 
         &:hover {
             color: var(--main-l);
@@ -121,4 +122,21 @@
     .nav > button {
         padding-inline: 0;
     }
+}
+
+.notificationDot {
+    --dot-size: 0.85rem;
+
+    background-color: var(--main-l);
+    border-radius: 50%;
+    color: var(--text-l);
+    display: grid;
+    font-size: x-small;
+    font-weight: bold;
+    height: var(--dot-size);
+    place-content: center;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: var(--dot-size);
 }

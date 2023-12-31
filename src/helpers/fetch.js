@@ -1,4 +1,4 @@
-const domain =
+export const DOMAIN =
     import.meta.env.VITE_MODE === 'prod'
         ? import.meta.env.VITE_PROD_API
         : import.meta.env.VITE_DEV_API;
@@ -40,7 +40,7 @@ export const fetchData = async (endpoint, method, form) => {
     }
 
     try {
-        return await fetch(`${domain}${endpoint}`, options);
+        return await fetch(`${DOMAIN}${endpoint}`, options);
     } catch (err) {
         return err;
     }
