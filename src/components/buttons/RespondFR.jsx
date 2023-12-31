@@ -36,7 +36,7 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
                 return clonedList;
             });
             setIncomingFriendRequests((prev) =>
-                prev.filter((request) => request.user._id !== userID)
+                prev.filter((request) => request._id !== userID)
             );
         } else {
             let setFriendsListCallback;
@@ -56,9 +56,7 @@ export function RespondFR({ userID, action, setFriendsList, page }) {
             }
 
             setFriendsList(setFriendsListCallback);
-            setIncomingFriendRequests((prev) =>
-                prev.filter((request) => request.user._id !== userID)
-            );
+            setIncomingFriendRequests((prev) => prev.filter((request) => request._id !== userID));
         }
 
         setLoading(false);

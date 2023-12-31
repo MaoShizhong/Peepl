@@ -88,6 +88,7 @@ export function Header({
                         <FriendRequests
                             setIsOpen={setFriendRequestsIsOpen}
                             button={friendRequestsRef}
+                            friendRequests={incomingFriendRequests}
                         />
                     )}
 
