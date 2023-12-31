@@ -27,6 +27,17 @@
     }
 }
 
+.update {
+    border: 1px solid var(--faint-l);
+    border-radius: 2px;
+    composes: subtle from '../../buttons/css/button.module.css';
+    font-size: small;
+    margin: 12px auto;
+    position: sticky;
+    top: 5rem;
+    z-index: 100;
+}
+
 .posts {
     display: flex;
     flex-direction: column;

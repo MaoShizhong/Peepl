@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useCloseDropdown } from '../../helpers/hooks';
-import headerStyles from './css/header.module.css';
+import dropdownStyles from './css/dropdown.module.css';
 
 export function Notifications({ setIsOpen, button }) {
     const dropdownRef = useRef(null);
@@ -8,8 +8,13 @@ export function Notifications({ setIsOpen, button }) {
     useCloseDropdown(dropdownRef, button, setIsOpen);
 
     return (
-        <div id="notifications-dropdown" aria-label="notifications dropdown" className={headerStyles.dropdown} ref={dropdownRef}>
-            Notifications
+        <div
+            id="notifications-dropdown"
+            aria-label="notifications dropdown"
+            className={dropdownStyles.dropdown}
+            ref={dropdownRef}
+        >
+            <p className={`${dropdownStyles.empty} ${dropdownStyles.text}`}>No notifications</p>
         </div>
     );
 }

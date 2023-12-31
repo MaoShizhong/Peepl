@@ -245,10 +245,10 @@ export const useSSE = (endpoint) => {
             setEventSourceOpen(true);
 
             events.onmessage = (event) => {
-                setNotifications([...notifications, JSON.parse(event.data)]);
+                setNotifications((prev) => [...prev, JSON.parse(event.data)]);
             };
         }
-    }, [endpoint, notifications, eventSourceOpen]);
+    }, [endpoint, eventSourceOpen]);
 
     return { notifications, setNotifications };
 };
