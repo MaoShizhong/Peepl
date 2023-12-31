@@ -1,11 +1,12 @@
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useCloseDropdown } from '../../helpers/hooks';
 import { getFullNameFromDetails } from '../../helpers/util';
 import dropdownStyles from './css/dropdown.module.css';
 
 export function FriendRequests({ setIsOpen, button, friendRequests }) {
     const dropdownRef = useRef(null);
+    const { handle: currentPage } = useParams();
 
     useCloseDropdown(dropdownRef, button, setIsOpen);
 
@@ -17,12 +18,17 @@ export function FriendRequests({ setIsOpen, button, friendRequests }) {
             onClick={() => setIsOpen(false)}
             ref={dropdownRef}
         >
-            {friendRequests.length ? (
+            {!friendRequests.length ? (
+                <p className={`${dropdownStyles.empty} ${dropdownStyles.text}`}>
+                    No incoming friend requests
+                </p>
+            ) : (
                 friendRequests.map((request) => (
                     <Link
                         key={request._id}
                         to={`/${request.handle}`}
-                        className={dropdownStyles.friendRequest}
+                        className={dropdownStyles.notification}
+                        reloadDocument={request.handle === currentPage}
                     >
                         <img
                             src={request.profilePicture}
@@ -37,10 +43,6 @@ export function FriendRequests({ setIsOpen, button, friendRequests }) {
                         </p>
                     </Link>
                 ))
-            ) : (
-                <p className={`${dropdownStyles.empty} ${dropdownStyles.text}`}>
-                    No incoming friend requests
-                </p>
             )}
         </div>
     );

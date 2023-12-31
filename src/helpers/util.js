@@ -196,3 +196,13 @@ export const extractPhotoID = (url) => {
     const sections = url.split('/');
     return sections.at(-1).replace('.webp', '');
 };
+
+export const getPostPreview = (text) => {
+    const PREVIEW_CHAR_LIMIT = 20;
+
+    if (text.length > PREVIEW_CHAR_LIMIT) {
+        return `"${text.slice(0, PREVIEW_CHAR_LIMIT)}..."`;
+    } else {
+        return `"${text}"`;
+    }
+};

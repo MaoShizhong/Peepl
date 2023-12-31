@@ -14,11 +14,12 @@
     padding: 6px 0 6px 10px;
     position: sticky;
     top: 0;
+}
 
-    & button {
-        background-color: transparent;
-        border: none;
-    }
+.dropdowns > button,
+.bar button {
+    background-color: transparent;
+    border: none;
 }
 
 @media (min-width: 1000px) {

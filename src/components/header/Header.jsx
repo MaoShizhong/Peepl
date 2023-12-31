@@ -15,6 +15,8 @@ export function Header({
     setIncomingFriendRequests,
 }) {
     const { notifications: newFriendRequests } = useSSE(`/notifications/friend-requests`);
+    const { notifications: newWallPosts, setNotifications: setNewWallPosts } =
+        useSSE(`/notifications/wall-posts`);
 
     useEffect(() => {
         if (newFriendRequests.length) {
@@ -82,6 +84,12 @@ export function Header({
                                 <path d="M3 18a1 1 0 0 1-.894-1.447L4 12.763V10a8 8 0 1 1 16 0v2.764l1.894 3.789A1 1 0 0 1 21 18H3ZM12 22a4.002 4.002 0 0 1-3.874-3h7.748A4.002 4.002 0 0 1 12 22Z"></path>
                             </g>
                         </svg>
+
+                        {newWallPosts.length > 0 && (
+                            <div className={headerStyles.notificationDot}>
+                                {newWallPosts.length}
+                            </div>
+                        )}
                     </button>
 
                     {friendRequestsIsOpen && (
@@ -96,6 +104,9 @@ export function Header({
                         <Notifications
                             setIsOpen={setNotificationsIsOpen}
                             button={notificationsRef}
+                            ownHandle={userHandle}
+                            notifications={newWallPosts}
+                            setNotifications={setNewWallPosts}
                         />
                     )}
                 </div>
