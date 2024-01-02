@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useCloseDropdown } from '../../helpers/hooks';
 import { getFullNameFromDetails } from '../../helpers/util';
 import dropdownStyles from './css/dropdown.module.css';
@@ -31,7 +32,7 @@ export function FriendRequests({ setIsOpen, button, friendRequests }) {
                         reloadDocument={request.handle === currentPage}
                     >
                         <img
-                            src={request.profilePicture}
+                            src={request.profilePicture ?? DEFAULT_PROFILE_PICTURE}
                             height="40"
                             width="40"
                             alt="friend request profile picture"

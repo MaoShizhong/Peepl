@@ -10,6 +10,7 @@ import {
 import { PostMenuButton } from '../buttons/PostMenuButton';
 import buttonStyles from '../buttons/css/button.module.css';
 import { Loading } from '../loading/Loading';
+import { Comments } from './Comments';
 import { ThumbsUp } from './ThumbsUp';
 import postStyles from './css/post.module.css';
 
@@ -141,6 +142,8 @@ export function Post({ post, setPosts }) {
                         </span>
                     )}
                 </div>
+
+                <Comments postID={post._id} comments={post.comments} />
             </div>
         </article>
     );

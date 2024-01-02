@@ -166,7 +166,7 @@ export const autoResizeTextarea = (e) => {
 
     textarea.style.height = 'auto';
     // the +2 gets rid of the scrollbar
-    textarea.style.height = `${textarea.scrollHeight + 2}px`;
+    textarea.style.height = `${textarea.scrollHeight}px`;
 };
 
 export const checkFileDetails = (e, setFileError) => {

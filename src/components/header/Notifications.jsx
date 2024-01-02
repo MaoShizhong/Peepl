@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useCloseDropdown } from '../../helpers/hooks';
 import { getFullNameFromDetails, getPostPreview, getRelativeTimestamp } from '../../helpers/util';
 import dropdownStyles from './css/dropdown.module.css';
@@ -28,7 +29,7 @@ export function Notifications({ setIsOpen, button, ownHandle, notifications, set
                             onClick={() => setNotifications([])}
                         >
                             <img
-                                src={notification.author.profilePicture}
+                                src={notification.author.profilePicture ?? DEFAULT_PROFILE_PICTURE}
                                 height="40"
                                 width="40"
                                 alt="notification profile picture"

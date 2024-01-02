@@ -1,0 +1,68 @@
+.comments {
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+        background-color: var(--main-fade-vl);
+        padding: 6px;
+    }
+}
+
+.comment {
+    border-bottom: 1px solid var(--faint-l);
+    display: flex;
+    gap: 6px;
+
+    & > img {
+        --profile-pciture-size: 42px;
+
+        height: var(--profile-pciture-size);
+        width: var(--profile-pciture-size);
+    }
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    font-size: small;
+    gap: 4px;
+
+    & > p {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete {
+    background-color: transparent;
+    font-size: x-small;
+
+    &:hover {
+        color: var(--main-d);
+        text-decoration: underline;
+    }
+}
+
+.reply {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+
+    & > textarea {
+        flex: 1;
+        padding-inline: 4px;
+        resize: none;
+    }
+}
+
+.postComment {
+    align-self: flex-end;
+    composes: bold from '../../buttons/css/button.module.css';
+    font-size: small;
+}
