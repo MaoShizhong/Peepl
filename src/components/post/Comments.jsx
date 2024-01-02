@@ -1,60 +1,74 @@
-import { Link, useOutletContext } from 'react-router-dom';
-import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
-import {
-    autoResizeTextarea,
-    getFullNameFromDetails,
-    getRelativeTimestamp,
-} from '../../helpers/util';
+import { useState } from 'react';
+import { SERVER_ERROR } from '../../helpers/constants';
+import { fetchData } from '../../helpers/fetch';
+import { autoResizeTextarea } from '../../helpers/util';
+import { Loading } from '../loading/Loading';
+import { Comment } from './Comment';
 import commentStyles from './css/comment.module.css';
-import postStyles from './css/post.module.css';
 
 export function Comments({ postID, comments }) {
-    const { user } = useOutletContext();
+    const [postComments, setPostComments] = useState(comments ?? []);
+    const [loading, setLoading] = useState(false);
+    const [commentError, setCommentError] = useState(null);
 
     async function postComment(e) {
         e.preventDefault();
+        setCommentError(null);
+        setLoading(true);
+        const textarea = e.target.body;
+
+        const commentRes = await fetchData(`/posts/${postID}/comments`, 'POST', {
+            data: { body: textarea.value },
+            urlEncoded: true,
+        });
+
+        if (commentRes instanceof Error) {
+            alert(SERVER_ERROR);
+        } else if (!commentRes.ok) {
+            const { error } = await commentRes.json();
+            setCommentError(error);
+        } else {
+            const { newComment } = await commentRes.json();
+            setPostComments((prev) => [...prev, newComment]);
+            textarea.value = '';
+        }
+
+        setLoading(false);
     }
 
     return (
         <div className={commentStyles.comments}>
-            {comments.map((comment) => (
-                <div key={comment._id} className={commentStyles.comment}>
-                    <img
-                        src={comment.author.profilePicture ?? DEFAULT_PROFILE_PICTURE}
-                        alt="comment profile picture"
-                    />
-
-                    <div className={commentStyles.content}>
-                        <div className={commentStyles.top}>
-                            <Link to={`/${comment.author.handle}`}>
-                                {getFullNameFromDetails(comment.author.details)}
-                            </Link>
-
-                            {user._id === comment.author._id && (
-                                <button className={commentStyles.delete}>Delete</button>
-                            )}
-                        </div>
-
-                        <p>{comment.body}</p>
-
-                        <div className={postStyles.timestamp}>
-                            {getRelativeTimestamp(comment.timestamp)}
-                        </div>
-                    </div>
-                </div>
+            {postComments.map((comment) => (
+                <Comment
+                    key={comment._id}
+                    postID={postID}
+                    comment={comment}
+                    setComments={setPostComments}
+                />
             ))}
 
-            <form onSubmit={postComment} className={commentStyles.reply}>
-                <label htmlFor={`reply_${postID}`}>Reply:</label>
-                <textarea
-                    name="body"
-                    id={`reply_${postID}`}
-                    rows="1"
-                    placeholder="Comment on this post..."
-                    onInput={autoResizeTextarea}
-                ></textarea>
-                <button className={commentStyles.postComment}>Post</button>
-            </form>
+            <div className={commentStyles.reply}>
+                <form onSubmit={postComment}>
+                    <label htmlFor={`reply_${postID}`}>Reply:</label>
+                    <textarea
+                        name="body"
+                        id={`reply_${postID}`}
+                        rows="1"
+                        maxLength={2000}
+                        placeholder="Comment on this post..."
+                        onInput={(e) => {
+                            autoResizeTextarea(e);
+                            setCommentError(null);
+                        }}
+                        required
+                    ></textarea>
+                    <button className={commentStyles.postComment} disabled={loading}>
+                        {loading ? <Loading isInButton={true} /> : 'Post'}
+                    </button>
+                </form>
+
+                {commentError && <p className={commentStyles.error}>{commentError}</p>}
+            </div>
         </div>
     );
 }

@@ -139,7 +139,6 @@ textarea {
     background-color: var(--bg);
 }
 
-
 a,
 button {
     cursor: pointer;
@@ -166,6 +165,10 @@ a:visited {
 
 dialog {
     padding: 0;
+}
+
+textarea {
+    padding-inline: 4px;
 }
 
 /* Screen reader only - visually hidden */

@@ -50,19 +50,27 @@
 }
 
 .reply {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.reply > form {
     align-items: center;
     display: flex;
     gap: 6px;
 
     & > textarea {
         flex: 1;
-        padding-inline: 4px;
         resize: none;
     }
 }
 
 .postComment {
-    align-self: flex-end;
     composes: bold from '../../buttons/css/button.module.css';
-    font-size: small;
+}
+
+.error {
+    align-self: flex-end;
+    composes: error from '../../login/css/login.module.css';
 }
