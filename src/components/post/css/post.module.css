@@ -55,13 +55,11 @@
 
 .timestamp,
 .likeButton,
+.likes,
 .edited {
+    color: var(--faint-d);
     font-size: x-small;
     font-weight: bold;
-}
-
-.timestamp, .edited {
-    color: var(--faint-d);
 }
 
 .edited {
@@ -74,6 +72,14 @@
     &:hover {
         color: var(--main-l);
     }
+}
+
+.likes + svg {
+    --thumb-size: 1rem;
+
+    height: var(--thumb-size);
+    margin-left: -3px;
+    width: var(--thumb-size);
 }
 
 .newPost {

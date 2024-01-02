@@ -10,6 +10,7 @@ import {
 import { PostMenuButton } from '../buttons/PostMenuButton';
 import buttonStyles from '../buttons/css/button.module.css';
 import { Loading } from '../loading/Loading';
+import { ThumbsUp } from './ThumbsUp';
 import postStyles from './css/post.module.css';
 
 export function Post({ post, setPosts }) {
@@ -25,7 +26,7 @@ export function Post({ post, setPosts }) {
         const form = new FormData();
         form.append('body', textarea.value);
 
-        const editRes = await fetchData(`/users/${user._id}/posts/${post._id}`, 'PUT', {
+        const editRes = await fetchData(`/posts/${post._id}?userID=${user._id}`, 'PUT', {
             data: form,
             urlEncoded: true,
         });
@@ -42,6 +43,22 @@ export function Post({ post, setPosts }) {
 
         setLoading(false);
         setIsEditMode(false);
+    }
+
+    async function toggleLikePost() {
+        const likeRes = await fetchData(`/posts/${post._id}/likes`, 'PUT');
+
+        if (likeRes instanceof Error || !likeRes.ok) {
+            alert(SERVER_ERROR);
+        } else {
+            const { newLikes } = await likeRes.json();
+            setPosts((prev) => {
+                const clonedPosts = structuredClone(prev);
+                const editedPost = clonedPosts.find((clonedPost) => clonedPost._id === post._id);
+                editedPost.likes = newLikes;
+                return clonedPosts;
+            });
+        }
     }
 
     return (
@@ -90,7 +107,18 @@ export function Post({ post, setPosts }) {
 
                     {post.isEdited && <span className={postStyles.edited}>(Edited)</span>}
 
-                    <button className={postStyles.likeButton}>Like</button>
+                    {post.author._id !== user._id && (
+                        <button className={postStyles.likeButton} onClick={toggleLikePost}>
+                            {post.likes.includes(user._id) ? 'Unlike' : 'Like'}
+                        </button>
+                    )}
+
+                    {post.likes.length > 0 && (
+                        <>
+                            <span className={postStyles.likes}>{post.likes.length}</span>
+                            <ThumbsUp />
+                        </>
+                    )}
 
                     {isEditMode && (
                         <span className={postStyles.editFormButtons}>

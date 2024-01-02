@@ -20,7 +20,7 @@ export function PostMenuButton({ userID, postID, setPosts, setIsEditMode }) {
     async function deletePost() {
         setLoading(true);
 
-        const deleteRes = await fetchData(`/users/${userID}/posts/${postID}`, 'DELETE');
+        const deleteRes = await fetchData(`/posts/${postID}?userID=${userID}`, 'DELETE');
 
         if (deleteRes instanceof Error || !deleteRes.ok) {
             alert(SERVER_ERROR);
