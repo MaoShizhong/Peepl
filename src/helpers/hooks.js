@@ -237,18 +237,15 @@ export const useIncomingFriendRequests = (user) => {
 
 export const useSSE = (endpoint) => {
     const [notifications, setNotifications] = useState([]);
-    const [eventSourceOpen, setEventSourceOpen] = useState(false);
 
     useEffect(() => {
-        if (!eventSourceOpen) {
-            const events = new EventSource(`${DOMAIN}${endpoint}`, { withCredentials: true });
-            setEventSourceOpen(true);
+        const events = new EventSource(`${DOMAIN}${endpoint}`, { withCredentials: true });
+        events.onmessage = (event) => {
+            setNotifications((prev) => [...prev, JSON.parse(event.data)]);
+        };
 
-            events.onmessage = (event) => {
-                setNotifications((prev) => [...prev, JSON.parse(event.data)]);
-            };
-        }
-    }, [endpoint, eventSourceOpen]);
+        return () => events.close();
+    }, [endpoint]);
 
     return { notifications, setNotifications };
 };
