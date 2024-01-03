@@ -121,7 +121,7 @@ export function Details({ setProfileUser }) {
                     type="text"
                     aria-label="enter city"
                     defaultValue={toYYYYMMDD(user.details.city.value)}
-                    isRequired={true}
+                    isRequired={false}
                 />
                 <VisibilitySelect
                     name="city.visibility"
@@ -135,7 +135,7 @@ export function Details({ setProfileUser }) {
                     type="text"
                     aria-label="enter country"
                     defaultValue={toYYYYMMDD(user.details.country.value)}
-                    isRequired={true}
+                    isRequired={false}
                 />
                 <VisibilitySelect
                     name="country.visibility"

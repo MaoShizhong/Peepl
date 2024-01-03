@@ -99,26 +99,30 @@ export function Friends({ friendsList, setFriendsList, isOwnProfile }) {
             <div className={friendsStyles.friends}>
                 <h3>Friends</h3>
 
-                {acceptedFriends.map((friend) => (
-                    <div key={friend.user._id} className={friendsStyles.friend}>
-                        <img
-                            src={friend.user.profilePicture ?? DEFAULT_PROFILE_PICTURE}
-                            alt="friend profile picture thumbnail"
-                        />
-
-                        <Link to={`/${friend.user.handle}`} reloadDocument>
-                            {getFullNameFromDetails(friend.user)}
-                        </Link>
-
-                        {isOwnProfile && (
-                            <RemoveFriend
-                                userID={friend.user._id}
-                                setFriendsList={setFriendsList}
-                                page="friends"
+                {!acceptedFriends.length ? (
+                    <p className={friendsStyles.empty}>No friends...yet!</p>
+                ) : (
+                    acceptedFriends.map((friend) => (
+                        <div key={friend.user._id} className={friendsStyles.friend}>
+                            <img
+                                src={friend.user.profilePicture ?? DEFAULT_PROFILE_PICTURE}
+                                alt="friend profile picture thumbnail"
                             />
-                        )}
-                    </div>
-                ))}
+
+                            <Link to={`/${friend.user.handle}`} reloadDocument>
+                                {getFullNameFromDetails(friend.user)}
+                            </Link>
+
+                            {isOwnProfile && (
+                                <RemoveFriend
+                                    userID={friend.user._id}
+                                    setFriendsList={setFriendsList}
+                                    page="friends"
+                                />
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
         </section>
     );

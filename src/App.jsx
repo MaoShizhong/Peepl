@@ -12,6 +12,9 @@ export default function App() {
         <>
             {initialising ? (
                 <Loading text="Initialising" />
+            ) : window.location.pathname.includes('login') ? (
+                // handles redirect login from github
+                <Outlet context={{ setUser }} />
             ) : user ? (
                 <>
                     <Header

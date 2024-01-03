@@ -53,12 +53,14 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                         >
                             {inDeleteMode ? 'Cancel' : 'Delete mode'}
                         </button>
-                        {!inDeleteMode && <button
-                            onClick={() => setIsUploadModalOpen(true)}
-                            className={buttonStyles.bold}
-                        >
-                            Upload
-                        </button>}
+                        {!inDeleteMode && (
+                            <button
+                                onClick={() => setIsUploadModalOpen(true)}
+                                className={buttonStyles.bold}
+                            >
+                                Upload
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
@@ -76,9 +78,11 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
             {loading ? (
                 <Loading text="Fetching gallery" />
             ) : !isOwnProfile && isHidden ? (
-                'This user has chosen to make their gallery visible only to their friends.'
+                <p className={galleryStyles.empty}>
+                    This user has chosen to make their gallery visible only to their friends.
+                </p>
             ) : !gallery.length ? (
-                'No photos in gallery.'
+                <p className={galleryStyles.empty}>No photos in gallery.</p>
             ) : (
                 <div className={galleryStyles.gallery}>
                     {gallery.map((photo) => (
