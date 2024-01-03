@@ -10,10 +10,11 @@ export function SearchPage() {
     const query = searchParams.get('q');
     const goTo = useNavigate();
 
-    const { results, setResults, loading } = useSearchResults(query);
+    const { results, setResults, loading, setLoading } = useSearchResults(query);
 
     function goToSearchResults(e) {
         e.preventDefault();
+        setLoading(true);
 
         const newQuery = e.target.search.value.trim();
         if (newQuery) {
@@ -46,6 +47,11 @@ export function SearchPage() {
                 <Loading />
             ) : (
                 <div className={searchStyles.results}>
+                    <div className="sr-only" aria-live="polite">
+                        Search results for {query}. {results.length}{' '}
+                        {results.length === 1 ? 'match' : 'matches'} found
+                    </div>
+
                     <h1>Results</h1>
 
                     {!results.length ? (

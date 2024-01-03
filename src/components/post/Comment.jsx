@@ -32,13 +32,26 @@ export function Comment({ postID, comment, setComments }) {
         <div key={comment._id} className={commentStyles.comment}>
             <img
                 src={comment.author.profilePicture ?? DEFAULT_PROFILE_PICTURE}
-                alt="comment profile picture"
+                alt={`profile picture for comment by ${getFullNameFromDetails(
+                    comment.author.details
+                )}`}
             />
 
             <div className={commentStyles.content}>
                 <div className={commentStyles.top}>
-                    <Link to={`/${comment.author.handle}`}>
-                        {getFullNameFromDetails(comment.author.details)}
+                    <Link
+                        to={`/${comment.author.handle}`}
+                        aria-label={
+                            user._id === comment.author._id
+                                ? 'Link to your profile'
+                                : `Link to ${getFullNameFromDetails(
+                                      comment.author.details
+                                  )}'s profile`
+                        }
+                    >
+                        {user._id === comment.author._id
+                            ? 'You'
+                            : getFullNameFromDetails(comment.author.details)}
                     </Link>
 
                     {user._id === comment.author._id && (

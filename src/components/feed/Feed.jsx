@@ -23,6 +23,10 @@ export function Feed() {
 
     return (
         <main className={feedStyles.main}>
+            <div className="sr-only" aria-live="polite">
+                Now on feed
+            </div>
+
             <section className={feedStyles.feed}>
                 <div className={feedStyles.heading}>
                     <img

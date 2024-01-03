@@ -171,7 +171,7 @@ export const useSearchResults = (query) => {
         else setLoading(false);
     }, [query]);
 
-    return { results, setResults, loading };
+    return { results, setResults, loading, setLoading };
 };
 
 export const useMobileLayout = () => {

@@ -10,6 +10,10 @@ export function EditInfo({ setProfileUser }) {
 
     return (
         <div>
+            <div className="sr-only" aria-live="polite">
+                Now on edit profile info
+            </div>
+
             {Object.keys(SECTIONS).map((section, i) => {
                 const isExpanded = expandedSections[section];
 
@@ -32,6 +36,8 @@ export function EditInfo({ setProfileUser }) {
                                         ? `collapse ${section} section`
                                         : `expand ${section} section`
                                 }
+                                aria-controls={section}
+                                aria-expanded={expandedSections[section]}
                             >
                                 {isExpanded ? (
                                     <Triangle direction="up" />

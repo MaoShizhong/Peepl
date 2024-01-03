@@ -5,6 +5,10 @@ import wallStyles from './css/wall.module.css';
 export function Wall({ user, posts, setPosts, isOwnProfile, isFriend }) {
     return (
         <>
+            <div className="sr-only" aria-live="assertive">
+                Now on wall
+            </div>
+
             {(isFriend || isOwnProfile) && (
                 <NewPost user={user} isOwnProfile={isOwnProfile} setPosts={setPosts} />
             )}

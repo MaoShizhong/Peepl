@@ -6,6 +6,10 @@ export function ProfileInfo({ profileUser }) {
 
     return (
         <div className={infoStyles.info}>
+            <div className="sr-only" aria-live="polite">
+                Now on profile info
+            </div>
+
             <section>
                 <div className={infoStyles.sectionHeading}>
                     <h2>Details</h2>

@@ -36,6 +36,7 @@ export function PostMenuButton({ userID, postID, setPosts, setIsEditMode }) {
             <button
                 onClick={() => setShowMenu(!showMenu)}
                 className={buttonStyles.menuButton}
+                aria-label="post options menu"
                 ref={buttonRef}
             >
                 <svg width="64px" height="64px" viewBox="0 0 16 16" fill="currentColor">
@@ -52,10 +53,12 @@ export function PostMenuButton({ userID, postID, setPosts, setIsEditMode }) {
                             setIsEditMode(true);
                             setShowMenu(false);
                         }}
+                        aria-label="edit post"
                     >
                         Edit
                     </button>
-                    <button onClick={deletePost}>
+
+                    <button onClick={deletePost} aria-label="delete post">
                         {loading ? <Loading isInButton={true} /> : 'Delete'}
                     </button>
                 </dialog>

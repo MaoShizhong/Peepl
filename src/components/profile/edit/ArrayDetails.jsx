@@ -87,7 +87,11 @@ export function ArrayDetails({ detailsType, setProfileUser }) {
     }
 
     return (
-        <form onSubmit={submitChanges} className={`${editStyles.form} ${editStyles.arrayForm}`}>
+        <form
+            id={detailsType}
+            onSubmit={submitChanges}
+            className={`${editStyles.form} ${editStyles.arrayForm}`}
+        >
             {!entries.length ? (
                 <p>You do not have any saved {detailsType} entries.</p>
             ) : (

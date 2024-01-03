@@ -67,12 +67,19 @@ export function Post({ post, setPosts }) {
             <img
                 className={postStyles.profilePicture}
                 src={post.author.profilePicture ?? DEFAULT_PROFILE_PICTURE}
-                alt="author profile picture"
+                alt={`profile picture for post by ${getFullNameFromDetails(post.author.details)}`}
             />
 
             <div className={postStyles.contents}>
                 <div className={postStyles.top}>
-                    <Link to={`/${post.author.handle}`}>
+                    <Link
+                        to={`/${post.author.handle}`}
+                        aria-label={
+                            user._id === post.author._id
+                                ? 'Link to your profile'
+                                : `Link to ${getFullNameFromDetails(post.author.details)}'s profile`
+                        }
+                    >
                         {user._id === post.author._id
                             ? 'You'
                             : getFullNameFromDetails(post.author.details)}
@@ -109,14 +116,25 @@ export function Post({ post, setPosts }) {
                     {post.isEdited && <span className={postStyles.edited}>(Edited)</span>}
 
                     {post.author._id !== user._id && (
-                        <button className={postStyles.likeButton} onClick={toggleLikePost}>
+                        <button
+                            className={postStyles.likeButton}
+                            onClick={toggleLikePost}
+                            aria-label={post.likes.includes(user._id) ? 'Unlike post' : 'Like post'}
+                        >
                             {post.likes.includes(user._id) ? 'Unlike' : 'Like'}
                         </button>
                     )}
 
                     {post.likes.length > 0 && (
                         <>
-                            <span className={postStyles.likes}>{post.likes.length}</span>
+                            <span
+                                className={postStyles.likes}
+                                aria-label={`This post has ${post.likes.length} ${
+                                    post.likes.length === 1 ? 'like' : 'likes'
+                                }`}
+                            >
+                                {post.likes.length}
+                            </span>
                             <ThumbsUp />
                         </>
                     )}

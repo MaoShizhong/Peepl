@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SERVER_ERROR } from '../../helpers/constants';
 import { fetchData } from '../../helpers/fetch';
 import { autoResizeTextarea } from '../../helpers/util';
-import { Loading } from '../loading/Loading';
+import { PostButton } from '../buttons/PostButton';
 import { Comment } from './Comment';
 import commentStyles from './css/comment.module.css';
 
@@ -62,9 +62,8 @@ export function Comments({ postID, comments }) {
                         }}
                         required
                     ></textarea>
-                    <button className={commentStyles.postComment} disabled={loading}>
-                        {loading ? <Loading isInButton={true} /> : 'Post'}
-                    </button>
+
+                    <PostButton contentType="comment" loading={loading} />
                 </form>
 
                 {commentError && <p className={commentStyles.error}>{commentError}</p>}

@@ -72,7 +72,7 @@ export function Details({ setProfileUser }) {
     }
 
     return (
-        <form className={editStyles.form} onSubmit={submitChanges}>
+        <form id="details" className={editStyles.form} onSubmit={submitChanges}>
             <Input
                 name="handle"
                 type="text"

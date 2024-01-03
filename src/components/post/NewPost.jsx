@@ -6,6 +6,7 @@ import { PostButton } from '../buttons/PostButton';
 import postStyles from './css/post.module.css';
 
 export function NewPost({ user, isOwnProfile, setPosts }) {
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const firstName = user.details ? user.details.firstName : getFirstName(user.name);
@@ -15,6 +16,7 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
 
     async function postToWall(e) {
         e.preventDefault();
+        setLoading(true);
 
         const textArea = e.target.body;
         const form = new FormData();
@@ -36,6 +38,8 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
             setError(null);
             textArea.value = '';
         }
+
+        setLoading(false);
     }
 
     return (
@@ -47,8 +51,10 @@ export function NewPost({ user, isOwnProfile, setPosts }) {
                 onInput={autoResizeTextarea}
                 required
             ></textarea>
+
             {error && <p className={postStyles.error}>{error}</p>}
-            <PostButton />
+
+            <PostButton contentType="new wall post" loading={loading} />
         </form>
     );
 }

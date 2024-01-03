@@ -28,6 +28,10 @@ export function Friends({ friendsList, setFriendsList, isOwnProfile }) {
 
     return (
         <section className={friendsStyles.friendsList}>
+            <div className="sr-only" aria-live="polite">
+                Now in friends list
+            </div>
+
             <div className={friendsStyles.heading}>
                 <h2>Friends list</h2>
                 <input

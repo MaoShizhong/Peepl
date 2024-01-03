@@ -2,7 +2,11 @@ import buttonStyles from './css/button.module.css';
 
 export function SearchButton() {
     return (
-        <button type="submit" className={`${buttonStyles.bold} ${buttonStyles.search}`}>
+        <button
+            type="submit"
+            className={`${buttonStyles.bold} ${buttonStyles.search}`}
+            aria-label="search"
+        >
             <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none">
                 <g>
                     <path

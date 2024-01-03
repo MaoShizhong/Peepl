@@ -34,7 +34,12 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
 
     return (
         <section>
+            <div className="sr-only" aria-live="polite">
+                Now in gallery
+            </div>
+
             {inDeleteMode && <div className={galleryStyles.deleteModeOverlay}></div>}
+
             <div className={galleryStyles.sectionHeading}>
                 <div className={galleryStyles.left}>
                     <h2>Gallery</h2>
@@ -50,6 +55,7 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                         <button
                             onClick={() => setInDeleteMode(!inDeleteMode)}
                             className={buttonStyles.subtle}
+                            aria-label={inDeleteMode ? 'exit delete mode' : 'enter delete mode'}
                         >
                             {inDeleteMode ? 'Cancel' : 'Delete mode'}
                         </button>
@@ -57,6 +63,7 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                             <button
                                 onClick={() => setIsUploadModalOpen(true)}
                                 className={buttonStyles.bold}
+                                aria-label="upload photo to gallery"
                             >
                                 Upload
                             </button>
