@@ -18,7 +18,14 @@ import profileStyles from './css/profile.module.css';
 import wallStyles from './css/wall.module.css';
 import { EditProfile } from './edit/EditProfile';
 
-const tabs = ['Wall', 'Info', 'Edit Profile', 'Gallery', 'Friends'];
+// const tabs = ['Wall', 'Info', 'Edit Profile', 'Gallery', 'Friends'];
+const tabs = {
+    wall: 'Wall',
+    info: 'Info',
+    edit: 'Edit Profile',
+    gallery: 'Gallery',
+    friends: 'Friends',
+};
 
 export function Profile() {
     const { handle } = useParams();
@@ -76,8 +83,8 @@ export function Profile() {
                                 setOpenUploadModal={setOpenUploadModal}
                             />
                             <nav className={profileStyles.tabs}>
-                                {tabs.map((tab, i) => {
-                                    if (!isOwnProfile && tab === 'Edit Info') {
+                                {Object.values(tabs).map((tab, i) => {
+                                    if (!isOwnProfile && tab === tabs.edit) {
                                         return null;
                                     } else {
                                         return (
@@ -89,7 +96,7 @@ export function Profile() {
                                                 }
                                             >
                                                 {tab}
-                                                {tab === 'Friends'
+                                                {tab === tabs.friends
                                                     ? ` (${
                                                           friendsList.filter(
                                                               (friend) =>
@@ -108,14 +115,14 @@ export function Profile() {
                     <div className={profileStyles.content}>
                         {isMobileLayout && (
                             <nav className={`${profileStyles.tabs} ${profileStyles.mobile}`}>
-                                {tabs.map((tab, i) => (
+                                {Object.values(tabs).map((tab, i) => (
                                     <button
                                         key={i}
                                         onClick={() => setActiveTab(tab)}
                                         className={activeTab === tab ? profileStyles.activeTab : ''}
                                     >
                                         {tab}
-                                        {tab === 'Friends'
+                                        {tab === tabs.friends
                                             ? ` (${
                                                   friendsList.filter(
                                                       (friend) => friend.status === 'accepted'
@@ -175,7 +182,7 @@ export function Profile() {
                                     )}
                                 </div>
 
-                                {activeTab === 'Wall' && (
+                                {activeTab === tabs.wall && (
                                     <div className={wallStyles.summary}>
                                         {(profileUser.city || profileUser.country) && (
                                             <div className={wallStyles.location}>
@@ -206,7 +213,7 @@ export function Profile() {
                             </div>
                         </div>
 
-                        {activeTab === 'Wall' ? (
+                        {activeTab === tabs.wall ? (
                             <Wall
                                 user={profileUser}
                                 posts={wallPosts}
@@ -217,14 +224,14 @@ export function Profile() {
                                 isOwnProfile={isOwnProfile}
                                 isFriend={isAcceptedFriend}
                             />
-                        ) : activeTab === 'Info' ? (
+                        ) : activeTab === tabs.info ? (
                             <ProfileInfo profileUser={profileUser} />
-                        ) : activeTab === 'Edit Profile' ? (
+                        ) : activeTab === tabs.edit ? (
                             <EditProfile
                                 profileUser={profileUser}
                                 setProfileUser={setProfileUser}
                             />
-                        ) : activeTab === 'Gallery' ? (
+                        ) : activeTab === tabs.gallery ? (
                             <Gallery
                                 userID={profileUser._id}
                                 setProfileUser={setProfileUser}
