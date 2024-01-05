@@ -19,10 +19,15 @@
     }
 }
 
-.empty {
+.empty,
+.end {
     color: var(--faint-d);
     flex: 1;
     font-style: italic;
     margin-top: 24px;
     text-align: center;
+}
+
+.fetchMore {
+    composes: fetchMore from '../../feed/css/feed.module.css';
 }

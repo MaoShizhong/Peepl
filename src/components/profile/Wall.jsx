@@ -1,8 +1,21 @@
 import { NewPost } from '../post/NewPost';
 import { Post } from '../post/Post';
 import wallStyles from './css/wall.module.css';
+import { usePaginatedFetch } from '../../helpers/hooks';
+import { Loading } from '../loading/Loading';
 
-export function Wall({ user, posts, setPosts, isOwnProfile, isFriend }) {
+export function Wall({
+    user,
+    posts,
+    setPosts,
+    hasMoreWallPosts,
+    setWallPostPageToFetch,
+    loading,
+    isOwnProfile,
+    isFriend,
+}) {
+    usePaginatedFetch(hasMoreWallPosts, setWallPostPageToFetch, loading);
+
     return (
         <>
             <div className="sr-only" aria-live="assertive">
@@ -16,11 +29,23 @@ export function Wall({ user, posts, setPosts, isOwnProfile, isFriend }) {
             <section className={wallStyles.wall}>
                 <h2>{isOwnProfile ? 'Your Wall' : 'Wall'}</h2>
 
-                {posts.map((post) => (
-                    <Post key={post._id} post={post} setPosts={setPosts} />
-                ))}
+                {!posts.length ? (
+                    <div className={wallStyles.empty}>Nothing here!</div>
+                ) : (
+                    <>
+                        {posts.map((post) => (
+                            <Post key={post._id} post={post} setPosts={setPosts} />
+                        ))}
 
-                {!posts.length && <div className={wallStyles.empty}>Nothing here!</div>}
+                        {loading && (
+                            <div className={wallStyles.fetchMore}>
+                                <Loading isInButton={true} />
+                            </div>
+                        )}
+
+                        {!hasMoreWallPosts && <p className={wallStyles.end}>No more wall posts</p>}
+                    </>
+                )}
             </section>
         </>
     );

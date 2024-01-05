@@ -30,6 +30,8 @@ export function Profile() {
         setFriendsList,
         wallPosts,
         setWallPosts,
+        hasMoreWallPosts,
+        setWallPostPageToFetch,
         loading,
         error404,
     } = useProfile(handle);
@@ -58,7 +60,7 @@ export function Profile() {
 
     return (
         <>
-            {loading ? (
+            {loading && !hasMoreWallPosts ? (
                 <Loading />
             ) : error404 ? (
                 <Error404 resource={`User "${handle}"`} />
@@ -208,6 +210,9 @@ export function Profile() {
                                 user={profileUser}
                                 posts={wallPosts}
                                 setPosts={setWallPosts}
+                                hasMoreWallPosts={hasMoreWallPosts}
+                                setWallPostPageToFetch={setWallPostPageToFetch}
+                                loading={loading}
                                 isOwnProfile={isOwnProfile}
                                 isFriend={isAcceptedFriend}
                             />

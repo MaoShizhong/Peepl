@@ -63,7 +63,7 @@
     margin-bottom: 6px;
 
     & > span {
-        color: var(--faint-l);
+        color: var(--faint-m);
         font-weight: lighter;
     }
 }

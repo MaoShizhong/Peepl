@@ -54,6 +54,8 @@ export const useProfile = (handle) => {
     const [profileUser, setProfileUser] = useState(null);
     const [friendsList, setFriendsList] = useState([]);
     const [wallPosts, setWallPosts] = useState([]);
+    const [wallPostPageToFetch, setWallPostPageToFetch] = useState(1);
+    const [hasMoreWallPosts, setHasMoreWallPosts] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error404, setError404] = useState(false);
 
@@ -61,7 +63,10 @@ export const useProfile = (handle) => {
         async function getProfile() {
             setLoading(true);
 
-            const profileRes = await fetchData(`/users/${handle}`, 'GET');
+            const profileRes = await fetchData(
+                `/users/${handle}?page=${wallPostPageToFetch}`,
+                'GET'
+            );
 
             if (profileRes instanceof Error) {
                 alert(SERVER_ERROR);
@@ -72,14 +77,17 @@ export const useProfile = (handle) => {
 
                 setProfileUser(profileData.user);
                 setFriendsList(profileData.friends);
-                setWallPosts(profileData.wall);
+                setWallPosts([...wallPosts, ...profileData.wall]);
+                setHasMoreWallPosts(profileData.hasMorePosts);
             }
 
             setLoading(false);
         }
 
         getProfile();
-    }, [handle]);
+        // ! `posts` not included otherwise it will cause an infinite loop
+        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
+    }, [handle, wallPostPageToFetch]); // eslint-disable-line
 
     return {
         profileUser,
@@ -88,6 +96,8 @@ export const useProfile = (handle) => {
         setFriendsList,
         wallPosts,
         setWallPosts,
+        setWallPostPageToFetch,
+        hasMoreWallPosts,
         loading,
         error404,
     };
@@ -161,6 +171,7 @@ export const usePaginatedFetch = (hasMoreResults, setPageToFetch, loading) => {
 
             if (isAtBottom && hasMoreResults && !loading) {
                 setPageToFetch((prev) => prev + 1);
+                // console.log('first')
             }
         }
 
