@@ -1,48 +1,18 @@
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { useSearchResults } from '../../helpers/hooks';
-import { AddFriend, RemoveFriend, RespondFR, SearchButton } from '../buttons/buttons';
+import { AddFriend, RemoveFriend, RespondFR } from '../buttons/buttons';
 import { Loading } from '../loading/Loading';
 import searchStyles from './css/search.module.css';
 
 export function SearchPage() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
-    const goTo = useNavigate();
 
-    const { results, setResults, loading, setLoading } = useSearchResults(query);
-
-    function goToSearchResults(e) {
-        e.preventDefault();
-        setLoading(true);
-
-        const newQuery = e.target.search.value.trim();
-        if (newQuery) {
-            goTo(`/search?q=${encodeURI(newQuery)}`);
-        } else {
-            goTo('/search');
-        }
-    }
+    const { results, setResults, loading } = useSearchResults(query);
 
     return (
         <main className={searchStyles.main}>
-            <form onSubmit={goToSearchResults} className={searchStyles.form}>
-                <label htmlFor="mainSearch">Search Peepl</label>
-                <div className={searchStyles.bar}>
-                    <input
-                        type="search"
-                        name="search"
-                        id="mainSearch"
-                        aria-label="search peepl"
-                        placeholder="Search"
-                        defaultValue={query}
-                        className={searchStyles.input}
-                        required
-                    />
-                    <SearchButton header={false} />
-                </div>
-            </form>
-
             {loading ? (
                 <Loading />
             ) : (

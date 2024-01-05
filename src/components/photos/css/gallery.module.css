@@ -19,7 +19,7 @@
     background-color: var(--bg);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     padding: 16px;
 
     & > button {
@@ -61,4 +61,10 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.btns {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 }

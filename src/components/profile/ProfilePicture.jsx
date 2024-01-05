@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
 import { EditProfilePictureButton } from '../buttons/EditProfilePictureButton';
 import profileStyles from './css/profile.module.css';
@@ -10,8 +9,6 @@ export function ProfilePicture({
     setOpenUploadModal,
     isMobileLayout,
 }) {
-    const [showEditProfilePictureBtn, setShowEditProfilePictureBtn] = useState(false);
-
     return (
         <div
             className={
@@ -19,8 +16,6 @@ export function ProfilePicture({
                     ? `${profileStyles.profilePicture} ${profileStyles.mobile}`
                     : profileStyles.profilePicture
             }
-            onMouseEnter={() => setShowEditProfilePictureBtn(true)}
-            onMouseLeave={() => setShowEditProfilePictureBtn(false)}
         >
             <img
                 src={profileUser.profilePicture ?? DEFAULT_PROFILE_PICTURE}
@@ -28,9 +23,7 @@ export function ProfilePicture({
                 onClick={() => setOpenPhotoModal(true)}
             />
 
-            {isOwnProfile && showEditProfilePictureBtn && (
-                <EditProfilePictureButton setOpenModal={setOpenUploadModal} />
-            )}
+            {isOwnProfile && <EditProfilePictureButton setOpenModal={setOpenUploadModal} />}
         </div>
     );
 }

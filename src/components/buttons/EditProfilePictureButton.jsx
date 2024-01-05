@@ -4,6 +4,7 @@ export function EditProfilePictureButton({ setOpenModal }) {
     return (
         <button
             className={`${buttonStyles.subtle} ${buttonStyles.svg}`}
+            aria-label="change or remove profile picture button"
             onClick={() => setOpenModal(true)}
         >
             <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none">

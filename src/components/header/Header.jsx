@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSSE } from '../../helpers/hooks';
 import { SearchButton } from '../buttons/SearchButton';
 import { AccountMenu } from './AccountMenu';
@@ -18,20 +18,27 @@ export function Header({
     const { notifications: newWallPosts, setNotifications: setNewWallPosts } =
         useSSE(`/notifications/wall-posts`);
 
+    const [notificationsIsOpen, setNotificationsIsOpen] = useState(false);
+    const [friendRequestsIsOpen, setFriendRequestsIsOpen] = useState(false);
+    const [accountIsOpen, setAccountIsOpen] = useState(false);
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('q');
+
+    const notificationsRef = useRef(null);
+    const friendRequestsRef = useRef(null);
+    const accountRef = useRef(null);
+    const searchRef = useRef(null);
+    const goTo = useNavigate();
+
+    useEffect(() => {
+        if (searchRef.current) searchRef.current.value = query;
+    }, [query]);
+
     useEffect(() => {
         if (newFriendRequests.length) {
             setIncomingFriendRequests((prev) => [...prev, newFriendRequests.at(-1)]);
         }
     }, [newFriendRequests, setIncomingFriendRequests]);
-
-    const [notificationsIsOpen, setNotificationsIsOpen] = useState(false);
-    const [friendRequestsIsOpen, setFriendRequestsIsOpen] = useState(false);
-    const [accountIsOpen, setAccountIsOpen] = useState(false);
-
-    const notificationsRef = useRef(null);
-    const friendRequestsRef = useRef(null);
-    const accountRef = useRef(null);
-    const goTo = useNavigate();
 
     function goToSearchResults(e) {
         e.preventDefault();
@@ -117,9 +124,10 @@ export function Header({
                             type="search"
                             name="search"
                             aria-label="search peepl"
-                            placeholder="Search"
-                            defaultValue=""
+                            placeholder="Search for peepl"
+                            defaultValue={query}
                             className={headerStyles.search}
+                            ref={searchRef}
                             required
                         />
                         <SearchButton header={true} />

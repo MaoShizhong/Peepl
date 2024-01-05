@@ -57,6 +57,14 @@
     width: 100vw;
 }
 
+.deleteInstruction {
+    font-size: large;
+    font-weight: bold;
+    margin-block: 24px;
+    text-align: center;
+    z-index: 1000;
+}
+
 .empty,
 .end {
     composes: empty from './wall.module.css';

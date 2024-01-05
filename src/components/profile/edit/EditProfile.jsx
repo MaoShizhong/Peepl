@@ -5,7 +5,7 @@ import { Details } from './Details';
 
 const SECTIONS = { details: true, employment: false, education: false };
 
-export function EditInfo({ setProfileUser }) {
+export function EditProfile({ setProfileUser }) {
     const [expandedSections, setExpandedSections] = useState(SECTIONS);
 
     return (

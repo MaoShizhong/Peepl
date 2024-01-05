@@ -16,9 +16,9 @@ import { ProfilePicture } from './ProfilePicture';
 import { Wall } from './Wall';
 import profileStyles from './css/profile.module.css';
 import wallStyles from './css/wall.module.css';
-import { EditInfo } from './edit/EditInfo';
+import { EditProfile } from './edit/EditProfile';
 
-const tabs = ['Wall', 'Info', 'Edit Info', 'Gallery', 'Friends'];
+const tabs = ['Wall', 'Info', 'Edit Profile', 'Gallery', 'Friends'];
 
 export function Profile() {
     const { handle } = useParams();
@@ -218,8 +218,11 @@ export function Profile() {
                             />
                         ) : activeTab === 'Info' ? (
                             <ProfileInfo profileUser={profileUser} />
-                        ) : activeTab === 'Edit Info' ? (
-                            <EditInfo profileUser={profileUser} setProfileUser={setProfileUser} />
+                        ) : activeTab === 'Edit Profile' ? (
+                            <EditProfile
+                                profileUser={profileUser}
+                                setProfileUser={setProfileUser}
+                            />
                         ) : activeTab === 'Gallery' ? (
                             <Gallery
                                 userID={profileUser._id}

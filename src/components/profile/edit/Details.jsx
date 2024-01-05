@@ -73,6 +73,8 @@ export function Details({ setProfileUser }) {
 
     return (
         <form id="details" className={editStyles.form} onSubmit={submitChanges}>
+            <p className={editStyles.handleReqs}>Handle must be between 3 - 45 characters and can only contain alphanumeric characters, dashes and underscores.</p>
+
             <Input
                 name="handle"
                 type="text"

@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ACCEPTED_FILE_TYPES, UPLOAD_SIZE_LIMIT_MB } from '../../helpers/constants';
+import { ACCEPTED_FILE_TYPES, SERVER_ERROR, UPLOAD_SIZE_LIMIT_MB } from '../../helpers/constants';
 import { fetchData } from '../../helpers/fetch';
 import {
     checkFileDetails,
@@ -78,6 +78,32 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
         setLoading(false);
     }
 
+    async function removeProfilePicture() {
+        setLoading(true);
+
+        const removeRes = await fetchData(`/users/${user._id}/profile-picture`, 'DELETE');
+
+        if (removeRes instanceof Error) {
+            alert(SERVER_ERROR);
+        } else if (!removeRes.ok) {
+            alert(SERVER_ERROR);
+            console.error(await removeRes.json());
+        } else {
+            setUser((prev) => {
+                const clonedUser = structuredClone(prev);
+                clonedUser.profilePicture = null;
+                return clonedUser;
+            });
+            setOpenModal(false);
+
+            // wall posts use profile.author.profilePicture, not profileUser.profilePicture
+            // without this, wall posts only update profile picture upon refresh/re-fetch
+            updateSelfPostsProfilePicture(user._id, null, wallPosts, setWallPosts);
+        }
+
+        setLoading(false);
+    }
+
     return (
         <dialog
             className={galleryStyles.modal}
@@ -88,7 +114,9 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
         >
             <form className={galleryStyles.form} onSubmit={uploadPhoto}>
                 <label htmlFor="file">
-                    Upload new {uploadTarget === 'gallery' ? 'photo to gallery' : 'profile picture'}
+                    {uploadTarget === 'gallery'
+                        ? 'Upload new photo to gallery'
+                        : 'Change profile picture'}
                 </label>
                 <input
                     id="file"
@@ -109,9 +137,22 @@ export const UploadPhoto = forwardRef(function UploadPhoto(
 
                 {fileError && <p className={galleryStyles.error}>{fileError}</p>}
 
-                <button className={buttonStyles.bold}>
-                    {loading ? <Loading isInButton={true} /> : 'Upload'}
-                </button>
+                <div className={galleryStyles.btns}>
+                    <button type="submit" className={buttonStyles.bold} disabled={loading}>
+                        {loading ? <Loading isInButton={true} /> : 'Upload'}
+                    </button>
+
+                    {user.profilePicture && (
+                        <button
+                            type="button"
+                            className={buttonStyles.subtle}
+                            onClick={removeProfilePicture}
+                            disabled={loading}
+                        >
+                            {loading ? <Loading isInButton={true} /> : 'Remove'}
+                        </button>
+                    )}
+                </div>
             </form>
         </dialog>
     );

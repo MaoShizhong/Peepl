@@ -61,7 +61,7 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                             className={buttonStyles.subtle}
                             aria-label={inDeleteMode ? 'exit delete mode' : 'enter delete mode'}
                         >
-                            {inDeleteMode ? 'Cancel' : 'Delete mode'}
+                            {inDeleteMode ? 'Cancel' : 'Select photos to delete'}
                         </button>
                         {!inDeleteMode && (
                             <button
@@ -96,6 +96,11 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                 <p className={galleryStyles.empty}>No photos in gallery.</p>
             ) : (
                 <>
+                    {inDeleteMode && (
+                        <p className={galleryStyles.deleteInstruction}>
+                            Click a photo to delete it
+                        </p>
+                    )}
                     <div className={galleryStyles.gallery}>
                         {gallery.map((photo) => (
                             <Thumbnail
