@@ -8,12 +8,23 @@
     transform: translate(-50%, -50%);
 }
 
+.splash {
+    display: grid;
+    gap: 32px;
+    place-items: center;
+
+    & > img {
+        animation: pulse-grow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        width: 120px;
+    }
+}
+
 .spinner {
     animation: spin 1s linear infinite;
 }
 
 .text {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse-fade 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     font-size: 1.25rem;
     width: max-content;
 }
@@ -27,7 +38,17 @@
     }
 }
 
-@keyframes pulse {
+@keyframes pulse-grow {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes pulse-fade {
     0%,
     100% {
         opacity: 1;
@@ -40,5 +61,9 @@
 @media (prefers-reduced-motion) {
     .spinner {
         display: none;
+    }
+
+    .splash > img {
+        animation: none;
     }
 }

@@ -11,7 +11,7 @@ export default function App() {
     return (
         <>
             {initialising ? (
-                <Loading text="Initialising" />
+                <Loading isSplash={true} />
             ) : window.location.pathname.includes('login') ? (
                 // handles redirect login from github
                 <Outlet context={{ setUser }} />
