@@ -123,8 +123,8 @@ export function Header({
                         <input
                             type="search"
                             name="search"
-                            aria-label="search peepl"
-                            placeholder="Search for peepl"
+                            aria-label="search peepl users"
+                            placeholder="Find peepl"
                             defaultValue={query}
                             className={headerStyles.search}
                             ref={searchRef}

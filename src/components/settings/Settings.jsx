@@ -36,7 +36,9 @@ export function Settings() {
         if (emailRes instanceof Error || !emailRes.ok) {
             alert(SERVER_ERROR);
         } else {
-            alert('An email containing a one-time use link has sent to the email associated with this account.');
+            alert(
+                'An email containing a one-time use link has sent to the email associated with this account.'
+            );
         }
     }
 
@@ -65,6 +67,16 @@ export function Settings() {
             >
                 Request account deletion
             </button>
+
+            <a
+                href="https://github.com/MaoShizhong/Peepl"
+                target="_blank"
+                rel="noreferrer"
+                className={settingsStyles.github}
+            >
+                <img src="/github.png" alt="github logo" />
+                MaoShizhong
+            </a>
         </main>
     );
 }

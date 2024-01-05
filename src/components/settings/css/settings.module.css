@@ -22,3 +22,19 @@
 .error {
     composes: error from '../../login/css/login.module.css';
 }
+
+.github {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+    transition: var(--transition);
+
+    & > img {
+        width: 40px;
+    }
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
