@@ -137,17 +137,23 @@ export const useFeed = (userID) => {
 
 export const useGallery = (userID, shouldFetchGallery) => {
     const [gallery, setGallery] = useState([]);
+    const [pageToFetch, setPageToFetch] = useState(1);
+    const [hasMorePhotos, setHasMorePhotos] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getGallery() {
-            const galleryRes = await fetchData(`/users/${userID}/gallery`, 'GET');
+            const galleryRes = await fetchData(
+                `/users/${userID}/gallery?page=${pageToFetch}`,
+                'GET'
+            );
 
             if (galleryRes instanceof Error || !galleryRes.ok) {
                 alert(SERVER_ERROR);
             } else {
                 const data = await galleryRes.json();
-                setGallery(data.gallery);
+                setGallery([...gallery, ...data.gallery]);
+                setHasMorePhotos(data.hasMorePhotos);
             }
 
             setLoading(false);
@@ -158,9 +164,11 @@ export const useGallery = (userID, shouldFetchGallery) => {
         } else {
             setLoading(false);
         }
-    }, [userID, shouldFetchGallery]);
+        // ! `posts` not included otherwise it will cause an infinite loop
+        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
+    }, [userID, shouldFetchGallery, pageToFetch]); // eslint-disable-line
 
-    return { gallery, setGallery, loading };
+    return { gallery, setGallery, setPageToFetch, hasMorePhotos, loading };
 };
 
 export const usePaginatedFetch = (hasMoreResults, setPageToFetch, loading) => {
@@ -171,7 +179,6 @@ export const usePaginatedFetch = (hasMoreResults, setPageToFetch, loading) => {
 
             if (isAtBottom && hasMoreResults && !loading) {
                 setPageToFetch((prev) => prev + 1);
-                // console.log('first')
             }
         }
 

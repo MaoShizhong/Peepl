@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { useGallery } from '../../helpers/hooks';
+import { useGallery, usePaginatedFetch } from '../../helpers/hooks';
 import buttonStyles from '../buttons/css/button.module.css';
 import { Loading } from '../loading/Loading';
 import { Photo } from '../photos/Photo';
@@ -11,12 +11,16 @@ import galleryStyles from './css/gallery.module.css';
 
 export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
     const { user } = useOutletContext();
-    const { gallery, setGallery, loading } = useGallery(userID, !isOwnProfile && isHidden);
+    const { gallery, setGallery, setPageToFetch, hasMorePhotos, loading } = useGallery(
+        userID,
+        !isOwnProfile && isHidden
+    );
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
     const [activePhoto, setActivePhoto] = useState(null);
     const [inDeleteMode, setInDeleteMode] = useState(false);
 
+    usePaginatedFetch(hasMorePhotos, setPageToFetch, loading);
     const uploadRef = useRef(null);
     const photoRef = useRef(null);
 
@@ -82,7 +86,7 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
                 />
             )}
 
-            {loading ? (
+            {loading && !hasMorePhotos ? (
                 <Loading text="Fetching gallery" />
             ) : !isOwnProfile && isHidden ? (
                 <p className={galleryStyles.empty}>
@@ -91,18 +95,28 @@ export function Gallery({ userID, setProfileUser, isHidden, isOwnProfile }) {
             ) : !gallery.length ? (
                 <p className={galleryStyles.empty}>No photos in gallery.</p>
             ) : (
-                <div className={galleryStyles.gallery}>
-                    {gallery.map((photo) => (
-                        <Thumbnail
-                            key={photo._id}
-                            photo={photo}
-                            setActivePhoto={setActivePhoto}
-                            setIsPhotoModalOpen={setIsPhotoModalOpen}
-                            setGallery={setGallery}
-                            inDeleteMode={inDeleteMode}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className={galleryStyles.gallery}>
+                        {gallery.map((photo) => (
+                            <Thumbnail
+                                key={photo._id}
+                                photo={photo}
+                                setActivePhoto={setActivePhoto}
+                                setIsPhotoModalOpen={setIsPhotoModalOpen}
+                                setGallery={setGallery}
+                                inDeleteMode={inDeleteMode}
+                            />
+                        ))}
+                    </div>
+
+                    {loading && (
+                        <div className={galleryStyles.fetchMore}>
+                            <Loading isInButton={true} />
+                        </div>
+                    )}
+
+                    {!hasMorePhotos && <p className={galleryStyles.end}>No more photos</p>}
+                </>
             )}
 
             {isPhotoModalOpen && (

@@ -57,6 +57,11 @@
     width: 100vw;
 }
 
-.empty {
+.empty,
+.end {
     composes: empty from './wall.module.css';
+}
+
+.fetchMore {
+    composes: fetchMore from '../../feed/css/feed.module.css';
 }
