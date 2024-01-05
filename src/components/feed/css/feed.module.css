@@ -44,10 +44,15 @@
     gap: 12px;
 }
 
-.empty {
+.empty,
+.end {
     color: var(--faint-d);
     flex: 1;
     font-style: italic;
-    margin-top: 48px;
+    margin-block: 48px;
     text-align: center;
+}
+
+.fetchMore {
+    margin: 32px auto;
 }

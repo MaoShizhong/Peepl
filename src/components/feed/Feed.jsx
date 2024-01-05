@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import { DEFAULT_PROFILE_PICTURE } from '../../helpers/constants';
-import { useFeed, useSSE } from '../../helpers/hooks';
+import { useFeed, usePaginatedFetch, useSSE } from '../../helpers/hooks';
 import { Loading } from '../loading/Loading';
 import { NewPost } from '../post/NewPost';
 import { Post } from '../post/Post';
@@ -8,10 +8,11 @@ import feedStyles from './css/feed.module.css';
 
 export function Feed() {
     const { user } = useOutletContext();
-    const { posts, setPosts, loading } = useFeed(user._id);
+    const { posts, setPosts, setPageToFetch, hasMorePosts, loading } = useFeed(user._id);
     const { notifications: newFeedPosts, setNotifications: setNewFeedPosts } = useSSE(
         `/notifications/feed-updates`
     );
+    usePaginatedFetch(hasMorePosts, setPageToFetch, loading);
 
     function refreshFeed() {
         setPosts((prev) => [...newFeedPosts, ...prev]);
@@ -46,12 +47,22 @@ export function Feed() {
                 )}
 
                 <div className={feedStyles.posts}>
-                    {loading ? (
+                    {loading && !hasMorePosts ? (
                         <Loading text="Fetching feed" />
                     ) : !posts.length ? (
                         <div className={feedStyles.empty}>Nothing here!</div>
                     ) : (
-                        posts.map((post) => <Post key={post._id} post={post} setPosts={setPosts} />)
+                        <>
+                            {posts.map((post) => (
+                                <Post key={post._id} post={post} setPosts={setPosts} />
+                            ))}
+                            {loading && (
+                                <div className={feedStyles.fetchMore}>
+                                    <Loading isInButton={true} />
+                                </div>
+                            )}
+                            {!hasMorePosts && <p className={feedStyles.end}>End of feed</p>}
+                        </>
                     )}
                 </div>
             </section>

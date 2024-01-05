@@ -96,25 +96,33 @@ export const useProfile = (handle) => {
 export const useFeed = (userID) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [pageToFetch, setPageToFetch] = useState(1);
+    const [hasMorePosts, setHasMorePosts] = useState(false);
 
     useEffect(() => {
         async function getFeed() {
-            const feedRes = await fetchData(`/users/${userID}/feed`, 'GET');
+            setLoading(true);
+
+            const feedRes = await fetchData(`/users/${userID}/feed?page=${pageToFetch}`, 'GET');
 
             if (feedRes instanceof Error || !feedRes.ok) {
                 alert(SERVER_ERROR);
             } else {
-                const { feed } = await feedRes.json();
-                setPosts(feed);
+                const data = await feedRes.json();
+                setPosts([...posts, ...data.feed]);
+                setHasMorePosts(data.hasMorePosts);
             }
 
             setLoading(false);
         }
 
         getFeed();
-    }, [userID]);
 
-    return { posts, setPosts, loading };
+        // ! `posts` not included otherwise it will cause an infinite loop
+        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
+    }, [userID, pageToFetch]); // eslint-disable-line
+
+    return { posts, setPosts, setPageToFetch, hasMorePosts, loading };
 };
 
 export const useGallery = (userID, shouldFetchGallery) => {
@@ -143,6 +151,23 @@ export const useGallery = (userID, shouldFetchGallery) => {
     }, [userID, shouldFetchGallery]);
 
     return { gallery, setGallery, loading };
+};
+
+export const usePaginatedFetch = (hasMoreResults, setPageToFetch, loading) => {
+    useEffect(() => {
+        function fetchAdditionalPostsAtBottomOfFeed() {
+            const currentScrollPosition = window.scrollY + window.innerHeight;
+            const isAtBottom = currentScrollPosition >= document.body.scrollHeight;
+
+            if (isAtBottom && hasMoreResults && !loading) {
+                setPageToFetch((prev) => prev + 1);
+            }
+        }
+
+        window.addEventListener('scroll', fetchAdditionalPostsAtBottomOfFeed);
+
+        return () => window.removeEventListener('scroll', fetchAdditionalPostsAtBottomOfFeed);
+    }, [hasMoreResults, setPageToFetch, loading]);
 };
 
 export const useSearchResults = (query) => {
