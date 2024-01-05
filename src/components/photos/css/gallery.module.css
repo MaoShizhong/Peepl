@@ -8,6 +8,7 @@
 
 .photo {
     border: 16px solid var(--bg);
+    box-sizing: border-box;
     display: block;
     max-height: 90svh;
     max-width: 90vw;
