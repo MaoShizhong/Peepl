@@ -1,0 +1,2 @@
+/api/* https://peepl.adaptable.app/:splat 200
+/* /index.html 200
