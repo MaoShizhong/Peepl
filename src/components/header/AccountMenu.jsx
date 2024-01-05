@@ -1,10 +1,11 @@
 import { useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchData } from '../../helpers/fetch';
 import { useCloseDropdown } from '../../helpers/hooks';
 import dropdownStyles from './css/dropdown.module.css';
 
 export function AccountMenu({ setIsOpen, button, setUser, userHandle }) {
+    const { handle } = useParams();
     const goTo = useNavigate();
     const dropdownRef = useRef(null);
 
@@ -24,7 +25,7 @@ export function AccountMenu({ setIsOpen, button, setUser, userHandle }) {
             aria-label="account menu dropdown"
             ref={dropdownRef}
         >
-            <Link to={`/${userHandle}`} reloadDocument>
+            <Link to={`/${userHandle}`} reloadDocument={userHandle === handle}>
                 Profile
             </Link>
             <Link to="/settings">Account settings</Link>
