@@ -18,6 +18,7 @@ export function Post({ post, setPosts }) {
     const { user } = useOutletContext();
     const [isEditMode, setIsEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingLike, setLoadingLike] = useState(false);
 
     async function editPost(e) {
         e.preventDefault();
@@ -47,6 +48,8 @@ export function Post({ post, setPosts }) {
     }
 
     async function toggleLikePost() {
+        setLoadingLike(true);
+
         const likeRes = await fetchData(`/posts/${post._id}/likes`, 'PUT');
 
         if (likeRes instanceof Error || !likeRes.ok) {
@@ -60,6 +63,8 @@ export function Post({ post, setPosts }) {
                 return clonedPosts;
             });
         }
+
+        setLoadingLike(false);
     }
 
     return (
@@ -120,6 +125,7 @@ export function Post({ post, setPosts }) {
                             className={postStyles.likeButton}
                             onClick={toggleLikePost}
                             aria-label={post.likes.includes(user._id) ? 'Unlike post' : 'Like post'}
+                            disabled={loadingLike}
                         >
                             {post.likes.includes(user._id) ? 'Unlike' : 'Like'}
                         </button>
