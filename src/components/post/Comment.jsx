@@ -41,6 +41,7 @@ export function Comment({ postID, comment, setComments }) {
                 <div className={commentStyles.top}>
                     <Link
                         to={`/${comment.author.handle}`}
+                        state={comment.author.handle}
                         aria-label={
                             user._id === comment.author._id
                                 ? 'Link to your profile'

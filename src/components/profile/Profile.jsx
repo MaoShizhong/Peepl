@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useLocation, useOutletContext, useParams } from 'react-router-dom';
 import { useMobileLayout, useProfile } from '../../helpers/hooks';
 import { getEducationSummary, getEmploymentSummary, getLocationSummary } from '../../helpers/util';
 import { AddFriend } from '../buttons/AddFriend';
@@ -22,6 +22,7 @@ const tabs = ['Wall', 'Info', 'Edit Profile', 'Gallery', 'Friends'];
 
 export function Profile() {
     const { handle } = useParams();
+    const fromHandle = useLocation().state;
     const { user } = useOutletContext();
     const {
         profileUser,
@@ -34,7 +35,7 @@ export function Profile() {
         setWallPostPageToFetch,
         loading,
         error404,
-    } = useProfile(handle);
+    } = useProfile(handle, fromHandle);
 
     const isOwnProfile = handle === user.handle;
     const isInFriendsList = Boolean(friendsList.find((friend) => friend.user._id === user._id));

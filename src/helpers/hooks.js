@@ -50,7 +50,7 @@ export const useCloseDropdown = (dropdown, headerButton, setIsDropdownOpen) => {
     }, [dropdown, headerButton, setIsDropdownOpen]);
 };
 
-export const useProfile = (handle) => {
+export const useProfile = (handle, destinationHandle) => {
     const [profileUser, setProfileUser] = useState(null);
     const [friendsList, setFriendsList] = useState([]);
     const [wallPosts, setWallPosts] = useState([]);
@@ -61,6 +61,12 @@ export const useProfile = (handle) => {
 
     useEffect(() => {
         async function getProfile() {
+            // Due to pagination "appending" new wall posts to prev, going from
+            // one profile to new profile requires this to prevent old state
+            // from carrying over, showing unintended posts on wall
+            if (handle === destinationHandle) {
+                setWallPosts(() => []);
+            }
             setLoading(true);
 
             const profileRes = await fetchData(
@@ -77,7 +83,7 @@ export const useProfile = (handle) => {
 
                 setProfileUser(profileData.user);
                 setFriendsList(profileData.friends);
-                setWallPosts([...wallPosts, ...profileData.wall]);
+                setWallPosts((prev) => [...prev, ...profileData.wall]);
                 setHasMoreWallPosts(profileData.hasMorePosts);
             }
 

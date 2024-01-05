@@ -79,6 +79,7 @@ export function Post({ post, setPosts }) {
                 <div className={postStyles.top}>
                     <Link
                         to={`/${post.author.handle}`}
+                        state={post.author.handle}
                         aria-label={
                             user._id === post.author._id
                                 ? 'Link to your profile'
