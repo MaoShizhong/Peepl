@@ -121,7 +121,7 @@ export function Post({ post, setPosts, isFriend }) {
 
                     {post.isEdited && <span className={postStyles.edited}>(Edited)</span>}
 
-                    {post.author._id !== user._id && (
+                    {post.author._id !== user._id && isFriend && (
                         <button
                             className={postStyles.likeButton}
                             onClick={toggleLikePost}
