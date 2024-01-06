@@ -6,7 +6,7 @@ import { PostButton } from '../buttons/PostButton';
 import { Comment } from './Comment';
 import commentStyles from './css/comment.module.css';
 
-export function Comments({ postID, comments, isFriend }) {
+export function Comments({ postID, comments, showReplyBox }) {
     const [postComments, setPostComments] = useState(comments ?? []);
     const [loading, setLoading] = useState(false);
     const [commentError, setCommentError] = useState(null);
@@ -47,7 +47,7 @@ export function Comments({ postID, comments, isFriend }) {
                 />
             ))}
 
-            {isFriend && (
+            {showReplyBox && (
                 <div className={commentStyles.reply}>
                     <form onSubmit={postComment}>
                         <label htmlFor={`reply_${postID}`}>Reply:</label>

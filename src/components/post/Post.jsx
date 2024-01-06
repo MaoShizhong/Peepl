@@ -14,7 +14,7 @@ import { Comments } from './Comments';
 import { ThumbsUp } from './ThumbsUp';
 import postStyles from './css/post.module.css';
 
-export function Post({ post, setPosts, isFriend }) {
+export function Post({ post, setPosts, showReplyBox }) {
     const { user } = useOutletContext();
     const [isEditMode, setIsEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -121,7 +121,7 @@ export function Post({ post, setPosts, isFriend }) {
 
                     {post.isEdited && <span className={postStyles.edited}>(Edited)</span>}
 
-                    {post.author._id !== user._id && isFriend && (
+                    {post.author._id !== user._id && showReplyBox && (
                         <button
                             className={postStyles.likeButton}
                             onClick={toggleLikePost}
@@ -168,7 +168,7 @@ export function Post({ post, setPosts, isFriend }) {
                     )}
                 </div>
 
-                <Comments postID={post._id} comments={post.comments} isFriend={isFriend} />
+                <Comments postID={post._id} comments={post.comments} showReplyBox={showReplyBox} />
             </div>
         </article>
     );

@@ -58,7 +58,7 @@ export function Feed() {
                                     key={post._id}
                                     post={post}
                                     setPosts={setPosts}
-                                    isFriend={true}
+                                    showReplyBox={true}
                                 />
                             ))}
                             {loading && (

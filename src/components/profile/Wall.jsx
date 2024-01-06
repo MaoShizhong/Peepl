@@ -34,7 +34,12 @@ export function Wall({
                 ) : (
                     <>
                         {posts.map((post) => (
-                            <Post key={post._id} post={post} setPosts={setPosts} isFriend={isFriend} />
+                            <Post
+                                key={post._id}
+                                post={post}
+                                setPosts={setPosts}
+                                showReplyBox={isFriend || isOwnProfile}
+                            />
                         ))}
 
                         {loading && (
