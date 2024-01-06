@@ -6,7 +6,7 @@ import { PostButton } from '../buttons/PostButton';
 import { Comment } from './Comment';
 import commentStyles from './css/comment.module.css';
 
-export function Comments({ postID, comments }) {
+export function Comments({ postID, comments, isFriend }) {
     const [postComments, setPostComments] = useState(comments ?? []);
     const [loading, setLoading] = useState(false);
     const [commentError, setCommentError] = useState(null);
@@ -47,27 +47,29 @@ export function Comments({ postID, comments }) {
                 />
             ))}
 
-            <div className={commentStyles.reply}>
-                <form onSubmit={postComment}>
-                    <label htmlFor={`reply_${postID}`}>Reply:</label>
-                    <textarea
-                        name="body"
-                        id={`reply_${postID}`}
-                        rows="1"
-                        maxLength={2000}
-                        placeholder="Comment on this post..."
-                        onInput={(e) => {
-                            autoResizeTextarea(e);
-                            setCommentError(null);
-                        }}
-                        required
-                    ></textarea>
+            {isFriend && (
+                <div className={commentStyles.reply}>
+                    <form onSubmit={postComment}>
+                        <label htmlFor={`reply_${postID}`}>Reply:</label>
+                        <textarea
+                            name="body"
+                            id={`reply_${postID}`}
+                            rows="1"
+                            maxLength={2000}
+                            placeholder="Comment on this post..."
+                            onInput={(e) => {
+                                autoResizeTextarea(e);
+                                setCommentError(null);
+                            }}
+                            required
+                        ></textarea>
 
-                    <PostButton contentType="comment" loading={loading} />
-                </form>
+                        <PostButton contentType="comment" loading={loading} />
+                    </form>
 
-                {commentError && <p className={commentStyles.error}>{commentError}</p>}
-            </div>
+                    {commentError && <p className={commentStyles.error}>{commentError}</p>}
+                </div>
+            )}
         </div>
     );
 }

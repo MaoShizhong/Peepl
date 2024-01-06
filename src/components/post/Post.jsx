@@ -14,7 +14,7 @@ import { Comments } from './Comments';
 import { ThumbsUp } from './ThumbsUp';
 import postStyles from './css/post.module.css';
 
-export function Post({ post, setPosts }) {
+export function Post({ post, setPosts, isFriend }) {
     const { user } = useOutletContext();
     const [isEditMode, setIsEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -168,7 +168,7 @@ export function Post({ post, setPosts }) {
                     )}
                 </div>
 
-                <Comments postID={post._id} comments={post.comments} />
+                <Comments postID={post._id} comments={post.comments} isFriend={isFriend} />
             </div>
         </article>
     );

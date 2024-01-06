@@ -1,8 +1,8 @@
+import { usePaginatedFetch } from '../../helpers/hooks';
+import { Loading } from '../loading/Loading';
 import { NewPost } from '../post/NewPost';
 import { Post } from '../post/Post';
 import wallStyles from './css/wall.module.css';
-import { usePaginatedFetch } from '../../helpers/hooks';
-import { Loading } from '../loading/Loading';
 
 export function Wall({
     user,
@@ -34,7 +34,7 @@ export function Wall({
                 ) : (
                     <>
                         {posts.map((post) => (
-                            <Post key={post._id} post={post} setPosts={setPosts} />
+                            <Post key={post._id} post={post} setPosts={setPosts} isFriend={isFriend} />
                         ))}
 
                         {loading && (

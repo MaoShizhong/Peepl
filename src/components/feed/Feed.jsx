@@ -54,7 +54,12 @@ export function Feed() {
                     ) : (
                         <>
                             {posts.map((post) => (
-                                <Post key={post._id} post={post} setPosts={setPosts} />
+                                <Post
+                                    key={post._id}
+                                    post={post}
+                                    setPosts={setPosts}
+                                    isFriend={true}
+                                />
                             ))}
                             {loading && (
                                 <div className={feedStyles.fetchMore}>
