@@ -290,6 +290,8 @@ export const useSSE = (endpoint) => {
     useEffect(() => {
         const events = new EventSource(`${DOMAIN}${endpoint}`, { withCredentials: true });
         events.onmessage = (event) => {
+            if (event.data === 'ping') return;
+
             setNotifications((prev) => [...prev, JSON.parse(event.data)]);
         };
 
