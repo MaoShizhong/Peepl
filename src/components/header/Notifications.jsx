@@ -25,6 +25,7 @@ export function Notifications({ setIsOpen, button, ownHandle, notifications, set
                     <div key={notification._id} className={dropdownStyles.notification}>
                         <Link
                             to={`/${ownHandle}`}
+                            state={ownHandle}
                             reloadDocument={currentPage === ownHandle}
                             onClick={() => setNotifications([])}
                         >

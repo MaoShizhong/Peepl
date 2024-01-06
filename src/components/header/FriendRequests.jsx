@@ -28,6 +28,7 @@ export function FriendRequests({ setIsOpen, button, friendRequests }) {
                     <Link
                         key={request._id}
                         to={`/${request.handle}`}
+                        state={request.handle}
                         className={dropdownStyles.notification}
                         reloadDocument={request.handle === currentPage}
                     >
