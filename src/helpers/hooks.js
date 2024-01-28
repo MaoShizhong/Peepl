@@ -60,6 +60,9 @@ export const useProfile = (handle, destinationHandle) => {
     const [error404, setError404] = useState(false);
 
     useEffect(() => {
+        const fetchController = new AbortController();
+        const fetchSignal = fetchController.signal;
+
         async function getProfile() {
             // Due to pagination "appending" new wall posts to prev, going from
             // one profile to new profile requires this to prevent old state
@@ -71,8 +74,11 @@ export const useProfile = (handle, destinationHandle) => {
 
             const profileRes = await fetchData(
                 `/users/${handle}?page=${wallPostPageToFetch}`,
-                'GET'
+                'GET',
+                { signal: fetchSignal }
             );
+
+            if (fetchSignal.aborted) return;
 
             if (profileRes instanceof Error) {
                 alert(SERVER_ERROR);
@@ -91,9 +97,9 @@ export const useProfile = (handle, destinationHandle) => {
         }
 
         getProfile();
-        // ! `posts` not included otherwise it will cause an infinite loop
-        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
-    }, [handle, wallPostPageToFetch]); // eslint-disable-line
+
+        return () => fetchController.abort();
+    }, [handle, destinationHandle, wallPostPageToFetch]);
 
     return {
         profileUser,
@@ -116,16 +122,23 @@ export const useFeed = (userID) => {
     const [hasMorePosts, setHasMorePosts] = useState(false);
 
     useEffect(() => {
+        const fetchController = new AbortController();
+        const fetchSignal = fetchController.signal;
+
         async function getFeed() {
             setLoading(true);
 
-            const feedRes = await fetchData(`/users/${userID}/feed?page=${pageToFetch}`, 'GET');
+            const feedRes = await fetchData(`/users/${userID}/feed?page=${pageToFetch}`, 'GET', {
+                signal: fetchSignal,
+            });
+
+            if (fetchSignal.aborted) return;
 
             if (feedRes instanceof Error || !feedRes.ok) {
                 alert(SERVER_ERROR);
             } else {
                 const data = await feedRes.json();
-                setPosts([...posts, ...data.feed]);
+                setPosts((prev) => [...prev, ...data.feed]);
                 setHasMorePosts(data.hasMorePosts);
             }
 
@@ -134,9 +147,8 @@ export const useFeed = (userID) => {
 
         getFeed();
 
-        // ! `posts` not included otherwise it will cause an infinite loop
-        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
-    }, [userID, pageToFetch]); // eslint-disable-line
+        return () => fetchController.abort();
+    }, [userID, pageToFetch]);
 
     return { posts, setPosts, setPageToFetch, hasMorePosts, loading };
 };
@@ -148,17 +160,23 @@ export const useGallery = (userID, shouldFetchGallery) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetchController = new AbortController();
+        const fetchSignal = fetchController.signal;
+
         async function getGallery() {
             const galleryRes = await fetchData(
                 `/users/${userID}/gallery?page=${pageToFetch}`,
-                'GET'
+                'GET',
+                { signal: fetchSignal }
             );
+
+            if (fetchSignal.aborted) return;
 
             if (galleryRes instanceof Error || !galleryRes.ok) {
                 alert(SERVER_ERROR);
             } else {
                 const data = await galleryRes.json();
-                setGallery([...gallery, ...data.gallery]);
+                setGallery((prev) => [...prev, ...data.gallery]);
                 setHasMorePhotos(data.hasMorePhotos);
             }
 
@@ -170,9 +188,9 @@ export const useGallery = (userID, shouldFetchGallery) => {
         } else {
             setLoading(false);
         }
-        // ! `posts` not included otherwise it will cause an infinite loop
-        // ! setState callback arg not used else dev strict mode causes duplicate setState queueing
-    }, [userID, shouldFetchGallery, pageToFetch]); // eslint-disable-line
+
+        return () => fetchController.abort();
+    }, [userID, shouldFetchGallery, pageToFetch]);
 
     return { gallery, setGallery, setPageToFetch, hasMorePhotos, loading };
 };

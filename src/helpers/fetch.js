@@ -7,16 +7,18 @@ export const DOMAIN =
  *
  * @param {string} endpoint
  * @param {('GET'|'POST'|'PUT'|'PATCH'|'DELETE')} method
- * @param {Object} [form]
- * @param {FormData} [form.data]
- * @param {boolean} [form.urlEncoded]
- * @param {boolean} [form.asJSON]
+ * @param {Object} [options]
+ * @param {FormData} [options.data]
+ * @param {boolean} [options.urlEncoded]
+ * @param {boolean} [options.asJSON]
+ * @param {AbortSignal} [options.signal]
  * @returns {(Promise<Response|Error>)}
  */
-export const fetchData = async (endpoint, method, form) => {
-    const options = {
+export const fetchData = async (endpoint, method, options) => {
+    const fetchOptions = {
         credentials: 'include',
         method: method,
+        signal: options?.signal,
     };
 
     /*
@@ -26,21 +28,21 @@ export const fetchData = async (endpoint, method, form) => {
         not equipped to process multipart data for login only (and it would not
         make sense to use multer for such a purpose)
     */
-    if (form) {
-        if (form.urlEncoded) {
-            options.body = new URLSearchParams(form.data);
-        } else if (form.asJSON) {
-            options.body = form.data;
-            options.headers = {
+    if (options) {
+        if (options.urlEncoded) {
+            fetchOptions.body = new URLSearchParams(options.data);
+        } else if (options.asJSON) {
+            fetchOptions.body = options.data;
+            fetchOptions.headers = {
                 'Content-Type': 'application/json',
             };
         } else {
-            options.body = form.data;
+            fetchOptions.body = options.data;
         }
     }
 
     try {
-        return await fetch(`${DOMAIN}${endpoint}`, options);
+        return await fetch(`${DOMAIN}${endpoint}`, fetchOptions);
     } catch (err) {
         return err;
     }
